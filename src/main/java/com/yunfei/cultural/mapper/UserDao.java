@@ -9,4 +9,7 @@ import com.yunfei.cultural.entity.User;
 public interface UserDao {
     User findById(int id);
 
+    User findByUserName(String username);
+
+    void update(User user);
 }

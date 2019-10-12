@@ -33,6 +33,17 @@ spring:
   #spring.datasource.useGlobalDataSourceStat: true
   ###############以上为配置druid添加的配置########################################
 
+  redis:
+    host: 127.0.0.1
+    password:
+    port: 6379
+    maxWaitMillis: 10000
+    maxTotal: 200
+    testOnBorrow: true
+    testOnReturn: true
+    timeout: 3600
+    maxIdle: 200
+
 #mybatis配置。
 #注：通常，若mybatis配置信息较少，只是针对基本配置无需复杂配置，则只需在application.yml文件中配置即可，否则最好配置在 mybatis-config.xml中
 mybatis:

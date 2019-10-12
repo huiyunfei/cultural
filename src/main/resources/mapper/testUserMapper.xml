@@ -16,5 +16,23 @@
         where id=#{id}
     </select>
 
+    <select id="findByUserName" resultMap="userMap">
+        select *
+        from
+            t_user
+        where username=#{username}
+    </select>
 
+    <update id="update">
+        UPDATE t_user SET
+        updateTime = #{date},
+        <if test="regId != null and regId!= '' ">
+            registrationId = #{regId},
+        </if>
+        <if test="null != openId and '' != openId">
+            WechatOpenId = #{openId},
+        </if>
+        token = #{token}
+        WHERE id = #{userId}
+    </update>
 </mapper>

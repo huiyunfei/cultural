@@ -2,6 +2,8 @@ package com.yunfei.cultural.entity;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * Created by huiyunfei on 2019/4/12.
  */
@@ -24,4 +26,9 @@ public class User {
 
     private String name;
 
+    private String token;
+
+    private Date updateTime;
+
+    private Date createTime;
 }
