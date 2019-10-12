@@ -2,6 +2,7 @@ package com.yunfei.cultural.web;
 
 import com.yunfei.cultural.entity.TUser;
 import com.yunfei.cultural.model.dto.LoginParams;
+import com.yunfei.cultural.model.vo.LoginResult;
 import com.yunfei.cultural.service.UserService;
 import com.yunfei.cultural.utils.exception.LogicException;
 import com.yunfei.cultural.utils.result.ResultObj;
@@ -31,7 +32,7 @@ public class UserController {
             if(StringUtils.isEmpty(params.getUsername()) || StringUtils.isEmpty(params.getPassword())){
                 throw new LogicException("账号密码不能为空");
             }
-            TUser login = userService.login(params);
+            LoginResult login = userService.login(params);
             ResultUtil.createSuccessResult(resultObj,"",login);
         } catch (LogicException e) {
             e.printStackTrace();

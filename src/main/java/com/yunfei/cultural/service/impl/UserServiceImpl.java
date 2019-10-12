@@ -4,9 +4,11 @@ import com.yunfei.cultural.constant.CommonConstants;
 import com.yunfei.cultural.entity.TUser;
 import com.yunfei.cultural.mapper.TUserMapper;
 import com.yunfei.cultural.model.dto.LoginParams;
+import com.yunfei.cultural.model.vo.LoginResult;
 import com.yunfei.cultural.service.UserService;
 import com.yunfei.cultural.utils.MD5Utils;
 import com.yunfei.cultural.utils.exception.LogicException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -31,7 +33,7 @@ public class UserServiceImpl implements UserService {
     private RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    public TUser login(LoginParams params) {
+    public LoginResult login(LoginParams params) {
         TUser user = userMapper.findByUserName(params.getUsername());
         if(user==null){
             throw new LogicException("用户不存在");
@@ -43,7 +45,9 @@ public class UserServiceImpl implements UserService {
             this.userMapper.updateByPrimaryKey(user);
             this.saveToken(token, String.valueOf(user.getId()));
         }
-        return user;
+        LoginResult result=new LoginResult();
+        BeanUtils.copyProperties(user,result);
+        return result;
     }
 
     /**

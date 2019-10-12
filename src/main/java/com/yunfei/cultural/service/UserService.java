@@ -1,12 +1,12 @@
 package com.yunfei.cultural.service;
 
-import com.yunfei.cultural.entity.TUser;
 import com.yunfei.cultural.model.dto.LoginParams;
+import com.yunfei.cultural.model.vo.LoginResult;
 
 /**
  * Created by huiyunfei on 2019/4/12.
  */
 public interface UserService {
 
-    TUser login(LoginParams params);
+    LoginResult login(LoginParams params);
 }
