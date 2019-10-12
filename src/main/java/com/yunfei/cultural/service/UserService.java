@@ -1,6 +1,6 @@
 package com.yunfei.cultural.service;
 
-import com.yunfei.cultural.entity.User;
+import com.yunfei.cultural.entity.TUser;
 import com.yunfei.cultural.model.dto.LoginParams;
 
 /**
@@ -8,5 +8,5 @@ import com.yunfei.cultural.model.dto.LoginParams;
  */
 public interface UserService {
 
-    User login(LoginParams params);
+    TUser login(LoginParams params);
 }

@@ -1,28 +1,27 @@
 package com.yunfei.cultural.web;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import com.yunfei.cultural.Application;
+import com.yunfei.cultural.entity.TUser;
+import com.yunfei.cultural.mapper.TUserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Created by hui.yunfei@qq.com on 2019/10/12
  */
-@RunWith(Arquillian.class)
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
 public class UserControllerTest {
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(UserController.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    }
 
+    @Autowired
+    private TUserMapper userMapper;
     @Test
-    public void distLogin() {
+    public void findById() {
+        TUser tUser = userMapper.selectByPrimaryKey(1);
+        System.out.println(tUser);
+
     }
 }

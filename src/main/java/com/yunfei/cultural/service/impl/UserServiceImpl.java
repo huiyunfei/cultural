@@ -1,8 +1,8 @@
 package com.yunfei.cultural.service.impl;
 
 import com.yunfei.cultural.constant.CommonConstants;
-import com.yunfei.cultural.entity.User;
-import com.yunfei.cultural.mapper.UserDao;
+import com.yunfei.cultural.entity.TUser;
+import com.yunfei.cultural.mapper.TUserMapper;
 import com.yunfei.cultural.model.dto.LoginParams;
 import com.yunfei.cultural.service.UserService;
 import com.yunfei.cultural.utils.MD5Utils;
@@ -24,15 +24,15 @@ import java.util.concurrent.TimeUnit;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao userDao;
+    private TUserMapper userMapper;
 
     @Autowired
     @Qualifier("redisTemplate")
     private RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    public User login(LoginParams params) {
-        User user = userDao.findByUserName(params.getUsername());
+    public TUser login(LoginParams params) {
+        TUser user = userMapper.findByUserName(params.getUsername());
         if(user==null){
             throw new LogicException("用户不存在");
         }
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
             String token = this.refreshToken(user.getToken());
             user.setToken(token);
             user.setUpdateTime(new Date());
-            this.userDao.update(user);
+            this.userMapper.updateByPrimaryKey(user);
             this.saveToken(token, String.valueOf(user.getId()));
         }
         return user;

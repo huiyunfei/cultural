@@ -1,6 +1,6 @@
 package com.yunfei.cultural.web;
 
-import com.yunfei.cultural.entity.User;
+import com.yunfei.cultural.entity.TUser;
 import com.yunfei.cultural.model.dto.LoginParams;
 import com.yunfei.cultural.service.UserService;
 import com.yunfei.cultural.utils.exception.LogicException;
@@ -31,7 +31,7 @@ public class UserController {
             if(StringUtils.isEmpty(params.getUsername()) || StringUtils.isEmpty(params.getPassword())){
                 throw new LogicException("账号密码不能为空");
             }
-            User login = userService.login(params);
+            TUser login = userService.login(params);
             return ResultUtil.createSuccessResult(resultObj,"",login);
         } catch (LogicException e) {
             e.printStackTrace();
@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @RequestMapping(value="/findById/{id}",method= RequestMethod.GET)
-    public User findById(@PathVariable(value="id") Integer id){
+    public TUser findById(@PathVariable(value="id") Integer id){
         log.info("findById in：{} ",id);
         return null;
     }
