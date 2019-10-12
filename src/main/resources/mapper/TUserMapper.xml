@@ -17,7 +17,7 @@
   </resultMap>
   <sql id="Base_Column_List">
 
-    id, username, password, email, name, create_time, update_time, token, head_url, phone, 
+    id, username, password, email, name, create_time, update_time, token, head_url, phone,
     sex
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -43,12 +43,12 @@
   <insert id="insert" parameterType="com.yunfei.cultural.entity.TUser">
 
     insert into t_user (id, username, password, 
-      email, name, create_time, 
-      update_time, token, head_url, 
+      email, name, create_time,
+      update_time, token, head_url,
       phone, sex)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, 
-      #{update_time,jdbcType=TIMESTAMP}, #{token,jdbcType=VARCHAR}, #{head_url,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP}, #{token,jdbcType=VARCHAR}, #{headUrl,jdbcType=VARCHAR},
       #{phone,jdbcType=VARCHAR}, #{sex,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.yunfei.cultural.entity.TUser">
@@ -106,16 +106,16 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="create_time != null">
-        #{create_time,jdbcType=TIMESTAMP},
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="update_time != null">
-        #{update_time,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="token != null">
         #{token,jdbcType=VARCHAR},
       </if>
       <if test="head_url != null">
-        #{head_url,jdbcType=VARCHAR},
+        #{headUrl,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
@@ -142,16 +142,16 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="create_time != null">
-        create_time = #{create_time,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="update_time != null">
-        update_time = #{update_time,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="token != null">
         token = #{token,jdbcType=VARCHAR},
       </if>
       <if test="head_url != null">
-        head_url = #{head_url,jdbcType=VARCHAR},
+        head_url = #{headUrl,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
@@ -169,10 +169,10 @@
       password = #{password,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
       token = #{token,jdbcType=VARCHAR},
-      head_url = #{head_url,jdbcType=VARCHAR},
+      head_url = #{headUrl,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}

@@ -32,7 +32,7 @@ public class UserController {
                 throw new LogicException("账号密码不能为空");
             }
             TUser login = userService.login(params);
-            return ResultUtil.createSuccessResult(resultObj,"",login);
+            ResultUtil.createSuccessResult(resultObj,"",login);
         } catch (LogicException e) {
             e.printStackTrace();
             log.warn("login error:{}",e.getMessage());
@@ -42,7 +42,7 @@ public class UserController {
             log.error("login system error:{}",e.getMessage());
             ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
         }
-        return null;
+        return resultObj;
     }
 
     @RequestMapping(value="/findById/{id}",method= RequestMethod.GET)
