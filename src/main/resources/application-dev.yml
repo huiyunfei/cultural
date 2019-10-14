@@ -58,3 +58,9 @@ logging:
       example:
         restdemo:
           mapper: DEBUG
+
+ftp:
+  ftpIp: 127.0.0.1
+  ftpUser: ftpUser
+  ftpPass: ftpPass
+  ftpServer: ftpServer
