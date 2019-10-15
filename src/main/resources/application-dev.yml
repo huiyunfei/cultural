@@ -44,6 +44,20 @@ spring:
     timeout: 3600
     maxIdle: 200
 
+  #添加Thymeleaf配置
+  thymeleaf:
+    cache: false
+    #prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    content-type: text/html
+
+  #上传最大支持文件大小和最大请求大小
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 #mybatis配置。
 #注：通常，若mybatis配置信息较少，只是针对基本配置无需复杂配置，则只需在application.yml文件中配置即可，否则最好配置在 mybatis-config.xml中
 mybatis:
@@ -59,8 +73,10 @@ logging:
         restdemo:
           mapper: DEBUG
 
+
 ftp:
   ftpIp: 127.0.0.1
   ftpUser: ftpUser
   ftpPass: ftpPass
   ftpServer: ftpServer
+

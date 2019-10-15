@@ -31,6 +31,10 @@ public class LoginInterceptor implements HandlerInterceptor {
             log.info("login接口不拦截");
             return true;
         }
+        if(uri.contains("/file")){
+            log.info("/file接口不拦截");
+            return true;
+        }
         String token = httpServletRequest.getHeader("token");
         if(StringUtils.isEmpty(token)){
             return false;
