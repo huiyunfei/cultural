@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50155
 File Encoding         : 65001
 
-Date: 2019-10-14 09:53:50
+Date: 2019-10-15 14:27:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -38,9 +38,4 @@ CREATE TABLE `t_user` (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('1', '前端开发01', '1', null, null, null, null, null, null, null, null);
-INSERT INTO `t_user` VALUES ('2', '前端开发02', '2', null, null, null, null, null, null, null, null);
-INSERT INTO `t_user` VALUES ('3', '后端开发01', '10002', null, null, null, null, null, null, null, null);
-INSERT INTO `t_user` VALUES ('4', '销售一组员1', '20001', null, null, null, null, null, null, null, null);
-INSERT INTO `t_user` VALUES ('5', '行政组01', '30001', null, null, null, null, null, null, null, null);
-INSERT INTO `t_user` VALUES ('6', 'yunfei', '5e75d0de843c3a9871ffd3b063f0003e', null, null, null, '2019-10-12 18:01:55', '83a644435dd24578ab00dede9f36f6ad', null, null, null);
+INSERT INTO `t_user` VALUES ('1', 'yunfei', '5e75d0de843c3a9871ffd3b063f0003e', null, null, null, '2019-10-12 18:01:55', '83a644435dd24578ab00dede9f36f6ad', null, null, null);
