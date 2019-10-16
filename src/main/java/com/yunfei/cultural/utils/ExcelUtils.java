@@ -1,8 +1,9 @@
 package com.yunfei.cultural.utils;
 
-import com.sun.rowset.internal.Row;
-import javafx.scene.control.Cell;
+import com.yunfei.cultural.model.ExcelData;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
@@ -11,9 +12,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.ss.usermodel.*;
 
 import static org.apache.poi.ss.usermodel.CellType.*;
 /**
@@ -157,7 +155,7 @@ public class ExcelUtils {
      * 修改时间：
      */
     public static List<Object[]> importExcel(String fileName) {
-        log.info("导入解析开始，fileName:{}",fileName);
+        log.info("导入解析开始，fileName:{}", fileName);
         try {
             List<Object[]> list = new ArrayList<>();
             InputStream inputStream = new FileInputStream(fileName);
@@ -193,9 +191,10 @@ public class ExcelUtils {
             }
             log.info("导入文件解析成功！");
             return list;
-        }catch (Exception e){
+        } catch (Exception e) {
             log.info("导入文件解析失败！");
             e.printStackTrace();
         }
         return null;
+    }
 }
