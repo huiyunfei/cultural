@@ -132,7 +132,7 @@ CREATE TABLE `t_profession` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_parent_id` (`parent_id`) USING BTREE,
-  KEY `index_profession_code` (`profession_code`)
+  UNIQUE KEY `index_profession_code` (`profession_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='职业表';
 
 -- ----------------------------
