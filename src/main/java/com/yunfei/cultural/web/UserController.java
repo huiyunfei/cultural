@@ -26,7 +26,6 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResultObj distLogin(@RequestBody LoginParams params){
-        log.info("login in：{} ", params.getUsername());
         ResultObj resultObj = new ResultObj();
         try {
             if(StringUtils.isEmpty(params.getUsername()) || StringUtils.isEmpty(params.getPassword())){
