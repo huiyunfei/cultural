@@ -18,9 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,29 +44,6 @@ public class FileController {
     public String file(HttpServletRequest request, HttpServletResponse response) throws Exception{
         request.setAttribute("name", "yunfei");
         return "/file";
-    }
-
-    @RequestMapping("/upload")
-    @ResponseBody
-    public String fileUpload(
-            @RequestParam("file") MultipartFile file,HttpServletRequest req){
-        try {
-            String fileName = System.currentTimeMillis()+file.getOriginalFilename();
-            String destFileName=req.getServletContext().getRealPath("")+"uploaded"+ File.separator+fileName;
-
-            File destFile = new File(destFileName);
-            destFile.getParentFile().mkdirs();
-            System.out.println("path:"+destFile);
-            System.out.println("fileName:"+fileName);
-            file.transferTo(destFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return "上传失败," + e.getMessage();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "上传失败," + e.getMessage();
-        }
-        return "OK";
     }
 
     /**
@@ -103,8 +77,8 @@ public class FileController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/uploadArea")
-    public ResultObj uploadArea(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/uploadExcel")
+    public ResultObj uploadExcel(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         ResultObj resultObj = new ResultObj();
         try {
             if(file==null || file.isEmpty()){
