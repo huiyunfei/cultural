@@ -1,0 +1,10 @@
+人物：
+id:自增长
+所在区域：t_area表area_code字段
+性别：0男1女
+职业：t_profession表profession_code字段
+文化项目：
+地点：t_area表area_code字段
+
+
+所有头像、图片保存外网可访问的url路径
