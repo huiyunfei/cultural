@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : local
+Source Server         : localhost
 Source Server Version : 50155
 Source Host           : localhost:3306
 Source Database       : test
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50155
 File Encoding         : 65001
 
-Date: 2019-10-16 23:06:16
+Date: 2019-10-18 11:15:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -299,7 +299,7 @@ INSERT INTO `t_area` VALUES ('150000', '100001', '内蒙古', null, null, null, 
 INSERT INTO `t_area` VALUES ('210000', '100002', '辽宁', null, null, null, '4');
 INSERT INTO `t_area` VALUES ('220000', '100002', '吉林', null, null, null, '4');
 INSERT INTO `t_area` VALUES ('230000', '100002', '黑龙江', null, null, null, '4');
-INSERT INTO `t_area` VALUES ('310000', '100003', '上海', null, null, null, '4');
+INSERT INTO `t_area` VALUES ('310000', '100003', '上海', 'Shanghai', null, null, '4');
 INSERT INTO `t_area` VALUES ('320000', '100003', '江苏', null, null, null, '4');
 INSERT INTO `t_area` VALUES ('330000', '100003', '浙江', null, null, null, '4');
 INSERT INTO `t_area` VALUES ('340000', '100003', '安徽', null, null, null, '4');
@@ -322,9 +322,9 @@ INSERT INTO `t_area` VALUES ('620000', '100006', '甘肃', null, null, null, '4'
 INSERT INTO `t_area` VALUES ('630000', '100006', '青海', null, null, null, '4');
 INSERT INTO `t_area` VALUES ('640000', '100006', '宁夏', null, null, null, '4');
 INSERT INTO `t_area` VALUES ('650000', '100006', '新疆', null, null, null, '4');
-INSERT INTO `t_area` VALUES ('710000', '100007', '台湾', null, null, null, '4');
-INSERT INTO `t_area` VALUES ('810000', '100007', '香港', null, null, null, '4');
-INSERT INTO `t_area` VALUES ('820000', '100007', '澳门', null, null, null, '4');
+INSERT INTO `t_area` VALUES ('710000', '100007', '台湾', 'TW', null, null, '4');
+INSERT INTO `t_area` VALUES ('810000', '100007', '香港', 'HK', null, null, '4');
+INSERT INTO `t_area` VALUES ('820000', '100007', '澳门', 'MO', null, null, '4');
 
 -- ----------------------------
 -- Table structure for t_cultural_famous_ht
@@ -341,11 +341,51 @@ CREATE TABLE `t_cultural_famous_ht` (
   `resume` varchar(1000) DEFAULT NULL COMMENT '简介',
   `lifetime` varchar(1000) DEFAULT NULL,
   `job` varchar(255) DEFAULT NULL COMMENT '职务',
+  `head_url` varchar(255) DEFAULT NULL COMMENT '头像',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='沪台文化名人';
 
 -- ----------------------------
 -- Records of t_cultural_famous_ht
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_cultural_item
+-- ----------------------------
+DROP TABLE IF EXISTS `t_cultural_item`;
+CREATE TABLE `t_cultural_item` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) DEFAULT NULL COMMENT '项目名',
+  `organizer` varchar(32) DEFAULT NULL COMMENT '主办单位',
+  `time` datetime DEFAULT NULL,
+  `area_code` varchar(32) DEFAULT NULL,
+  `resume` varchar(1000) DEFAULT NULL COMMENT '简介',
+  `pic_url` varchar(255) DEFAULT NULL COMMENT '图片',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文化项目';
+
+-- ----------------------------
+-- Records of t_cultural_item
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_cultural_organ
+-- ----------------------------
+DROP TABLE IF EXISTS `t_cultural_organ`;
+CREATE TABLE `t_cultural_organ` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) DEFAULT NULL COMMENT '机构名',
+  `resume` varchar(1000) DEFAULT NULL COMMENT '简介',
+  `set_up_time` datetime DEFAULT NULL COMMENT '成立时间',
+  `possess_by` varchar(255) DEFAULT NULL COMMENT '隶属',
+  `Incumbent` varchar(1000) DEFAULT NULL COMMENT '任职人员',
+  `nature` varchar(255) DEFAULT NULL COMMENT '性质',
+  `pic_url` varchar(255) DEFAULT NULL COMMENT '图片',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文化机构';
+
+-- ----------------------------
+-- Records of t_cultural_organ
 -- ----------------------------
 
 -- ----------------------------
@@ -363,6 +403,7 @@ CREATE TABLE `t_cultural_people_tw` (
   `resume` varchar(1000) DEFAULT NULL COMMENT '简介',
   `lifetime` varchar(1000) DEFAULT NULL,
   `job` varchar(255) DEFAULT NULL COMMENT '职务',
+  `head_url` varchar(255) DEFAULT NULL COMMENT '头像',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='台湾文化人士';
 
@@ -385,6 +426,7 @@ CREATE TABLE `t_cultural_specialist_sh` (
   `resume` varchar(1000) DEFAULT NULL COMMENT '简介',
   `lifetime` varchar(1000) DEFAULT NULL,
   `job` varchar(255) DEFAULT NULL COMMENT '职务',
+  `head_url` varchar(255) DEFAULT NULL COMMENT '头像',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='上海文化专家';
 
