@@ -32,6 +32,7 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
+
     @Value("ftp.ftpServer")
     private String ftpServer;
 
@@ -75,28 +76,58 @@ public class FileController {
         return array.toString();
     }
 
+//    @GetMapping("/export")
+//    public String exportExcel(HttpServletResponse response, String fileName, Integer pageNum, Integer pageSize) {
+//        if (fileName == null || "".equals(fileName)) {
+//            return "文件名不能为空！";
+//        } else {
+//            if (fileName.endsWith("xls")) {
+//                Boolean isOk = excelService.exportExcel(response, fileName, 1, 10);
+//                if (isOk) {
+//                    return "导出成功！";
+//                } else {
+//                    return "导出失败！";
+//                }
+//            }
+//            return "文件格式有误！";
+//        }
+//    }
 
+    /**
+     * 方法名：import
+     * 功能：导入
+     */
+    @RequestMapping("/importExcel")
     @ResponseBody
-    @RequestMapping(value = "/uploadExcel")
-    public ResultObj uploadExcel(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+    public ResultObj importExcel(@RequestParam("files") MultipartFile file) {
         ResultObj resultObj = new ResultObj();
         try {
-            if(file==null || file.isEmpty()){
-                throw new LogicException("excel不能为空");
+            if(file==null){
+                throw new LogicException("文件为空");
             }
-            fileService.uploadExcel(file);
-            ResultUtil.createSuccessResult(resultObj,"导入Excel成功");
+            String fileName=file.getOriginalFilename();
+            if (fileName == null && "".equals(fileName)) {
+                throw new LogicException("文件名不能为空！");
+            }
+            if (!fileName.endsWith("xls") && !fileName.endsWith("xlsx")) {
+                throw new LogicException("文件格式错误！！");
+            }
+            Boolean isOk = fileService.importExcel(file);
+            if (isOk) {
+                ResultUtil.createSuccessResult(resultObj,"导入成功！",null);
+            } else {
+                ResultUtil.createSuccessResult(resultObj,"导入失败！",null);
+            }
         } catch (LogicException e) {
             e.printStackTrace();
-            log.warn("login error:{}",e.getMessage());
+            log.warn("importExcel error:{}",e.getMessage());
             ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
         }catch (Exception e) {
             e.printStackTrace();
-            log.error("login system error:{}",e.getMessage());
+            log.error("importExcel system error:{}",e.getMessage());
             ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
         }
         return resultObj;
-
 
     }
 

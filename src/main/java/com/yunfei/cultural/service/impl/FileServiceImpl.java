@@ -1,142 +1,140 @@
 package com.yunfei.cultural.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
-import com.sun.rowset.internal.Row;
-import com.yunfei.cultural.model.dto.LoginParams;
-import com.yunfei.cultural.model.vo.LoginResult;
+import com.yunfei.cultural.entity.TCulturalFamousHt;
+import com.yunfei.cultural.mapper.TCulturalFamousHtMapper;
 import com.yunfei.cultural.service.FileService;
+import com.yunfei.cultural.utils.excel.ExcelUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
-import java.util.StringJoiner;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by huiyunfei on 2019/4/12.
  */
 @Service
+@Slf4j
 public class FileServiceImpl implements FileService {
+    @Autowired
+    private TCulturalFamousHtMapper culturalFamousHtMapper;
 
-
-
-    @Override
-    public void uploadExcel(MultipartFile file) throws Exception{
-        int count=0;
-        int code=0;
-        StringJoiner buffer = new StringJoiner("\n");
-        JSONObject jsonObject = new JSONObject();
-        InputStream inputStream = file.getInputStream();
-        Workbook book=null;
-        if(isExcel2003(name)) {
-            book=new HSSFWorkbook(inputStream);
-        }
-        if(isExcel2007(name)) {
-            book = new XSSFWorkbook(inputStream);
-        }
-        int sheetsNumber=book.getNumberOfSheets();
-        Sheet sheet = book.getSheetAt(0);
-        int allRowNum = sheet.getLastRowNum();
-        if(allRowNum==0) {
-            flag=100;//flag是进度条的值
-            buffer.add("导入文件数据为空");
-        }
-        for(int i=1;i<=allRowNum;i++){
-            if(flag<100) {
-                flag=flag+(100/i);
-            }else {
-                flag=100;
-            }
-            //加载状态值，当前进度
-            //User user = new User();//我需要插入的数据类型
-            Row row = sheet.getRow(i); //获取第i行
-            /*if(row!=null) {
-                Cell cell1 = row.getCell(0); //获取第1个单元格的数据
-                Cell cell2 = row.getCell(1);
-                Cell cell3 = row.getCell(2);
-                Cell cell4 = row.getCell(3);
-                if(cell1!=null) {//姓名列验证
-                    cell1.setCellType(CellType.STRING);
-                    user.setName(cell1.getStringCellValue());
-                }
-                else {
-                    buffer.add("第"+i+"行的第1列的数据不能为空");
-                }
-                if(cell2!=null) {//手机号码列验证
-                    cell2.setCellType(CellType.STRING);
-                    String verify = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$";
-                    String moblie=cell2.getStringCellValue();
-                    if(moblie.length()!=11) {
-                        buffer.add("第"+i+"行的第1列的手机号码不复合要求11位");
-                    }else
-                    {
-                        Pattern p = Pattern.compile(verify);
-                        Matcher m = p.matcher(moblie);
-                        boolean isMatch = m.matches();
-                        if(isMatch) {
-                            User userByMoblie= userService.getUserByMobile(cell2.getStringCellValue());
-                            if(userByMoblie==null) {
-                                user.setMobile(cell2.getStringCellValue());
-                            }
-                            else {
-                                buffer.add("第"+i+"行的第1列的手机号码已存在");
-                            }
-
-                        }
-                        else {
-                            buffer.add("第"+i+"行的第1列的手机号码格式错误");
-                        }
-                    }
-
-                }
-                else {
-                    buffer.add("第"+i+"行的第1列的数据不能为空");
-                }
-                if(cell3!=null) {//职位列验证
-                    cell3.setCellType(CellType.STRING);
-                    user.setPosition(cell3.getStringCellValue());
-                }else {
-                    buffer.add("第"+i+"行的第2列的数据不能为空");
-                }
-                if(cell4!=null) {//部门列验证
-                    cell4.setCellType(CellType.STRING);
-                    String departmentName = cell4.getStringCellValue();
-                    Department department = departmentService.getDepartmentByName(departmentName);
-                    if(department!=null) {
-                        user.setDepartmentCode(department.getDepartmentCode());
-                    }
-                    else {
-                        buffer.add("第"+i+"行的第3列的数据不复合要求");
-                    }
-
-                }else {
-                    buffer.add("第"+i+"行的第3列的数据不能为空");
-                }
-                if(user.getName()!=null&&user.getMobile()!=null&&user.getPosition()!=null&&user.getDepartmentCode()!=null) {
-                    count++;
-                    userService.addUser(user);//保存到数据库
-                }
-            }*/
-        }
-        jsonObject.put("count", "共计"+allRowNum+"条数据，导入成功"+count+"条数据，导入失败"+(allRowNum-count)+"条");
-        code=1;
-    }
-
-    /***
-     *
-     *  判断文件类型是不是2003版本
-     * @return
+    /**
+     * 方法名：
+     * 功能：导出
      */
-    public static boolean isExcel2003(String filePath) {
-        return filePath.matches("^.+\\.(?i)(xls)$");
+    @Override
+    public Boolean exportExcel(HttpServletResponse response, String fileName, Integer pageNum, Integer pageSize) {
+        //查询数据并赋值给ExcelData
+//        List<User> userList = userMapper.find();
+//        List<String[]> list = new ArrayList<String[]>();
+//        for (User user : userList) {
+//            String[] arrs = new String[userList.size()];
+//            arrs[0] = String.valueOf(user.getId());
+//            arrs[1] = String.valueOf(user.getUsername());
+//            arrs[2] = String.valueOf(user.getPassword());
+//            arrs[3] = String.valueOf(user.getEnable());
+//            list.add(arrs);
+//        }
+//        //表头赋值
+//        String[] head = {"序列", "用户名", "密码", "状态"};
+//        ExcelData data = new ExcelData();
+//        data.setHead(head);
+//        data.setData(list);
+//        data.setFileName(fileName);
+//        //实现导出
+//        try {
+//            ExcelUtil.exportExcel(response, data);
+//            log.info("导出数据结束。。。。。。");
+//            return true;
+//        } catch (Exception e) {
+//            log.info("导出数据失败。。。。。。");
+//            return false;
+//        }
+        return null;
     }
 
     /**
-     *
-     * 判断文件类型是不是2007版本
-     * @return
+     * 方法名：
+     * 功能：导入
      */
-    public static boolean isExcel2007(String filePath) {
-        return filePath.matches("^.+\\.(?i)(xlsx)$");
+    @Override
+    public Boolean importExcel(MultipartFile file) {
+        log.info("导入数据开始。。。。。。");
+        try {
+            List<Object[]> list = ExcelUtils.importExcel(file);
+            if(list==null || list.size()==0){
+                return false;
+            }
+            switch(file.getOriginalFilename()){
+                case "沪台文化名人.xls":
+                    importFamousHt(list);
+                    break;
+                case "台湾文化人士.xls":
+                    importPeopleTw(list);
+                    break;
+                case "上海文化专家.xls":
+                    importSpecialistSh(list);
+                    break;
+                case "文化机构.xls":
+                    importCulturalOrgan(list);
+                    break;
+                case "文化项目.xls":
+                    importCulturalItem(list);
+                    break;
+                default:
+                    break;
+            }
+
+            log.info("导入数据结束。。。。。。");
+            return true;
+        } catch (Exception e) {
+            log.info("导入数据失败。。。。。。");
+            e.printStackTrace();
+        }
+        return false;
     }
 
+    private void importCulturalItem(List<Object[]> list) {
+    }
+
+    private void importCulturalOrgan(List<Object[]> list) {
+    }
+
+    private void importSpecialistSh(List<Object[]> list) {
+    }
+
+    private void importPeopleTw(List<Object[]> list) {
+    }
+
+    private void importFamousHt(List<Object[]> list) {
+        List<TCulturalFamousHt> culturalFamousHtArrayList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            TCulturalFamousHt culturalFamousHt =
+                    TCulturalFamousHt.builder()
+                            .id(list.get(i)[0] == null ? null : (Integer) list.get(i)[0])
+                            .name(list.get(i)[1] == null ? null :list.get(i)[1].toString())
+                            .areaCode(list.get(i)[2] == null ? null :  list.get(i)[2].toString())
+                            .sex(list.get(i)[3] == null ? null : (Integer) list.get(i)[3])
+                            .age(list.get(i)[4] == null ? null : (Integer) list.get(i)[4])
+                            .professionCode(list.get(i)[5] == null ? null : list.get(i)[5].toString())
+                            .representativeWorks(list.get(i)[6] == null ? null : list.get(i)[6].toString())
+                            .resume(list.get(i)[7] == null ? null : list.get(i)[7].toString())
+                            .lifetime(list.get(i)[8] == null ? null : list.get(i)[8].toString())
+                            .job(list.get(i)[9] == null ? null : list.get(i)[9].toString())
+                            .headUrl(list.get(i)[10] == null ? null :list.get(i)[10].toString())
+                            .build();
+            culturalFamousHtArrayList.add(culturalFamousHt);
+            if (culturalFamousHtArrayList.size() == 100) {
+                culturalFamousHtMapper.saveOrUpdateBitch(culturalFamousHtArrayList);
+                culturalFamousHtArrayList.clear();
+            }
+        }
+        if(culturalFamousHtArrayList.size()>0){
+            culturalFamousHtMapper.saveOrUpdateBitch(culturalFamousHtArrayList);
+        }
+    }
 }

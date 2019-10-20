@@ -4,10 +4,10 @@ import com.yunfei.cultural.model.ExcelData;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -154,11 +154,12 @@ public class ExcelUtils {
      * 修改描述：
      * 修改时间：
      */
-    public static List<Object[]> importExcel(String fileName) {
-        log.info("导入解析开始，fileName:{}", fileName);
+    public static List<Object[]> importExcel(MultipartFile fileName) {
+        log.info("导入解析开始，fileName:{}", fileName.getOriginalFilename());
         try {
             List<Object[]> list = new ArrayList<>();
-            InputStream inputStream = new FileInputStream(fileName);
+            //InputStream inputStream = new FileInputStream(fileName.);
+            InputStream inputStream = fileName.getInputStream();
             Workbook workbook = WorkbookFactory.create(inputStream);
             Sheet sheet = workbook.getSheetAt(0);
             //获取sheet的行数
