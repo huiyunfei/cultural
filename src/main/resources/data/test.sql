@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : local
+Source Server         : localhost
 Source Server Version : 50155
 Source Host           : localhost:3306
 Source Database       : test
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50155
 File Encoding         : 65001
 
-Date: 2019-10-20 16:23:40
+Date: 2019-10-18 11:15:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -342,8 +342,6 @@ CREATE TABLE `t_cultural_famous_ht` (
   `lifetime` varchar(1000) DEFAULT NULL,
   `job` varchar(255) DEFAULT NULL COMMENT '职务',
   `head_url` varchar(255) DEFAULT NULL COMMENT '头像',
-  `create_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='沪台文化名人';
 
@@ -363,8 +361,6 @@ CREATE TABLE `t_cultural_item` (
   `area_code` varchar(32) DEFAULT NULL,
   `resume` varchar(1000) DEFAULT NULL COMMENT '简介',
   `pic_url` varchar(255) DEFAULT NULL COMMENT '图片',
-  `create_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文化项目';
 
@@ -385,8 +381,6 @@ CREATE TABLE `t_cultural_organ` (
   `Incumbent` varchar(1000) DEFAULT NULL COMMENT '任职人员',
   `nature` varchar(255) DEFAULT NULL COMMENT '性质',
   `pic_url` varchar(255) DEFAULT NULL COMMENT '图片',
-  `create_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文化机构';
 
@@ -402,16 +396,14 @@ CREATE TABLE `t_cultural_people_tw` (
   `id` int(11) NOT NULL,
   `name` varchar(32) DEFAULT NULL,
   `area_code` varchar(32) DEFAULT NULL COMMENT '区域code',
-  `sex` int(1) DEFAULT NULL COMMENT '0男1女',
-  `age` int(1) DEFAULT NULL,
+  `sex` tinyint(1) DEFAULT NULL COMMENT '0男1女',
+  `age` tinyint(2) DEFAULT NULL,
   `profession_code` varchar(255) DEFAULT NULL COMMENT '职业code',
   `representative_works` varchar(255) DEFAULT NULL COMMENT '代表作品',
   `resume` varchar(1000) DEFAULT NULL COMMENT '简介',
   `lifetime` varchar(1000) DEFAULT NULL,
   `job` varchar(255) DEFAULT NULL COMMENT '职务',
   `head_url` varchar(255) DEFAULT NULL COMMENT '头像',
-  `create_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='台湾文化人士';
 
@@ -427,16 +419,14 @@ CREATE TABLE `t_cultural_specialist_sh` (
   `id` int(11) NOT NULL,
   `name` varchar(32) DEFAULT NULL,
   `area_code` varchar(32) DEFAULT NULL COMMENT '区域code',
-  `sex` int(1) DEFAULT NULL COMMENT '0男1女',
-  `age` int(1) DEFAULT NULL,
+  `sex` tinyint(1) DEFAULT NULL COMMENT '0男1女',
+  `age` tinyint(2) DEFAULT NULL,
   `profession_code` varchar(255) DEFAULT NULL COMMENT '职业code',
   `representative_works` varchar(255) DEFAULT NULL COMMENT '代表作品',
   `resume` varchar(1000) DEFAULT NULL COMMENT '简介',
   `lifetime` varchar(1000) DEFAULT NULL,
   `job` varchar(255) DEFAULT NULL COMMENT '职务',
   `head_url` varchar(255) DEFAULT NULL COMMENT '头像',
-  `create_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='上海文化专家';
 
@@ -502,12 +492,12 @@ CREATE TABLE `t_user` (
   `sex` tinyint(1) DEFAULT NULL COMMENT '0男1女',
   PRIMARY KEY (`id`),
   KEY `index_username` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('1', 'yunfei', '5e75d0de843c3a9871ffd3b063f0003e', null, '云飞', null, '2019-10-12 18:01:55', '83a644435dd24578ab00dede9f36f6ad', null, null, null);
+INSERT INTO `t_user` VALUES ('1', 'yunfei', '5e75d0de843c3a9871ffd3b063f0003e', null, null, null, '2019-10-12 18:01:55', '83a644435dd24578ab00dede9f36f6ad', null, null, null);
 
 -- ----------------------------
 -- Procedure structure for comment_task
