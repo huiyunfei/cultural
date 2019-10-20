@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
+Source Server         : local
 Source Server Version : 50155
 Source Host           : localhost:3306
 Source Database       : test
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50155
 File Encoding         : 65001
 
-Date: 2019-10-18 11:15:38
+Date: 2019-10-20 19:12:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -334,20 +334,39 @@ CREATE TABLE `t_cultural_famous_ht` (
   `id` int(11) NOT NULL,
   `name` varchar(32) DEFAULT NULL,
   `area_code` varchar(32) DEFAULT NULL COMMENT '区域code',
-  `sex` tinyint(1) DEFAULT NULL COMMENT '0男1女',
-  `age` tinyint(2) DEFAULT NULL,
+  `sex` int(1) DEFAULT NULL COMMENT '0男1女',
+  `age` int(2) DEFAULT NULL,
   `profession_code` varchar(255) DEFAULT NULL COMMENT '职业code',
   `representative_works` varchar(255) DEFAULT NULL COMMENT '代表作品',
   `resume` varchar(1000) DEFAULT NULL COMMENT '简介',
   `lifetime` varchar(1000) DEFAULT NULL,
   `job` varchar(255) DEFAULT NULL COMMENT '职务',
   `head_url` varchar(255) DEFAULT NULL COMMENT '头像',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='沪台文化名人';
 
 -- ----------------------------
 -- Records of t_cultural_famous_ht
 -- ----------------------------
+INSERT INTO `t_cultural_famous_ht` VALUES ('1', '段亦宏', 'CHN', '0', '46', '10011', '《楚汉传奇》\n《士兵突击》\n《我的团长我的团》\n《西风烈》\n《烈日灼心》\n《暴雪将至》', '段奕宏（1973年5月16日－），原名段龙，中国大陆男演员，出生于新疆伊犁伊宁市。1998年，毕业于中央戏剧学院表演系，之后进入中国国家话剧院工作。\n生平：段奕宏曾分别于1992年和1993年两度报考中央戏剧学院表演系，但两度均未被录取，直至1994年三度报考才被录取。1998年毕业前夕，中央戏剧学院老师赵有亮通过中国文化部为段奕宏申请留京名额，在获得留京名额之后进入中央实验话剧院（今中国国家话剧院）。之后，段奕宏出演多部话剧，并成为先锋话剧《恋爱的犀牛》第二代男主角，其亦于此时期将本名由段龙改为段奕宏。', '无', '无', 'https://blog.sepclub.com/img/01/段亦宏.png', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('2', '傅榆', 'TW', '0', '33', '10020', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('3', '周一围', 'CHN', '0', '37', '10011', '《创业时代》\n《你和我的倾城时光》\n《长安十二时辰》\n《爱上你治愈我》', '周一围，1982年8月24日出生于湖南湘西小城吉首，毕业于北京电影学院表演系。2004年，因在海岩剧《深牢大狱》中饰演男一号刘川而被观众熟识。2006年，与赵薇共同主演情感剧《谢谢你曾经爱过我》。2007，获新浪网络盛典年度新人。2008年，领衔主演农村偶像剧《八百里洞庭我的家》。2010年，与林心如、李依晓共同参演都市情感剧《独家披露》。2012年，与马苏共同主演年代悬疑电视剧《烈焰》。', '无', '无', 'https://blog.sepclub.com/img/01/周一围.png', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('4', '朱丹', 'CHN', '1', '33', '10071', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('5', '胡歌', 'CHN', '0', '33', '10011', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('6', '雷震卿', 'TW', '1', '33', '10072', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('7', '孔劲蕾', 'CHN', '1', '33', '10072', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('8', '廖庆松', 'TW', '0', '33', '10072', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('9', '邓超', 'CHN', '0', '33', '10011', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('10', '周迅', 'CHN', '1', '33', '10011', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('11', '朱琳', 'CHN', '1', '33', '10011', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('12', '张韶涵', 'TW', '1', '33', '10012', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('13', '李安', 'TW', '0', '65', '10020', '《双子杀手》\n《比利·林恩的中场战事》\n《少年派的奇幻漂流》\n《制造伍德斯托克音乐节》\n《色·戒》\n《断背山》', '李安（Ang Lee），1954年10月23日出生于台湾省屏东县潮州镇，电影导演、编剧、制片人，毕业于伊利诺伊大学香槟分校、纽约大学。\n1990年，执导了个人首部电影《推手》，该片获得了第28届台湾电影金马奖评审团特别奖。1993年，拍摄了剧情片《喜宴》，该片获得第43届柏林国际电影节金熊奖 ，李安凭借该片获得了第30届台湾电影金马奖最佳导演奖 。1994年，执导了剧情片《饮食男女》，该片获得第67届奥斯卡金像奖最佳外语片奖提名。1995年12月13日，执导的剧情片《理智与情感》上映，该片获得了第46届柏林国际电影节金熊奖。2000年7月7日，执导的武侠剧情片《卧虎藏龙》上映，该片获得了第73届奥斯卡金像奖最佳外语片奖。2003年6月17日，执导的超级英雄电影《绿巨人浩克》上映。2005年12月9日，执导的剧情片《断背山》上映，李安凭借该片获得了第78届奥斯卡金像奖最佳导演奖，成为首位获得该奖项的亚洲人。2007年9月24日，执导的剧情片《色·戒》上映，该片获得了第64届威尼斯国际电影节金狮奖。2009年2月，受邀担任第66届威尼斯国际电影节评委会主席。', '无', '无', 'https://blog.sepclub.com/img/01/李安.png', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('14', '张子枫', 'CHN', '0', '33', '10011', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('15', '陈乔恩', 'TW', '1', '33', '10011', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('16', '张艺谋', 'CHN', '0', '33', '10020', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
+INSERT INTO `t_cultural_famous_ht` VALUES ('17', '林志玲', 'TW', '1', '33', '10011', '无', '无', '无', '无', '无', '2019-10-20 16:28:07', '2019-10-20 16:35:18');
 
 -- ----------------------------
 -- Table structure for t_cultural_item
@@ -361,6 +380,8 @@ CREATE TABLE `t_cultural_item` (
   `area_code` varchar(32) DEFAULT NULL,
   `resume` varchar(1000) DEFAULT NULL COMMENT '简介',
   `pic_url` varchar(255) DEFAULT NULL COMMENT '图片',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文化项目';
 
@@ -381,6 +402,8 @@ CREATE TABLE `t_cultural_organ` (
   `Incumbent` varchar(1000) DEFAULT NULL COMMENT '任职人员',
   `nature` varchar(255) DEFAULT NULL COMMENT '性质',
   `pic_url` varchar(255) DEFAULT NULL COMMENT '图片',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文化机构';
 
@@ -396,14 +419,16 @@ CREATE TABLE `t_cultural_people_tw` (
   `id` int(11) NOT NULL,
   `name` varchar(32) DEFAULT NULL,
   `area_code` varchar(32) DEFAULT NULL COMMENT '区域code',
-  `sex` tinyint(1) DEFAULT NULL COMMENT '0男1女',
-  `age` tinyint(2) DEFAULT NULL,
+  `sex` int(1) DEFAULT NULL COMMENT '0男1女',
+  `age` int(1) DEFAULT NULL,
   `profession_code` varchar(255) DEFAULT NULL COMMENT '职业code',
   `representative_works` varchar(255) DEFAULT NULL COMMENT '代表作品',
   `resume` varchar(1000) DEFAULT NULL COMMENT '简介',
   `lifetime` varchar(1000) DEFAULT NULL,
   `job` varchar(255) DEFAULT NULL COMMENT '职务',
   `head_url` varchar(255) DEFAULT NULL COMMENT '头像',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='台湾文化人士';
 
@@ -419,20 +444,44 @@ CREATE TABLE `t_cultural_specialist_sh` (
   `id` int(11) NOT NULL,
   `name` varchar(32) DEFAULT NULL,
   `area_code` varchar(32) DEFAULT NULL COMMENT '区域code',
-  `sex` tinyint(1) DEFAULT NULL COMMENT '0男1女',
-  `age` tinyint(2) DEFAULT NULL,
+  `sex` int(1) DEFAULT NULL COMMENT '0男1女',
+  `age` int(1) DEFAULT NULL,
   `profession_code` varchar(255) DEFAULT NULL COMMENT '职业code',
   `representative_works` varchar(255) DEFAULT NULL COMMENT '代表作品',
   `resume` varchar(1000) DEFAULT NULL COMMENT '简介',
   `lifetime` varchar(1000) DEFAULT NULL,
   `job` varchar(255) DEFAULT NULL COMMENT '职务',
   `head_url` varchar(255) DEFAULT NULL COMMENT '头像',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='上海文化专家';
 
 -- ----------------------------
 -- Records of t_cultural_specialist_sh
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_dict
+-- ----------------------------
+DROP TABLE IF EXISTS `t_dict`;
+CREATE TABLE `t_dict` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` varchar(32) NOT NULL COMMENT '字典显示',
+  `value` varchar(255) NOT NULL COMMENT '字典数值',
+  `type` varchar(255) DEFAULT NULL COMMENT '字典类型',
+  `description` varchar(255) DEFAULT NULL COMMENT '字典描述',
+  PRIMARY KEY (`id`),
+  KEY `index_username` (`label`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_dict
+-- ----------------------------
+INSERT INTO `t_dict` VALUES ('1', '男', '0', 'sex', '性别');
+INSERT INTO `t_dict` VALUES ('2', '女', '1', 'sex', '性别');
+INSERT INTO `t_dict` VALUES ('3', '长', '0', 'label', '长度');
+INSERT INTO `t_dict` VALUES ('4', '短', '1', 'label', '长度');
 
 -- ----------------------------
 -- Table structure for t_profession
@@ -492,12 +541,12 @@ CREATE TABLE `t_user` (
   `sex` tinyint(1) DEFAULT NULL COMMENT '0男1女',
   PRIMARY KEY (`id`),
   KEY `index_username` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('1', 'yunfei', '5e75d0de843c3a9871ffd3b063f0003e', null, null, null, '2019-10-12 18:01:55', '83a644435dd24578ab00dede9f36f6ad', null, null, null);
+INSERT INTO `t_user` VALUES ('1', 'yunfei', '5e75d0de843c3a9871ffd3b063f0003e', null, '云飞', null, '2019-10-12 18:01:55', '83a644435dd24578ab00dede9f36f6ad', null, null, null);
 
 -- ----------------------------
 -- Procedure structure for comment_task
