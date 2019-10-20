@@ -8,9 +8,9 @@ import lombok.Data;
 @Data
 public class CulturalFamousHtParams {
 
-    //姓名
-    private String name;
-    //职业
-    private String profession;
 
+    private Integer queryType;
+
+    private String keyword;
 }
+

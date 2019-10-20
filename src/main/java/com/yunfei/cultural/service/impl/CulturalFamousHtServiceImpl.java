@@ -9,7 +9,9 @@ import com.yunfei.cultural.utils.DictUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CulturalFamousHtServiceImpl implements CulturalFamousHtService {
@@ -39,7 +41,19 @@ public class CulturalFamousHtServiceImpl implements CulturalFamousHtService {
 
     @Override
     public List<CulturalFamousHtResult> queryCulturalFamousHt(CulturalFamousHtParams params) {
-        List<CulturalFamousHtResult> culturalFamousHts = culturalFamousHtMapper.selectByParams(params);
+        Map pramsMap = new HashMap<>();
+        switch(params.getQueryType()){
+            case 1:
+                pramsMap.put("name",params.getKeyword());
+                break;
+            case 2:
+                pramsMap.put("profession",params.getKeyword());
+                break;
+            default:
+                pramsMap.put("name",params.getKeyword());
+                break;
+        }
+        List<CulturalFamousHtResult> culturalFamousHts = culturalFamousHtMapper.selectByParams(pramsMap);
         if(culturalFamousHts!=null && culturalFamousHts.size()>0){
             culturalFamousHts.forEach(t->{
                 t.setSex(DictUtils.getDictLabel(t.getSex(), "sex", null));

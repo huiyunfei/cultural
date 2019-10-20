@@ -4,6 +4,7 @@ import com.yunfei.cultural.entity.TUser;
 import com.yunfei.cultural.model.dto.CulturalFamousHtParams;
 import com.yunfei.cultural.model.vo.CulturalFamousHtResult;
 import com.yunfei.cultural.service.CulturalFamousHtService;
+import com.yunfei.cultural.utils.StringUtils;
 import com.yunfei.cultural.utils.exception.LogicException;
 import com.yunfei.cultural.utils.result.ResultObj;
 import com.yunfei.cultural.utils.result.ResultUtil;
@@ -34,6 +35,9 @@ public class QueryController {
     public ResultObj queryCulturalFamousHt(@RequestBody CulturalFamousHtParams params){
         ResultObj resultObj = new ResultObj();
         try {
+            if(params.getQueryType()==null || StringUtils.isBlank(params.getKeyword())){
+                throw new LogicException("参数有误");
+            }
             List<CulturalFamousHtResult> list = culturalFamousHtService.queryCulturalFamousHt(params);
             ResultUtil.createSuccessResult(resultObj,"",list);
         } catch (LogicException e) {

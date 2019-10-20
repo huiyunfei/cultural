@@ -28,7 +28,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
-  <select id="selectByParams" parameterType="com.yunfei.cultural.model.dto.CulturalFamousHtParams" resultType="com.yunfei.cultural.model.vo.CulturalFamousHtResult">
+  <select id="selectByParams" parameterType="java.util.Map" resultType="com.yunfei.cultural.model.vo.CulturalFamousHtResult">
     select
         t.id as id,t.name as name,p.profession_name as professionName,a.area_name as area,
     t.sex as sex,t.age as age,t.representative_works as representativeWorks,t.resume as resume,t.lifetime as lifetime,
