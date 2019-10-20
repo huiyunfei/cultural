@@ -1,4 +1,4 @@
-package com.yunfei.cultural.mapper;
+package com.yunfei.cultural.service;
 
 import com.yunfei.cultural.entity.TCulturalFamousHt;
 import com.yunfei.cultural.model.dto.CulturalFamousHtParams;
@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface TCulturalFamousHtMapper {
+public interface CulturalFamousHtService {
 
     int deleteByPrimaryKey(Integer id);
 
@@ -16,5 +16,5 @@ public interface TCulturalFamousHtMapper {
 
     void saveOrUpdateBitch(@Param("list") List<TCulturalFamousHt> culturalFamousHtArrayList);
 
-    List<TCulturalFamousHt> selectByParams(CulturalFamousHtParams params);
+    List<TCulturalFamousHt> queryCulturalFamousHt(CulturalFamousHtParams params);
 }

@@ -27,6 +27,23 @@
     from t_cultural_famous_ht
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByParams" parameterType="com.yunfei.cultural.model.dto.CulturalFamousHtParams" resultMap="BaseResultMap">
+    select
+    t.*
+    from t_cultural_famous_ht t
+    <if test="profession!=null and profession!=''">
+      left join t_profession p on t.profession_code=p.profession_code
+    </if>
+    where 1=1
+    <if test="name!=null and name!=''">
+      and t.name like CONCAT('%',#{name},'%')
+    </if>
+    <if test="profession!=null">
+        and p.profession_name like CONCAT('%',#{profession},'%')
+    </if>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_cultural_famous_ht
     where id = #{id,jdbcType=INTEGER}
