@@ -115,11 +115,11 @@ public class FileServiceImpl implements FileService {
         for (int i = 0; i < list.size(); i++) {
             TCulturalFamousHt culturalFamousHt =
                     TCulturalFamousHt.builder()
-                            .id(list.get(i)[0] == null ? null : (Integer) list.get(i)[0])
+                            .id(list.get(i)[0] == null ? null : list.get(i)[0].equals("无")?null:(Integer) list.get(i)[0])
                             .name(list.get(i)[1] == null ? null :list.get(i)[1].toString())
                             .areaCode(list.get(i)[2] == null ? null :  list.get(i)[2].toString())
-                            .sex(list.get(i)[3] == null ? null : (Integer) list.get(i)[3])
-                            .age(list.get(i)[4] == null ? null : (Integer) list.get(i)[4])
+                            .sex(list.get(i)[3] == null ? null : list.get(i)[3].equals("无")?null:(Integer) list.get(i)[3])
+                            .age(list.get(i)[4] == null ? null : list.get(i)[4].equals("无")?null:(Integer) list.get(i)[4])
                             .professionCode(list.get(i)[5] == null ? null : list.get(i)[5].toString())
                             .representativeWorks(list.get(i)[6] == null ? null : list.get(i)[6].toString())
                             .resume(list.get(i)[7] == null ? null : list.get(i)[7].toString())
