@@ -2,6 +2,7 @@ package com.yunfei.cultural.mapper;
 
 import com.yunfei.cultural.entity.TCulturalFamousHt;
 import com.yunfei.cultural.model.dto.CulturalFamousHtParams;
+import com.yunfei.cultural.model.vo.CulturalFamousHtResult;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public interface TCulturalFamousHtMapper {
 
     void saveOrUpdateBitch(@Param("list") List<TCulturalFamousHt> culturalFamousHtArrayList);
 
-    List<TCulturalFamousHt> selectByParams(CulturalFamousHtParams params);
+    List<CulturalFamousHtResult> selectByParams(CulturalFamousHtParams params);
 }

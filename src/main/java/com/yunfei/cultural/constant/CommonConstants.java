@@ -35,5 +35,9 @@ public class CommonConstants {
 	public static final Integer EXCEL_TYPE_CULTURAL_ITEM=5;
 
 
+	/**
+	 * 系统字典key
+	 */
+	public static final String SYSTEM_DICT_KEY = "system:dict";
 
 }

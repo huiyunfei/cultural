@@ -1,8 +1,8 @@
 package com.yunfei.cultural.web;
 
-import com.yunfei.cultural.entity.TCulturalFamousHt;
 import com.yunfei.cultural.entity.TUser;
 import com.yunfei.cultural.model.dto.CulturalFamousHtParams;
+import com.yunfei.cultural.model.vo.CulturalFamousHtResult;
 import com.yunfei.cultural.service.CulturalFamousHtService;
 import com.yunfei.cultural.utils.exception.LogicException;
 import com.yunfei.cultural.utils.result.ResultObj;
@@ -34,7 +34,7 @@ public class QueryController {
     public ResultObj queryCulturalFamousHt(@RequestBody CulturalFamousHtParams params){
         ResultObj resultObj = new ResultObj();
         try {
-            List<TCulturalFamousHt> list = culturalFamousHtService.queryCulturalFamousHt(params);
+            List<CulturalFamousHtResult> list = culturalFamousHtService.queryCulturalFamousHt(params);
             ResultUtil.createSuccessResult(resultObj,"",list);
         } catch (LogicException e) {
             e.printStackTrace();

@@ -28,13 +28,14 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
-  <select id="selectByParams" parameterType="com.yunfei.cultural.model.dto.CulturalFamousHtParams" resultMap="BaseResultMap">
+  <select id="selectByParams" parameterType="com.yunfei.cultural.model.dto.CulturalFamousHtParams" resultType="com.yunfei.cultural.model.vo.CulturalFamousHtResult">
     select
-    t.*
+        t.id as id,t.name as name,p.profession_name as professionName,a.area_name as area,
+    t.sex as sex,t.age as age,t.representative_works as representativeWorks,t.resume as resume,t.lifetime as lifetime,
+    t.job as job,t.head_url as headUrl
     from t_cultural_famous_ht t
-    <if test="profession!=null and profession!=''">
-      left join t_profession p on t.profession_code=p.profession_code
-    </if>
+    left join t_profession p on t.profession_code=p.profession_code
+    left join t_area a on t.area_code=a.area_code
     where 1=1
     <if test="name!=null and name!=''">
       and t.name like CONCAT('%',#{name},'%')

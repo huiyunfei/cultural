@@ -52,7 +52,7 @@
                              targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-        <table tableName="t_profession" enableCountByExample="false" enableUpdateByExample="false"
+        <table tableName="t_dict" enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <!--<property name="useActualColumnNames" value="true"/>-->
         </table>

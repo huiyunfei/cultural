@@ -99,7 +99,7 @@ public class FileController {
      */
     @RequestMapping("/importExcel")
     @ResponseBody
-    public ResultObj importExcel(@RequestParam("files") MultipartFile file) {
+    public ResultObj importExcel(@RequestParam("file") MultipartFile file) {
         ResultObj resultObj = new ResultObj();
         try {
             if(file==null){

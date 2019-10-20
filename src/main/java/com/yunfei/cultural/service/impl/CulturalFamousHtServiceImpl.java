@@ -3,7 +3,9 @@ package com.yunfei.cultural.service.impl;
 import com.yunfei.cultural.entity.TCulturalFamousHt;
 import com.yunfei.cultural.mapper.TCulturalFamousHtMapper;
 import com.yunfei.cultural.model.dto.CulturalFamousHtParams;
+import com.yunfei.cultural.model.vo.CulturalFamousHtResult;
 import com.yunfei.cultural.service.CulturalFamousHtService;
+import com.yunfei.cultural.utils.DictUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +38,13 @@ public class CulturalFamousHtServiceImpl implements CulturalFamousHtService {
     }
 
     @Override
-    public List<TCulturalFamousHt> queryCulturalFamousHt(CulturalFamousHtParams params) {
-        return culturalFamousHtMapper.selectByParams(params);
+    public List<CulturalFamousHtResult> queryCulturalFamousHt(CulturalFamousHtParams params) {
+        List<CulturalFamousHtResult> culturalFamousHts = culturalFamousHtMapper.selectByParams(params);
+        if(culturalFamousHts!=null && culturalFamousHts.size()>0){
+            culturalFamousHts.forEach(t->{
+                t.setSex(DictUtils.getDictLabel(t.getSex(), "sex", null));
+            });
+        }
+        return culturalFamousHts;
     }
 }

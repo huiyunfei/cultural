@@ -4,6 +4,7 @@ import com.yunfei.cultural.Application;
 import com.yunfei.cultural.entity.TUser;
 import com.yunfei.cultural.mapper.TUserMapper;
 import com.yunfei.cultural.service.UserService;
+import com.yunfei.cultural.utils.DictUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class UserControllerTest {
         System.out.println(tUser);
 
     }
+    @Test
+    public void getDict() {
+        String label = DictUtils.getDictLabel("0", "label", null);
+        System.out.println(label);
 
+    }
 
 }
