@@ -69,8 +69,8 @@ mybatis:
 logging:
   level:
     com:
-      example:
-        restdemo:
+      yunfei:
+        cultural:
           mapper: DEBUG
 
 
