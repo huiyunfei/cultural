@@ -21,11 +21,16 @@
     id, name, area_code, sex, age, profession_code, representative_works, resume, lifetime,
     job,create_time,update_time,head_url
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+  <select id="selectById" parameterType="java.lang.Integer"  resultType="com.yunfei.cultural.model.vo.CulturalFamousHtResult">
     select
-    <include refid="Base_Column_List" />
-    from t_cultural_famous_ht
-    where id = #{id,jdbcType=INTEGER}
+        t.id as id,t.name as name,p.profession_name as professionName,a.area_name as area,
+    t.sex as sex,t.age as age,t.representative_works as representativeWorks,t.resume as resume,t.lifetime as lifetime,
+    t.job as job,t.head_url as headUrl
+    from t_cultural_famous_ht t
+    left join t_profession p on t.profession_code=p.profession_code
+    left join t_area a on t.area_code=a.area_code
+    where t.id=#{id}
   </select>
 
   <select id="selectByParams" parameterType="java.util.Map" resultType="com.yunfei.cultural.model.vo.CulturalFamousHtResult">
@@ -44,21 +49,6 @@
         and p.profession_name like CONCAT('%',#{profession},'%')
     </if>
   </select>
-
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_cultural_famous_ht
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.yunfei.cultural.entity.TCulturalFamousHt">
-    insert into t_cultural_famous_ht (id, name, area_code,
-      sex, age, profession_code, 
-      representative_works, resume, lifetime, 
-      job,create_time,update_time,head_url)
-    values (#{id}, #{name}, #{areaCode},
-      #{sex}, #{age}, #{professionCode},
-      #{representativeWorks}, #{resume}, #{lifetime},
-      #{job},#{create_time},#{update_time},#{head_url})
-  </insert>
 
   <update id="saveOrUpdateBitch">
     <foreach collection="list" index="index" item="item" separator=";">

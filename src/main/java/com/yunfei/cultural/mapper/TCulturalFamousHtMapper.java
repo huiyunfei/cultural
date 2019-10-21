@@ -9,13 +9,10 @@ import java.util.Map;
 
 public interface TCulturalFamousHtMapper {
 
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(TCulturalFamousHt record);
-
-    TCulturalFamousHt selectByPrimaryKey(Integer id);
 
     void saveOrUpdateBitch(@Param("list") List<TCulturalFamousHt> culturalFamousHtArrayList);
 
     List<CulturalFamousHtResult> selectByParams(Map params);
+
+    CulturalFamousHtResult selectById(Integer id);
 }

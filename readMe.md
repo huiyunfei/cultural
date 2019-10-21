@@ -1,5 +1,5 @@
 localhost:8080/system/login登录接口  
-账号：yunfei  admin
+账号：yunfei  yunfei
 
 /file/*  /login拦截器不拦截
 

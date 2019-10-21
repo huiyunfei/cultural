@@ -7,7 +7,7 @@ public class CommonConstants {
 	/**
 	 * 系统用户
 	 */
-	public static final String CULTURAL_USER_ACCOUNT = "cultural:user:account";
+	public static final String CULTURAL_USER_ACCOUNT = "cultural:user";
 
 	/**
 	 * 沪台文化名人

@@ -2,7 +2,6 @@ package com.yunfei.cultural.web;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yunfei.cultural.model.dto.LoginParams;
-import com.yunfei.cultural.model.vo.LoginResult;
 import com.yunfei.cultural.service.UserService;
 import com.yunfei.cultural.utils.exception.LogicException;
 import com.yunfei.cultural.utils.result.ResultObj;
@@ -34,8 +33,7 @@ public class UserController {
             if(StringUtils.isEmpty(params.getUsername()) || StringUtils.isEmpty(params.getPassword())){
                 throw new LogicException("账号密码不能为空");
             }
-            LoginResult login = userService.login(params);
-            ResultUtil.createSuccessResult(resultObj,"",login);
+            return userService.login(params);
         } catch (LogicException e) {
             e.printStackTrace();
             log.warn("login error:{}",e.getMessage());
@@ -58,6 +56,7 @@ public class UserController {
                 throw new LogicException("参数异常");
             }
             userService.logout(params);
+            ResultUtil.createSuccessResult(result, "退出成功", null);
         } catch (LogicException le) {
             log.warn("logout error:{}", le);
             ResultUtil.createLocgicExceptionResult(result, le.getMessage());

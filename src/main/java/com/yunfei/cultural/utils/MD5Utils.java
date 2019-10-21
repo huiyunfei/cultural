@@ -1,7 +1,5 @@
 package com.yunfei.cultural.utils;
 
-import java.util.UUID;
-
 /**
  * Created by huiyunfei on 2018/10/15.
  */
@@ -41,5 +39,10 @@ public class MD5Utils {
         return s.toLowerCase();
     }
 
+    public static void main(String[] args) {
+        System.out.println(getMD5("admin"));
+        System.out.println(getMD5("yunfei"));
+        System.out.println(getMD5("123456"));
+    }
 
 }

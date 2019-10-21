@@ -6,7 +6,7 @@ import lombok.Data;
  * Created by hui.yunfei@qq.com on 2019/10/12
  */
 @Data
-public class CulturalFamousHtResult {
+public class CulturalPeopleTwResult {
 
     private Integer id;
     //姓名

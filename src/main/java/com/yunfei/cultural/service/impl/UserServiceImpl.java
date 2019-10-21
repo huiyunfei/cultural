@@ -9,6 +9,8 @@ import com.yunfei.cultural.model.vo.LoginResult;
 import com.yunfei.cultural.service.UserService;
 import com.yunfei.cultural.utils.MD5Utils;
 import com.yunfei.cultural.utils.exception.LogicException;
+import com.yunfei.cultural.utils.result.ResultObj;
+import com.yunfei.cultural.utils.result.ResultUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,7 +36,8 @@ public class UserServiceImpl implements UserService {
     private RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    public LoginResult login(LoginParams params) {
+    public ResultObj login(LoginParams params) {
+        ResultObj resultObj = new ResultObj();
         TUser user = userMapper.findByUserName(params.getUsername());
         if(user==null){
             throw new LogicException("用户不存在");
@@ -45,10 +48,11 @@ public class UserServiceImpl implements UserService {
             user.setUpdateTime(new Date());
             this.userMapper.updateByPrimaryKey(user);
             this.saveToken(token, String.valueOf(user.getId()));
+            LoginResult result=new LoginResult();
+            BeanUtils.copyProperties(user,result);
+            return ResultUtil.createSuccessResult(resultObj,"",result);
         }
-        LoginResult result=new LoginResult();
-        BeanUtils.copyProperties(user,result);
-        return result;
+        return ResultUtil.createLocgicExceptionResult(resultObj,"用户名密码错误",null);
     }
 
     @Override
@@ -59,26 +63,23 @@ public class UserServiceImpl implements UserService {
         }
         // 清除旧的TOKEN
         if (StringUtils.isEmpty(user.getToken())) {
-            throw new LogicException("重复退出");
+            throw new LogicException("用户未登录");
         }
-        redisTemplate.delete(CommonConstants.CULTURAL_USER_ACCOUNT + user.getToken());
-        TUser userNew = TUser.builder()
-                .id(params.getInteger("id"))
-                .token(null)
-                .updateTime(new Date())
-                .build();
+        redisTemplate.delete(CommonConstants.CULTURAL_USER_ACCOUNT+":"+ user.getToken());
+        user.setToken(null);
+        user.setUpdateTime(new Date());
         // 更新信息
-        userMapper.updateByPrimaryKeySelective(userNew);
+        userMapper.updateByPrimaryKey(user);
 
     }
 
     /**
      * 刷新TOKEN
      */
-    private String refreshToken(String oldToken) {
+    private String refreshToken(String token) {
         // 清除旧的TOKEN
-        if (!StringUtils.isEmpty(oldToken)) {
-            redisTemplate.delete(CommonConstants.CULTURAL_USER_ACCOUNT + oldToken);
+        if (!StringUtils.isEmpty(token)) {
+            redisTemplate.delete(CommonConstants.CULTURAL_USER_ACCOUNT +":"+token);
         }
         // 生成新的TOKEN
         return UUID.randomUUID().toString().replaceAll("-", "");
@@ -87,6 +88,6 @@ public class UserServiceImpl implements UserService {
      * 保存TOKEN
      */
     private void saveToken(String token, String userId) {
-        redisTemplate.opsForValue().set(CommonConstants.CULTURAL_USER_ACCOUNT + token, userId, 604800, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(CommonConstants.CULTURAL_USER_ACCOUNT +":"+ token, userId, 604800, TimeUnit.SECONDS);
     }
 }
