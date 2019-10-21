@@ -1,6 +1,6 @@
 package com.yunfei.cultural.web;
 
-import com.yunfei.cultural.entity.TUser;
+import com.alibaba.fastjson.JSONObject;
 import com.yunfei.cultural.model.dto.LoginParams;
 import com.yunfei.cultural.model.vo.LoginResult;
 import com.yunfei.cultural.service.UserService;
@@ -10,7 +10,10 @@ import com.yunfei.cultural.utils.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by huiyunfei on 2019/4/12.
@@ -45,10 +48,24 @@ public class UserController {
         return resultObj;
     }
 
-    @RequestMapping(value="/findById/{id}",method= RequestMethod.GET)
-    public TUser findById(@PathVariable(value="id") Integer id){
-        log.info("findById in：{} ",id);
-        return null;
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public ResultObj logout(@RequestBody JSONObject params) {
+        ResultObj result = new ResultObj();
+        try {
+            Integer id = params.getInteger("id");
+            if (id == null){
+                throw new LogicException("参数异常");
+            }
+            userService.logout(params);
+        } catch (LogicException le) {
+            log.warn("logout error:{}", le);
+            ResultUtil.createLocgicExceptionResult(result, le.getMessage());
+        } catch (Exception e) {
+            log.error("logout system error:{}", e);
+            ResultUtil.createSystemExceptionResult(result, e.getMessage());
+        }
+        return result;
     }
 }
 

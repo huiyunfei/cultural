@@ -163,14 +163,23 @@ public class ExcelUtils {
             Workbook workbook = WorkbookFactory.create(inputStream);
             Sheet sheet = workbook.getSheetAt(0);
             //获取sheet的行数
-            int rows = sheet.getPhysicalNumberOfRows();
-            for (int i = 0; i < rows; i++) {
+            //int rows = sheet.getPhysicalNumberOfRows();
+
+            int begin = sheet.getFirstRowNum();
+            int end = sheet.getLastRowNum();
+            for (int i = begin; i <= end; i++) {
+                //获取当前行的数据
+                Row row = sheet.getRow(i);
+                if (null == sheet.getRow(i)) {
+                    continue;
+                }
                 //过滤表头行
                 if (i == 0) {
                     continue;
                 }
-                //获取当前行的数据
-                Row row = sheet.getRow(i);
+                if(isEmptyRow(row)){
+                    continue;
+                }
                 Object[] objects = new Object[row.getPhysicalNumberOfCells()];
                 int index = 0;
                 for (Cell cell : row) {
@@ -190,6 +199,33 @@ public class ExcelUtils {
                 }
                 list.add(objects);
             }
+
+//            for (int i = 0; i < rows; i++) {
+//                //过滤表头行
+//                if (i == 0) {
+//                    continue;
+//                }
+//                //获取当前行的数据
+//                Row row = sheet.getRow(i);
+//                Object[] objects = new Object[row.getPhysicalNumberOfCells()];
+//                int index = 0;
+//                for (Cell cell : row) {
+//                    if (cell.getCellType().equals(NUMERIC)) {
+//                        objects[index] = (int) cell.getNumericCellValue();
+//                    }
+//                    if (cell.getCellType().equals(STRING)) {
+//                        objects[index] = cell.getStringCellValue();
+//                    }
+//                    if (cell.getCellType().equals(BOOLEAN)) {
+//                        objects[index] = cell.getBooleanCellValue();
+//                    }
+//                    if (cell.getCellType().equals(ERROR)) {
+//                        objects[index] = cell.getErrorCellValue();
+//                    }
+//                    index++;
+//                }
+//                list.add(objects);
+//            }
             log.info("导入文件解析成功！");
             return list;
         } catch (Exception e) {
@@ -197,5 +233,15 @@ public class ExcelUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static boolean isEmptyRow(Row row) {
+        for (int c = row.getFirstCellNum();c < row.getLastCellNum();c++) {
+            Cell cell = row.getCell(c);
+            if (cell != null && cell.getCellType() != BLANK){
+                return false;
+            }
+        }
+        return true;
     }
 }

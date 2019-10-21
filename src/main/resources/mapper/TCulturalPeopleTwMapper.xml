@@ -217,4 +217,21 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="saveOrUpdateBitch">
+    <foreach collection="list" index="index" item="item" separator=";">
+      INSERT INTO t_cultural_people_tw
+      (id, name, area_code,
+      sex, age, profession_code,
+      representative_works, resume, lifetime,
+      job,create_time,update_time,head_url)
+      VALUES
+      (#{item.id},#{item.name},#{item.areaCode},#{item.sex},#{item.age},#{item.professionCode},#{item.representativeWorks},#{item.resume},#{item.lifetime},#{item.job}
+      ,now(),now(),#{item.headUrl})
+      ON DUPLICATE KEY UPDATE
+      name=#{item.name},area_code=#{item.areaCode},sex=#{item.sex},age=#{item.age},profession_code=#{item.professionCode}
+      ,representative_works=#{item.representativeWorks},resume=#{item.resume},lifetime=#{item.lifetime},job=#{item.job}
+      ,update_time=now(),head_url=#{item.headUrl}
+    </foreach>
+  </update>
 </mapper>

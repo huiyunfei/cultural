@@ -60,7 +60,6 @@
       #{job},#{create_time},#{update_time},#{head_url})
   </insert>
 
-  <!--批量插入or更新月度统计表-->
   <update id="saveOrUpdateBitch">
     <foreach collection="list" index="index" item="item" separator=";">
       INSERT INTO t_cultural_famous_ht

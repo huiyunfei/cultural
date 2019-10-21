@@ -1,5 +1,6 @@
 package com.yunfei.cultural.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yunfei.cultural.constant.CommonConstants;
 import com.yunfei.cultural.entity.TUser;
 import com.yunfei.cultural.mapper.TUserMapper;
@@ -48,6 +49,27 @@ public class UserServiceImpl implements UserService {
         LoginResult result=new LoginResult();
         BeanUtils.copyProperties(user,result);
         return result;
+    }
+
+    @Override
+    public void logout(JSONObject params) {
+        TUser user = userMapper.selectByPrimaryKey(params.getInteger("id"));
+        if(user==null){
+            throw new LogicException("用户不存在");
+        }
+        // 清除旧的TOKEN
+        if (StringUtils.isEmpty(user.getToken())) {
+            throw new LogicException("重复退出");
+        }
+        redisTemplate.delete(CommonConstants.CULTURAL_USER_ACCOUNT + user.getToken());
+        TUser userNew = TUser.builder()
+                .id(params.getInteger("id"))
+                .token(null)
+                .updateTime(new Date())
+                .build();
+        // 更新信息
+        userMapper.updateByPrimaryKeySelective(userNew);
+
     }
 
     /**

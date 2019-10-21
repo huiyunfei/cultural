@@ -9,7 +9,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="resume" jdbcType="VARCHAR" property="resume" />
-    <result column="set_up_time" jdbcType="TIMESTAMP" property="setUpTime" />
+    <result column="set_up_time" jdbcType="VARCHAR" property="setUpTime" />
     <result column="possess_by" jdbcType="VARCHAR" property="possessBy" />
     <result column="Incumbent" jdbcType="VARCHAR" property="incumbent" />
     <result column="nature" jdbcType="VARCHAR" property="nature" />
@@ -53,7 +53,7 @@
       nature, pic_url, create_time, 
       update_time)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{resume,jdbcType=VARCHAR}, 
-      #{setUpTime,jdbcType=TIMESTAMP}, #{possessBy,jdbcType=VARCHAR}, #{incumbent,jdbcType=VARCHAR}, 
+      #{setUpTime,jdbcType=VARCHAR}, #{possessBy,jdbcType=VARCHAR}, #{incumbent,jdbcType=VARCHAR},
       #{nature,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -106,7 +106,7 @@
         #{resume,jdbcType=VARCHAR},
       </if>
       <if test="setUpTime != null">
-        #{setUpTime,jdbcType=TIMESTAMP},
+        #{setUpTime,jdbcType=VARCHAR},
       </if>
       <if test="possessBy != null">
         #{possessBy,jdbcType=VARCHAR},
@@ -142,7 +142,7 @@
         resume = #{resume,jdbcType=VARCHAR},
       </if>
       <if test="setUpTime != null">
-        set_up_time = #{setUpTime,jdbcType=TIMESTAMP},
+        set_up_time = #{setUpTime,jdbcType=VARCHAR},
       </if>
       <if test="possessBy != null">
         possess_by = #{possessBy,jdbcType=VARCHAR},
@@ -173,7 +173,7 @@
     update t_cultural_organ
     set name = #{name,jdbcType=VARCHAR},
       resume = #{resume,jdbcType=VARCHAR},
-      set_up_time = #{setUpTime,jdbcType=TIMESTAMP},
+      set_up_time = #{setUpTime,jdbcType=VARCHAR},
       possess_by = #{possessBy,jdbcType=VARCHAR},
       Incumbent = #{incumbent,jdbcType=VARCHAR},
       nature = #{nature,jdbcType=VARCHAR},
@@ -181,5 +181,19 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="saveOrUpdateBitch">
+    <foreach collection="list" index="index" item="item" separator=";">
+      INSERT INTO t_cultural_organ
+      (id, name, resume,
+      set_up_time, possess_by, incumbent,
+      nature,pic_url,create_time,update_time)
+      VALUES
+      (#{item.id},#{item.name},#{item.resume},#{item.setUpTime},#{item.possessBy},#{item.incumbent},#{item.nature},#{item.picUrl},now(),now())
+      ON DUPLICATE KEY UPDATE
+      name=#{item.name},resume=#{item.resume},set_up_time=#{item.setUpTime},possess_by=#{item.possessBy},incumbent=#{item.incumbent}
+      ,nature=#{item.nature},pic_url=#{item.picUrl},update_time=now()
+    </foreach>
   </update>
 </mapper>

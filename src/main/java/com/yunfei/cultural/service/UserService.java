@@ -1,5 +1,6 @@
 package com.yunfei.cultural.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yunfei.cultural.model.dto.LoginParams;
 import com.yunfei.cultural.model.vo.LoginResult;
 
@@ -9,4 +10,6 @@ import com.yunfei.cultural.model.vo.LoginResult;
 public interface UserService {
 
     LoginResult login(LoginParams params);
+
+    void logout(JSONObject params);
 }

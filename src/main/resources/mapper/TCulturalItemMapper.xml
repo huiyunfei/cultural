@@ -9,7 +9,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="organizer" jdbcType="VARCHAR" property="organizer" />
-    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
     <result column="area_code" jdbcType="VARCHAR" property="areaCode" />
     <result column="resume" jdbcType="VARCHAR" property="resume" />
     <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
@@ -51,7 +51,7 @@
       pic_url, create_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{organizer,jdbcType=VARCHAR}, 
-      #{time,jdbcType=TIMESTAMP}, #{areaCode,jdbcType=VARCHAR}, #{resume,jdbcType=VARCHAR}, 
+      #{time,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, #{resume,jdbcType=VARCHAR},
       #{picUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -101,7 +101,7 @@
         #{organizer,jdbcType=VARCHAR},
       </if>
       <if test="time != null">
-        #{time,jdbcType=TIMESTAMP},
+        #{time,jdbcType=VARCHAR},
       </if>
       <if test="areaCode != null">
         #{areaCode,jdbcType=VARCHAR},
@@ -134,7 +134,7 @@
         organizer = #{organizer,jdbcType=VARCHAR},
       </if>
       <if test="time != null">
-        time = #{time,jdbcType=TIMESTAMP},
+        time = #{time,jdbcType=VARCHAR},
       </if>
       <if test="areaCode != null">
         area_code = #{areaCode,jdbcType=VARCHAR},
@@ -162,12 +162,26 @@
     update t_cultural_item
     set name = #{name,jdbcType=VARCHAR},
       organizer = #{organizer,jdbcType=VARCHAR},
-      time = #{time,jdbcType=TIMESTAMP},
+      time = #{time,jdbcType=VARCHAR},
       area_code = #{areaCode,jdbcType=VARCHAR},
       resume = #{resume,jdbcType=VARCHAR},
       pic_url = #{picUrl,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="saveOrUpdateBitch">
+    <foreach collection="list" index="index" item="item" separator=";">
+      INSERT INTO t_cultural_item
+      (id, name, organizer,
+      time, area_code, resume,
+      pic_url,create_time,update_time)
+      VALUES
+      (#{item.id},#{item.name},#{item.organizer},#{item.time},#{item.areaCode},#{item.resume},#{item.picUrl},now(),now())
+      ON DUPLICATE KEY UPDATE
+      name=#{item.name},organizer=#{item.organizer},time=#{item.time},area_code=#{item.areaCode},resume=#{item.resume}
+      ,pic_url=#{item.picUrl},update_time=now()
+    </foreach>
   </update>
 </mapper>
