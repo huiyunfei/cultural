@@ -29,4 +29,25 @@
       ,pic_url=#{item.picUrl},update_time=now()
     </foreach>
   </update>
+
+  <select id="selectByParams" parameterType="java.util.Map" resultType="com.yunfei.cultural.model.vo.CulturalItemResult">
+    select
+    t.*
+    from t_cultural_item t
+    where 1=1
+    <if test="name!=null and name!=''">
+      and t.name like CONCAT('%',#{name},'%')
+    </if>
+    <if test="organizer!=null">
+      and t.organizer like CONCAT('%',#{organizer},'%')
+    </if>
+  </select>
+
+  <select id="selectById" parameterType="java.lang.Integer"  resultType="com.yunfei.cultural.model.vo.CulturalItemResult">
+    select
+      t.*
+    from t_cultural_item t
+    where t.id=#{id}
+  </select>
+
 </mapper>

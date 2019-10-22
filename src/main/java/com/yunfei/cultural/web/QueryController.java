@@ -3,6 +3,7 @@ package com.yunfei.cultural.web;
 import com.alibaba.fastjson.JSONObject;
 import com.yunfei.cultural.model.dto.QueryParams;
 import com.yunfei.cultural.model.vo.CulturalFamousHtResult;
+import com.yunfei.cultural.model.vo.CulturalItemResult;
 import com.yunfei.cultural.model.vo.CulturalPeopleTwResult;
 import com.yunfei.cultural.model.vo.CulturalSpecialistShResult;
 import com.yunfei.cultural.service.QueryService;
@@ -200,7 +201,7 @@ public class QueryController {
             if(params.getQueryType()==null || StringUtils.isBlank(params.getKeyword())){
                 throw new LogicException("必填参数为空");
             }
-            List<CulturalFamousHtResult> list = queryService.listCulturalFamousHt(params);
+            List<CulturalItemResult> list = queryService.listCulturalItem(params);
             ResultUtil.createSuccessResult(resultObj,"",list);
         } catch (LogicException e) {
             e.printStackTrace();
@@ -226,7 +227,7 @@ public class QueryController {
             if(params.getInteger("id")==null){
                 throw new LogicException("id为空");
             }
-            CulturalFamousHtResult result = queryService.detailCulturalFamousHt(params.getInteger("id"));
+            CulturalItemResult result = queryService.detailCulturalItem(params.getInteger("id"));
             ResultUtil.createSuccessResult(resultObj,"",result);
         } catch (LogicException e) {
             e.printStackTrace();
@@ -251,7 +252,7 @@ public class QueryController {
             if(params.getQueryType()==null || StringUtils.isBlank(params.getKeyword())){
                 throw new LogicException("必填参数为空");
             }
-            List<CulturalFamousHtResult> list = queryService.listCulturalFamousHt(params);
+            List<CulturalFamousHtResult> list = queryService.listCulturalOrgan(params);
             ResultUtil.createSuccessResult(resultObj,"",list);
         } catch (LogicException e) {
             e.printStackTrace();
@@ -277,7 +278,7 @@ public class QueryController {
             if(params.getInteger("id")==null){
                 throw new LogicException("id为空");
             }
-            CulturalFamousHtResult result = queryService.detailCulturalFamousHt(params.getInteger("id"));
+            CulturalFamousHtResult result = queryService.detailCulturalOrgan(params.getInteger("id"));
             ResultUtil.createSuccessResult(resultObj,"",result);
         } catch (LogicException e) {
             e.printStackTrace();

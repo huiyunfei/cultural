@@ -1,9 +1,7 @@
 package com.yunfei.cultural.service;
 
 import com.yunfei.cultural.model.dto.QueryParams;
-import com.yunfei.cultural.model.vo.CulturalFamousHtResult;
-import com.yunfei.cultural.model.vo.CulturalPeopleTwResult;
-import com.yunfei.cultural.model.vo.CulturalSpecialistShResult;
+import com.yunfei.cultural.model.vo.*;
 
 import java.util.List;
 
@@ -20,4 +18,12 @@ public interface QueryService {
     List<CulturalSpecialistShResult> listCulturalSpecialistSh(QueryParams params);
 
     CulturalSpecialistShResult detailCulturalSpecialistSh(Integer id);
+
+    List<CulturalItemResult> listCulturalItem(QueryParams params);
+
+    CulturalItemResult detailCulturalItem(Integer id);
+
+    List<CulturalOrganResult> listCulturalOrgan(QueryParams params);
+
+    CulturalOrganResult detailCulturalOrgan(Integer id);
 }

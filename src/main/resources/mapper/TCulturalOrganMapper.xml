@@ -31,4 +31,27 @@
       ,nature=#{item.nature},pic_url=#{item.picUrl},update_time=now()
     </foreach>
   </update>
+
+  <select id="selectByParams" parameterType="java.util.Map" resultType="com.yunfei.cultural.model.vo.CulturalOrganResult">
+    select
+    t.*
+    from t_cultural_organ t
+    where 1=1
+    <if test="name!=null and name!=''">
+      and t.name like CONCAT('%',#{name},'%')
+    </if>
+    <if test="resume!=null and resume!=''">
+      and t.resume like CONCAT('%',#{resume},'%')
+    </if>
+    <if test="nature!=null and nature!=''">
+      and t.nature like CONCAT('%',#{nature},'%')
+    </if>
+  </select>
+
+  <select id="selectById" parameterType="java.lang.Integer"  resultType="com.yunfei.cultural.model.vo.CulturalOrganResult">
+    select
+      t.*
+    from t_cultural_organ t
+    where t.id=#{id}
+  </select>
 </mapper>

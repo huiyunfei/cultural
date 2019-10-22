@@ -2,9 +2,7 @@ package com.yunfei.cultural.service.impl;
 
 import com.yunfei.cultural.mapper.*;
 import com.yunfei.cultural.model.dto.QueryParams;
-import com.yunfei.cultural.model.vo.CulturalFamousHtResult;
-import com.yunfei.cultural.model.vo.CulturalPeopleTwResult;
-import com.yunfei.cultural.model.vo.CulturalSpecialistShResult;
+import com.yunfei.cultural.model.vo.*;
 import com.yunfei.cultural.service.QueryService;
 import com.yunfei.cultural.utils.DictUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,6 +123,57 @@ public class QueryServiceImpl implements QueryService {
             return result;
         }
         return null;
+    }
+
+    @Override
+    public List<CulturalItemResult> listCulturalItem(QueryParams params) {
+        Map pramsMap = new HashMap<>();
+        switch(params.getQueryType()){
+            case 1:
+                pramsMap.put("name",params.getKeyword());
+                break;
+            case 2:
+                pramsMap.put("organizer",params.getKeyword());
+                break;
+            default:
+                pramsMap.put("name",params.getKeyword());
+                break;
+        }
+        List<CulturalItemResult> list=culturalItemMapper.selectByParams(pramsMap);
+        return list;
+    }
+
+    @Override
+    public CulturalItemResult detailCulturalItem(Integer id) {
+        CulturalItemResult result = culturalItemMapper.selectById(id);
+        return result;
+    }
+
+    @Override
+    public List<CulturalOrganResult> listCulturalOrgan(QueryParams params) {
+        Map pramsMap = new HashMap<>();
+        switch(params.getQueryType()){
+            case 1:
+                pramsMap.put("name",params.getKeyword());
+                break;
+            case 2:
+                pramsMap.put("resume",params.getKeyword());
+                break;
+            case 3:
+                pramsMap.put("nature",params.getKeyword());
+                break;
+            default:
+                pramsMap.put("name",params.getKeyword());
+                break;
+        }
+        List<CulturalOrganResult> list=culturalOrganMapper.selectByParams(pramsMap);
+        return list;
+    }
+
+    @Override
+    public CulturalOrganResult detailCulturalOrgan(Integer id) {
+        CulturalOrganResult result = culturalOrganMapper.selectById(id);
+        return result;
     }
 }
 
