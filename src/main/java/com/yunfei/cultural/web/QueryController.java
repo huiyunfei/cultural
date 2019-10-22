@@ -2,10 +2,7 @@ package com.yunfei.cultural.web;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yunfei.cultural.model.dto.QueryParams;
-import com.yunfei.cultural.model.vo.CulturalFamousHtResult;
-import com.yunfei.cultural.model.vo.CulturalItemResult;
-import com.yunfei.cultural.model.vo.CulturalPeopleTwResult;
-import com.yunfei.cultural.model.vo.CulturalSpecialistShResult;
+import com.yunfei.cultural.model.vo.*;
 import com.yunfei.cultural.service.QueryService;
 import com.yunfei.cultural.utils.StringUtils;
 import com.yunfei.cultural.utils.exception.LogicException;
@@ -252,7 +249,7 @@ public class QueryController {
             if(params.getQueryType()==null || StringUtils.isBlank(params.getKeyword())){
                 throw new LogicException("必填参数为空");
             }
-            List<CulturalFamousHtResult> list = queryService.listCulturalOrgan(params);
+            List<CulturalOrganResult> list = queryService.listCulturalOrgan(params);
             ResultUtil.createSuccessResult(resultObj,"",list);
         } catch (LogicException e) {
             e.printStackTrace();
@@ -278,7 +275,7 @@ public class QueryController {
             if(params.getInteger("id")==null){
                 throw new LogicException("id为空");
             }
-            CulturalFamousHtResult result = queryService.detailCulturalOrgan(params.getInteger("id"));
+            CulturalOrganResult result = queryService.detailCulturalOrgan(params.getInteger("id"));
             ResultUtil.createSuccessResult(resultObj,"",result);
         } catch (LogicException e) {
             e.printStackTrace();
