@@ -514,8 +514,6 @@ CREATE TABLE `t_dict` (
 -- ----------------------------
 INSERT INTO `t_dict` VALUES ('1', '男', '0', 'sex', '性别');
 INSERT INTO `t_dict` VALUES ('2', '女', '1', 'sex', '性别');
-INSERT INTO `t_dict` VALUES ('3', '长', '0', 'label', '长度');
-INSERT INTO `t_dict` VALUES ('4', '短', '1', 'label', '长度');
 
 -- ----------------------------
 -- Table structure for t_profession
