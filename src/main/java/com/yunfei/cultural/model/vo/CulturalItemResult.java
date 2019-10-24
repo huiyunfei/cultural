@@ -19,8 +19,7 @@ public class CulturalItemResult {
     //活动时间
     private String time;
 
-    private String areaCode;
-
+    private String area;
     //简介
     private String resume;
 

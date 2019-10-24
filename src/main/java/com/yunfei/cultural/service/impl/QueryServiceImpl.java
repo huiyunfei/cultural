@@ -34,7 +34,28 @@ public class QueryServiceImpl implements QueryService {
                 pramsMap.put("name",params.getKeyword());
                 break;
             case 2:
+                pramsMap.put("areaName",params.getKeyword());
+                break;
+            case 3:
+                pramsMap.put("sex",params.getKeyword().equals("男")?0:1);
+                break;
+            case 4:
+                pramsMap.put("age",params.getKeyword());
+                break;
+            case 5:
                 pramsMap.put("profession",params.getKeyword());
+                break;
+            case 6:
+                pramsMap.put("representativeWorks",params.getKeyword());
+                break;
+            case 7:
+                pramsMap.put("resume",params.getKeyword());
+                break;
+            case 8:
+                pramsMap.put("lifetime",params.getKeyword());
+                break;
+            case 9:
+                pramsMap.put("job",params.getKeyword());
                 break;
             default:
                 pramsMap.put("name",params.getKeyword());
@@ -67,7 +88,28 @@ public class QueryServiceImpl implements QueryService {
                 pramsMap.put("name",params.getKeyword());
                 break;
             case 2:
+                pramsMap.put("areaName",params.getKeyword());
+                break;
+            case 3:
+                pramsMap.put("sex",params.getKeyword().equals("男")?0:1);
+                break;
+            case 4:
+                pramsMap.put("age",params.getKeyword());
+                break;
+            case 5:
                 pramsMap.put("profession",params.getKeyword());
+                break;
+            case 6:
+                pramsMap.put("representativeWorks",params.getKeyword());
+                break;
+            case 7:
+                pramsMap.put("resume",params.getKeyword());
+                break;
+            case 8:
+                pramsMap.put("lifetime",params.getKeyword());
+                break;
+            case 9:
+                pramsMap.put("job",params.getKeyword());
                 break;
             default:
                 pramsMap.put("name",params.getKeyword());
@@ -100,7 +142,28 @@ public class QueryServiceImpl implements QueryService {
                 pramsMap.put("name",params.getKeyword());
                 break;
             case 2:
+                pramsMap.put("areaName",params.getKeyword());
+                break;
+            case 3:
+                pramsMap.put("sex",params.getKeyword().equals("男")?0:1);
+                break;
+            case 4:
+                pramsMap.put("age",params.getKeyword());
+                break;
+            case 5:
                 pramsMap.put("profession",params.getKeyword());
+                break;
+            case 6:
+                pramsMap.put("representativeWorks",params.getKeyword());
+                break;
+            case 7:
+                pramsMap.put("resume",params.getKeyword());
+                break;
+            case 8:
+                pramsMap.put("lifetime",params.getKeyword());
+                break;
+            case 9:
+                pramsMap.put("job",params.getKeyword());
                 break;
             default:
                 pramsMap.put("name",params.getKeyword());
@@ -135,6 +198,15 @@ public class QueryServiceImpl implements QueryService {
             case 2:
                 pramsMap.put("organizer",params.getKeyword());
                 break;
+            case 3:
+                pramsMap.put("time",params.getKeyword());
+                break;
+            case 4:
+                pramsMap.put("areaName",params.getKeyword());
+                break;
+            case 5:
+                pramsMap.put("resume",params.getKeyword());
+                break;
             default:
                 pramsMap.put("name",params.getKeyword());
                 break;
@@ -157,10 +229,19 @@ public class QueryServiceImpl implements QueryService {
                 pramsMap.put("name",params.getKeyword());
                 break;
             case 2:
-                pramsMap.put("resume",params.getKeyword());
+                pramsMap.put("nature",params.getKeyword());
                 break;
             case 3:
-                pramsMap.put("nature",params.getKeyword());
+                pramsMap.put("setUpTime",params.getKeyword());
+                break;
+            case 4:
+                pramsMap.put("incumbent",params.getKeyword());
+                break;
+            case 5:
+                pramsMap.put("possessBy",params.getKeyword());
+                break;
+            case 6:
+                pramsMap.put("resume",params.getKeyword());
                 break;
             default:
                 pramsMap.put("name",params.getKeyword());

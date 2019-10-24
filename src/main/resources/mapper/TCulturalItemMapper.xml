@@ -13,7 +13,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, organizer, time, area_code, resume, pic_url, create_time, update_time
+    t.id, t.name, t.organizer, t.time, t.resume, t.pic_url, t.create_time, t.update_time
   </sql>
 
   <update id="saveOrUpdateBitch">
@@ -32,21 +32,32 @@
 
   <select id="selectByParams" parameterType="java.util.Map" resultType="com.yunfei.cultural.model.vo.CulturalItemResult">
     select
-    t.*
+    <include refid="Base_Column_List" />,a.area_name as area
     from t_cultural_item t
+    left join t_area a on t.area_code=a.area_code
     where 1=1
     <if test="name!=null and name!=''">
       and t.name like CONCAT('%',#{name},'%')
     </if>
-    <if test="organizer!=null">
+    <if test="organizer!=null and organizer!=''">
       and t.organizer like CONCAT('%',#{organizer},'%')
+    </if>
+    <if test="time!=null and time!=''">
+      and t.time like CONCAT('%',#{time},'%')
+    </if>
+    <if test="resume!=null and resume!=''">
+      and t.resume like CONCAT('%',#{resume},'%')
+    </if>
+    <if test="areaName!=null and areaName!=''">
+      and a.area_name like CONCAT('%',#{areaName},'%')
     </if>
   </select>
 
   <select id="selectById" parameterType="java.lang.Integer"  resultType="com.yunfei.cultural.model.vo.CulturalItemResult">
     select
-      t.*
+    <include refid="Base_Column_List" />,a.area_name as area
     from t_cultural_item t
+    left join t_area a on t.area_code=a.area_code
     where t.id=#{id}
   </select>
 

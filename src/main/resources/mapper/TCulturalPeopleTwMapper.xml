@@ -33,8 +33,26 @@
     <if test="name!=null and name!=''">
       and t.name like CONCAT('%',#{name},'%')
     </if>
-    <if test="profession!=null">
+    <if test="areaName!=null and areaName!=''">
+      and a.area_name like CONCAT('%',#{areaName},'%')
+    </if>
+    <if test="sex!=null and sex!=''">
+      and t.sex =#{sex}
+    </if>
+    <if test="age!=null and age!=''">
+      and t.age =#{age}
+    </if>
+    <if test="profession!=null and profession!=''">
       and p.profession_name like CONCAT('%',#{profession},'%')
+    </if>
+    <if test="representativeWorks!=null and representativeWorks!=''">
+      and p.representative_works like CONCAT('%',#{representativeWorks},'%')
+    </if>
+    <if test="resume!=null and resume!=''">
+      and p.resume like CONCAT('%',#{resume},'%')
+    </if>
+    <if test="job!=null and job!=''">
+      and p.job like CONCAT('%',#{job},'%')
     </if>
   </select>
 
