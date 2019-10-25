@@ -290,6 +290,28 @@ public class QueryController {
     }
 
 
+    /**
+     * @Description: 首页统计图
+     * @Author: HuiYunfei
+     * @Date: 2019/10/25
+     */
+    @RequestMapping(value = "/dataCount", method = RequestMethod.POST)
+    public ResultObj dataCount(){
+        ResultObj resultObj = new ResultObj();
+        try {
+            DataCountResult result = queryService.dataCount();
+            ResultUtil.createSuccessResult(resultObj,"",result);
+        } catch (LogicException e) {
+            e.printStackTrace();
+            log.warn("detailCulturalOrgan error:{}",e.getMessage());
+            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+        }catch (Exception e) {
+            e.printStackTrace();
+            log.error("detailCulturalOrgan system error:{}",e.getMessage());
+            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+        }
+        return resultObj;
+    }
 }
 
 

@@ -13,4 +13,6 @@ public interface TCulturalItemMapper {
     List<CulturalItemResult> selectByParams(Map pramsMap);
 
     CulturalItemResult selectById(Integer id);
+
+    Integer countAll();
 }

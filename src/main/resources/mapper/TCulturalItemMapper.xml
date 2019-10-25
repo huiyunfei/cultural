@@ -61,4 +61,7 @@
     where t.id=#{id}
   </select>
 
+  <select id="countAll" resultType="java.lang.Integer">
+    select count(1) from t_cultural_item
+  </select>
 </mapper>

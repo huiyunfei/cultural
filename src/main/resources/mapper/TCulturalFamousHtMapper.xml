@@ -68,6 +68,10 @@
     </if>
   </select>
 
+  <select id="countAll" resultType="java.lang.Integer">
+    select count(1) from t_cultural_famous_ht
+  </select>
+
   <update id="saveOrUpdateBitch">
     <foreach collection="list" index="index" item="item" separator=";">
       INSERT INTO t_cultural_famous_ht

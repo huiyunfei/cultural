@@ -66,7 +66,9 @@
     left join t_area a on t.area_code=a.area_code
     where t.id=#{id}
   </select>
-
+  <select id="countAll" resultType="java.lang.Integer">
+    select count(1) from t_cultural_specialist_sh
+  </select>
   <update id="saveOrUpdateBitch">
     <foreach collection="list" index="index" item="item" separator=";">
       INSERT INTO t_cultural_specialist_sh

@@ -2,6 +2,7 @@ package com.yunfei.cultural.mapper;
 
 import com.yunfei.cultural.entity.TCulturalOrgan;
 import com.yunfei.cultural.model.vo.CulturalOrganResult;
+import com.yunfei.cultural.model.vo.DataCountResult;
 
 import java.util.List;
 import java.util.Map;
@@ -13,4 +14,8 @@ public interface TCulturalOrganMapper {
     List<CulturalOrganResult> selectByParams(Map pramsMap);
 
     CulturalOrganResult selectById(Integer id);
+
+    List<DataCountResult.Cell> countGroupByNature();
+
+    Integer countAll();
 }

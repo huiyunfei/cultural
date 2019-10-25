@@ -26,4 +26,6 @@ public interface QueryService {
     List<CulturalOrganResult> listCulturalOrgan(QueryParams params);
 
     CulturalOrganResult detailCulturalOrgan(Integer id);
+
+    DataCountResult dataCount();
 }

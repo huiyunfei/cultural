@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunfei.cultural.mapper.TProfessionMapper">
+  <resultMap id="BaseResultMap" type="com.yunfei.cultural.entity.TProfession">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="profession_name" jdbcType="VARCHAR" property="professionName" />
+    <result column="profession_code" jdbcType="VARCHAR" property="professionCode" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="profession_level" jdbcType="INTEGER" property="professionLevel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, parent_id, profession_name, profession_code, create_time, update_time, profession_level
+  </sql>
+
+  <select id="countGroupByCode" resultType="com.yunfei.cultural.model.vo.DataCountResult$Cell">
+    select o.profession_name as label,sum(o.num ) as num from
+      (
+        select t.profession_name,t.profession_code,count(ht.id) as num from t_profession t
+           LEFT JOIN t_cultural_famous_ht ht on t.profession_code=ht.profession_code where t.profession_level=3 GROUP BY t.profession_code
+        union all
+        select t.profession_name,t.profession_code,count(tw.id) as num from t_profession t
+           LEFT JOIN t_cultural_people_tw tw on t.profession_code=tw.profession_code where t.profession_level=3  GROUP BY t.profession_code
+        union all
+        select t.profession_name,t.profession_code,count(sh.id) as num from t_profession t
+             LEFT JOIN t_cultural_specialist_sh sh on t.profession_code=sh.profession_code where t.profession_level=3  GROUP BY t.profession_code
+      ) o GROUP BY o.profession_code
+  </select>
+</mapper>

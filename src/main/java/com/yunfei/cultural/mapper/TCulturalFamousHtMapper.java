@@ -15,4 +15,6 @@ public interface TCulturalFamousHtMapper {
     List<CulturalFamousHtResult> selectByParams(Map params);
 
     CulturalFamousHtResult selectById(Integer id);
+
+    Integer countAll();
 }

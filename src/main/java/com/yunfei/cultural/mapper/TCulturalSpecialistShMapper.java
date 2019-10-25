@@ -8,11 +8,11 @@ import java.util.Map;
 
 public interface TCulturalSpecialistShMapper {
 
-
-
     void saveOrUpdateBitch(List<TCulturalSpecialistSh> culturalSpecialistShList);
 
     List<CulturalSpecialistShResult> selectByParams(Map pramsMap);
 
     CulturalSpecialistShResult selectById(Integer id);
+
+    Integer countAll();
 }

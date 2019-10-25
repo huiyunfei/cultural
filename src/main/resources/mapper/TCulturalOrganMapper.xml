@@ -34,14 +34,15 @@
 
   <select id="selectByParams" parameterType="java.util.Map" resultType="com.yunfei.cultural.model.vo.CulturalOrganResult">
     select
-    t.*
+    t.id,t.name,t.resume,t.set_up_time,t.possess_by,t.incumbent,t.pic_url,d.label as nature
     from t_cultural_organ t
+    left join t_dict d on (t.nature=d.`value` and d.type='organ_nature')
     where 1=1
     <if test="name!=null and name!=''">
       and t.name like CONCAT('%',#{name},'%')
     </if>
     <if test="nature!=null and nature!=''">
-      and t.nature like CONCAT('%',#{nature},'%')
+      and d.label like CONCAT('%',#{nature},'%')
     </if>
     <if test="setUpTime!=null and setUpTime!=''">
       and t.setUpTime like CONCAT('%',#{setUpTime},'%')
@@ -59,8 +60,23 @@
 
   <select id="selectById" parameterType="java.lang.Integer"  resultType="com.yunfei.cultural.model.vo.CulturalOrganResult">
     select
-      t.*
+      t.id,t.name,t.resume,t.set_up_time,t.possess_by,t.incumbent,t.pic_url,d.label as nature
     from t_cultural_organ t
+           left join t_dict d on (t.nature=d.`value` and d.type='organ_nature')
     where t.id=#{id}
+  </select>
+
+  <select id="countGroupByNature" resultType="com.yunfei.cultural.model.vo.DataCountResult$Cell">
+    SELECT
+      d.label,count(t.nature = d.`value` OR NULL) as num
+    FROM t_dict d
+           LEFT JOIN t_cultural_organ t ON t.nature = d.`value`
+    where d.type = 'organ_nature'
+    GROUP BY
+      d.label
+  </select>
+
+  <select id="countAll" resultType="java.lang.Integer">
+    select count(1) from t_cultural_organ
   </select>
 </mapper>

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50155
 File Encoding         : 65001
 
-Date: 2019-10-24 18:09:35
+Date: 2019-10-25 17:52:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -346,7 +346,8 @@ CREATE TABLE `t_cultural_famous_ht` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_profession_code` (`profession_code`) USING BTREE,
-  KEY `idx_area_code` (`area_code`)
+  KEY `idx_area_code` (`area_code`),
+  KEY `idx_create_time` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='沪台文化名人';
 
 -- ----------------------------
@@ -385,7 +386,8 @@ CREATE TABLE `t_cultural_item` (
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `idx_area_code` (`area_code`)
+  KEY `idx_area_code` (`area_code`),
+  KEY `idx_create_time` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文化项目';
 
 -- ----------------------------
@@ -417,15 +419,16 @@ CREATE TABLE `t_cultural_organ` (
   `pic_url` varchar(255) DEFAULT NULL COMMENT '图片',
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_create_time` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文化机构';
 
 -- ----------------------------
 -- Records of t_cultural_organ
 -- ----------------------------
-INSERT INTO `t_cultural_organ` VALUES ('1', '上海台协', '民间团体', '1994年', '无', '无', '上海市台湾同胞投资企业协会依照社团管理法规，经注册登记于1994年成立，是以吸纳在沪的台资企业为会员主体的民间团体。协会办会宗旨：“发展台资企业，繁荣上海经济”。本着“尽全力，做最好，争一流”与时俱进的精神，开展各项联谊及公益性活动…', 'http://journeyofwater.org.cn/img/05/上海台协.png', '2019-10-21 18:45:42', '2019-10-21 18:45:42');
-INSERT INTO `t_cultural_organ` VALUES ('2', '上海社会科学院', '事业单位', '1958年', '无', '无', '上海社会科学院是上海市的一家研究机构，总部位于上海市淮海中路。是现今中国最大的地方社会科学院，亦是国务院学位委员会批准的学位授予单位。 成立于1958年，由中国科学院上海经济研究所和上海历史研究所、上海财经学院、华东政法学院、复旦大学法律系合并而成…', 'http://journeyofwater.org.cn/img/05/上海社会科学院.png', '2019-10-21 18:45:42', '2019-10-21 18:45:42');
-INSERT INTO `t_cultural_organ` VALUES ('3', '台北艺术大学', '公立大学', '1979年', '无', '无', '台北艺术大学简称台北艺大、北艺大、北艺、艺大，是一所以艺术、表演、人文研究、创作等科系为主的公立大学；也是就读艺术相关科系学生的第一志愿…', 'http://journeyofwater.org.cn/img/05/台北艺术大学.png', '2019-10-21 18:45:42', '2019-10-21 18:45:42');
+INSERT INTO `t_cultural_organ` VALUES ('1', '上海台协', '上海市台湾同胞投资企业协会依照社团管理法规，经注册登记于1994年成立，是以吸纳在沪的台资企业为会员主体的民间团体。协会办会宗旨：“发展台资企业，繁荣上海经济”。本着“尽全力，做最好，争一流”与时俱进的精神，开展各项联谊及公益性活动…', '1994年', '无', '无', '1', 'http://journeyofwater.org.cn/img/05/上海台协.png', '2019-10-21 18:45:42', '2019-10-25 16:10:51');
+INSERT INTO `t_cultural_organ` VALUES ('2', '上海社会科学院', '上海社会科学院是上海市的一家研究机构，总部位于上海市淮海中路。是现今中国最大的地方社会科学院，亦是国务院学位委员会批准的学位授予单位。 成立于1958年，由中国科学院上海经济研究所和上海历史研究所、上海财经学院、华东政法学院、复旦大学法律系合并而成…', '1958年', '无', '无', '2', 'http://journeyofwater.org.cn/img/05/上海社会科学院.png', '2019-10-21 18:45:42', '2019-10-25 16:10:51');
+INSERT INTO `t_cultural_organ` VALUES ('3', '台北艺术大学', '台北艺术大学简称台北艺大、北艺大、北艺、艺大，是一所以艺术、表演、人文研究、创作等科系为主的公立大学；也是就读艺术相关科系学生的第一志愿…', '1979年', '无', '无', '3', 'http://journeyofwater.org.cn/img/05/台北艺术大学.png', '2019-10-21 18:45:42', '2019-10-25 16:10:51');
 
 -- ----------------------------
 -- Table structure for t_cultural_people_tw
@@ -447,7 +450,8 @@ CREATE TABLE `t_cultural_people_tw` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_profession_code` (`profession_code`),
-  KEY `idx_area_code` (`area_code`)
+  KEY `idx_area_code` (`area_code`),
+  KEY `idx_create_time` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='台湾文化人士';
 
 -- ----------------------------
@@ -483,7 +487,8 @@ CREATE TABLE `t_cultural_specialist_sh` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_profession_code` (`profession_code`),
-  KEY `idx_area_code` (`area_code`)
+  KEY `idx_area_code` (`area_code`),
+  KEY `idx_create_time` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='上海文化专家';
 
 -- ----------------------------
@@ -514,15 +519,17 @@ CREATE TABLE `t_dict` (
   `description` varchar(255) DEFAULT NULL COMMENT '字典描述',
   PRIMARY KEY (`id`),
   KEY `idx_type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_dict
 -- ----------------------------
 INSERT INTO `t_dict` VALUES ('1', '男', '0', 'sex', '性别');
 INSERT INTO `t_dict` VALUES ('2', '女', '1', 'sex', '性别');
-INSERT INTO `t_dict` VALUES ('3', '长', '0', 'label', '长度');
-INSERT INTO `t_dict` VALUES ('4', '短', '1', 'label', '长度');
+INSERT INTO `t_dict` VALUES ('3', '民间团体', '1', 'organ_nature', '机构性质');
+INSERT INTO `t_dict` VALUES ('4', '事业单位', '2', 'organ_nature', '机构性质');
+INSERT INTO `t_dict` VALUES ('5', '公立大学', '3', 'organ_nature', '机构性质');
+INSERT INTO `t_dict` VALUES ('6', '私立大学', '4', 'organ_nature', '机构性质');
 
 -- ----------------------------
 -- Table structure for t_profession
@@ -535,6 +542,7 @@ CREATE TABLE `t_profession` (
   `profession_code` varchar(255) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
+  `profession_level` int(1) DEFAULT NULL COMMENT '级别',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_profession_code` (`profession_code`) USING BTREE,
   KEY `index_parent_id` (`parent_id`) USING BTREE
@@ -543,27 +551,27 @@ CREATE TABLE `t_profession` (
 -- ----------------------------
 -- Records of t_profession
 -- ----------------------------
-INSERT INTO `t_profession` VALUES ('1', '0', '人物', '10000', null, null);
-INSERT INTO `t_profession` VALUES ('2', '1', '娱乐明星', '10010', null, null);
-INSERT INTO `t_profession` VALUES ('3', '1', '电影导演', '10020', null, null);
-INSERT INTO `t_profession` VALUES ('4', '1', '作家', '10030', null, null);
-INSERT INTO `t_profession` VALUES ('5', '1', '艺术家', '10040', null, null);
-INSERT INTO `t_profession` VALUES ('6', '1', '体育人物', '10050', null, null);
-INSERT INTO `t_profession` VALUES ('7', '1', '设计师', '10060', null, null);
-INSERT INTO `t_profession` VALUES ('8', '1', '其他文艺行业从业者', '10070', null, null);
-INSERT INTO `t_profession` VALUES ('9', '1', '政治人物', '10080', null, null);
-INSERT INTO `t_profession` VALUES ('10', '2', '演员', '10011', null, null);
-INSERT INTO `t_profession` VALUES ('11', '2', '歌手', '10012', null, null);
-INSERT INTO `t_profession` VALUES ('12', '2', '偶像团体成员', '10013', null, null);
-INSERT INTO `t_profession` VALUES ('13', '2', '综合演艺从业者', '10014', null, null);
-INSERT INTO `t_profession` VALUES ('14', '4', '剧作家', '10031', null, null);
-INSERT INTO `t_profession` VALUES ('15', '5', '雕塑家', '10041', null, null);
-INSERT INTO `t_profession` VALUES ('16', '5', '画家', '10042', null, null);
-INSERT INTO `t_profession` VALUES ('17', '5', '音乐家', '10043', null, null);
-INSERT INTO `t_profession` VALUES ('18', '5', '漫画家', '10044', null, null);
-INSERT INTO `t_profession` VALUES ('19', '8', '主持人', '10071', null, null);
-INSERT INTO `t_profession` VALUES ('20', '8', '电影剪辑', '10072', null, null);
-INSERT INTO `t_profession` VALUES ('21', '9', '公务员', '10081', null, null);
+INSERT INTO `t_profession` VALUES ('1', '0', '人物', '10000', null, null, '1');
+INSERT INTO `t_profession` VALUES ('2', '1', '娱乐明星', '10010', null, null, '2');
+INSERT INTO `t_profession` VALUES ('3', '1', '电影导演', '10020', null, null, '2');
+INSERT INTO `t_profession` VALUES ('4', '1', '作家', '10030', null, null, '2');
+INSERT INTO `t_profession` VALUES ('5', '1', '艺术家', '10040', null, null, '2');
+INSERT INTO `t_profession` VALUES ('6', '1', '体育人物', '10050', null, null, '2');
+INSERT INTO `t_profession` VALUES ('7', '1', '设计师', '10060', null, null, '2');
+INSERT INTO `t_profession` VALUES ('8', '1', '其他文艺行业从业者', '10070', null, null, '2');
+INSERT INTO `t_profession` VALUES ('9', '1', '政治人物', '10080', null, null, '2');
+INSERT INTO `t_profession` VALUES ('10', '2', '演员', '10011', null, null, '3');
+INSERT INTO `t_profession` VALUES ('11', '2', '歌手', '10012', null, null, '3');
+INSERT INTO `t_profession` VALUES ('12', '2', '偶像团体成员', '10013', null, null, '3');
+INSERT INTO `t_profession` VALUES ('13', '2', '综合演艺从业者', '10014', null, null, '3');
+INSERT INTO `t_profession` VALUES ('14', '4', '剧作家', '10031', null, null, '3');
+INSERT INTO `t_profession` VALUES ('15', '5', '雕塑家', '10041', null, null, '3');
+INSERT INTO `t_profession` VALUES ('16', '5', '画家', '10042', null, null, '3');
+INSERT INTO `t_profession` VALUES ('17', '5', '音乐家', '10043', null, null, '3');
+INSERT INTO `t_profession` VALUES ('18', '5', '漫画家', '10044', null, null, '3');
+INSERT INTO `t_profession` VALUES ('19', '8', '主持人', '10071', null, null, '3');
+INSERT INTO `t_profession` VALUES ('20', '8', '电影剪辑', '10072', null, null, '3');
+INSERT INTO `t_profession` VALUES ('21', '9', '公务员', '10081', null, null, '3');
 
 -- ----------------------------
 -- Table structure for t_user

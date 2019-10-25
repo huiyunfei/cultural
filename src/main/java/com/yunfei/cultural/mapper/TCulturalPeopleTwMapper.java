@@ -14,4 +14,6 @@ public interface TCulturalPeopleTwMapper {
     List<CulturalPeopleTwResult> selectByParams(Map pramsMap);
 
     CulturalPeopleTwResult selectById(Integer id);
+
+    Integer countAll();
 }

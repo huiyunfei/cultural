@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunfei.cultural.mapper.QueryMapper">
+
+  <select id="countToday" resultType="com.yunfei.cultural.model.vo.DataCountResult$Cell">
+    SELECT 'ht' as label,count(1) as num FROM t_cultural_famous_ht WHERE  to_days(create_time) = to_days(now())
+    UNION
+    SELECT 'tw' as label,count(1) as num FROM t_cultural_people_tw WHERE  to_days(create_time) = to_days(now())
+    UNION
+    SELECT 'sh' as label,count(1) as num FROM t_cultural_specialist_sh WHERE  to_days(create_time) = to_days(now())
+    UNION
+    SELECT 'item' as label,count(1) as num FROM t_cultural_item WHERE  to_days(create_time) = to_days(now())
+    UNION
+    SELECT 'organ' as label,count(1) as num FROM t_cultural_organ WHERE  to_days(create_time) = to_days(now())
+  </select>
+
+  <select id="countWeek" resultType="com.yunfei.cultural.model.vo.DataCountResult$Cell">
+    SELECT 'ht' as label,count(1) as num FROM t_cultural_famous_ht WHERE YEARWEEK(date_format(create_time,'%Y-%m-%d')) = YEARWEEK(now())
+    UNION
+    SELECT 'tw' as label,count(1) as num FROM t_cultural_people_tw WHERE YEARWEEK(date_format(create_time,'%Y-%m-%d')) = YEARWEEK(now())
+    UNION
+    SELECT 'sh' as label,count(1) as num FROM t_cultural_specialist_sh WHERE YEARWEEK(date_format(create_time,'%Y-%m-%d')) = YEARWEEK(now())
+    UNION
+    SELECT 'item' as label,count(1) as num FROM t_cultural_item WHERE YEARWEEK(date_format(create_time,'%Y-%m-%d')) = YEARWEEK(now())
+    UNION
+    SELECT 'organ' as label,count(1) as num FROM t_cultural_organ WHERE YEARWEEK(date_format(create_time,'%Y-%m-%d')) = YEARWEEK(now())
+  </select>
+
+  <select id="countMonth" resultType="com.yunfei.cultural.model.vo.DataCountResult$Cell">
+    SELECT 'ht' as label,count(1) as num FROM t_cultural_famous_ht WHERE date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m')
+    UNION
+    SELECT 'tw' as label,count(1) as num FROM t_cultural_people_tw WHERE date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m')
+    UNION
+    SELECT 'sh' as label,count(1) as num FROM t_cultural_specialist_sh WHERE date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m')
+    UNION
+    SELECT 'item' as label,count(1) as num FROM t_cultural_item WHERE date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m')
+    UNION
+    SELECT 'organ' as label,count(1) as num FROM t_cultural_organ WHERE date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m')
+  </select>
+
+
+</mapper>

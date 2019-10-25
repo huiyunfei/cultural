@@ -141,11 +141,11 @@ public class FileServiceImpl implements FileService {
                     TCulturalOrgan.builder()
                             .id(list.get(i)[0] == null ? null : list.get(i)[0].equals("无")?null:(Integer) list.get(i)[0])
                             .name(list.get(i)[1] == null ? null :list.get(i)[1].toString())
-                            .resume(list.get(i)[2] == null ? null :  list.get(i)[2].toString())
+                            .nature(list.get(i)[2] == null ? null :  list.get(i)[2].toString())
                             .setUpTime(list.get(i)[3] == null ? null : list.get(i)[3].toString())
                             .possessBy(list.get(i)[4] == null ? null : list.get(i)[4].toString())
                             .incumbent(list.get(i)[5] == null ? null : list.get(i)[5].toString())
-                            .nature(list.get(i)[6] == null ? null : list.get(i)[6].toString())
+                            .resume(list.get(i)[6] == null ? null : list.get(i)[6].toString())
                             .picUrl(list.get(i)[7] == null ? null : list.get(i)[7].toString())
                             .build();
             culturalOrganList.add(culturalOrgan);
