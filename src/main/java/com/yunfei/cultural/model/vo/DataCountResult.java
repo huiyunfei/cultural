@@ -17,16 +17,16 @@ import java.util.List;
 public class DataCountResult {
 
     //职业
-    private List<Cell> professMap;
+    private List<Cell> professList;
 
     //机构
-    private List<Cell> organMap;
+    private List<Cell> organList;
 
     //人物
-    private List<Cell> culturalMap;
+    private List<Cell> culturalList;
 
     //新增数据
-    private List<CellNew> culturaNewMap;
+    private List<CellNew> culturaNewList;
 
 
     @Data

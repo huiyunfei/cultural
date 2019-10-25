@@ -1,11 +1,14 @@
 package com.yunfei.cultural.service.impl;
 
+import com.yunfei.cultural.constant.CommonConstants;
 import com.yunfei.cultural.entity.*;
 import com.yunfei.cultural.mapper.*;
 import com.yunfei.cultural.service.FileService;
 import com.yunfei.cultural.utils.excel.ExcelUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +37,9 @@ public class FileServiceImpl implements FileService {
     @Autowired
     private TCulturalOrganMapper culturalOrganMapper;
 
+    @Autowired
+    @Qualifier("redisTemplate")
+    private RedisTemplate<String, Object> redisTemplate;
     /**
      * 方法名：
      * 功能：导出
@@ -75,12 +81,15 @@ public class FileServiceImpl implements FileService {
      */
     @Override
     public Boolean importExcel(MultipartFile file) {
-        log.info("导入数据开始。。。。。。");
         try {
             List<Object[]> list = ExcelUtils.importExcel(file);
             if(list==null || list.size()==0){
                 return false;
             }
+            redisTemplate.delete(CommonConstants.SYSTEM_QUERY_CULTURAL);
+            redisTemplate.delete(CommonConstants.SYSTEM_QUERY_CULTURALNEW);
+            redisTemplate.delete(CommonConstants.SYSTEM_QUERY_ORGAN);
+            redisTemplate.delete(CommonConstants.SYSTEM_QUERY_PROFESS);
             switch(file.getOriginalFilename()){
                 case "沪台文化名人.xls":
                     importFamousHt(list);
@@ -100,7 +109,6 @@ public class FileServiceImpl implements FileService {
                 default:
                     break;
             }
-
             log.info("导入数据结束。。。。。。");
             return true;
         } catch (Exception e) {
@@ -216,6 +224,7 @@ public class FileServiceImpl implements FileService {
     }
 
     private void importFamousHt(List<Object[]> list) {
+
         List<TCulturalFamousHt> culturalFamousHtArrayList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             TCulturalFamousHt culturalFamousHt =

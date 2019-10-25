@@ -1,5 +1,8 @@
 package com.yunfei.cultural.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.yunfei.cultural.constant.CommonConstants;
 import com.yunfei.cultural.mapper.*;
 import com.yunfei.cultural.model.dto.QueryParams;
 import com.yunfei.cultural.model.vo.*;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class QueryServiceImpl implements QueryService {
@@ -269,16 +273,43 @@ public class QueryServiceImpl implements QueryService {
 
     @Override
     public DataCountResult dataCount() {
-        List<DataCountResult.Cell> professMap=professionMapper.countGroupByCode();
-        List<DataCountResult.Cell> organMap=culturalOrganMapper.countGroupByNature();
-        List<DataCountResult.Cell> culturalList = this.countCultural();
-        List<DataCountResult.CellNew> culturaNewList = this.countCulturalNew();
-
+        List<DataCountResult.Cell> professList;
+        Object profess=  redisTemplate.opsForValue().get(CommonConstants.SYSTEM_QUERY_PROFESS);
+        if(profess!=null){
+            professList= JSONArray.parseArray(profess.toString(),DataCountResult.Cell.class);
+        }else{
+            professList=professionMapper.countGroupByCode();
+            redisTemplate.opsForValue().set(CommonConstants.SYSTEM_QUERY_PROFESS,JSON.toJSONString(professList), 86400, TimeUnit.SECONDS);
+        }
+        List<DataCountResult.Cell> organList;
+        Object organ=  redisTemplate.opsForValue().get(CommonConstants.SYSTEM_QUERY_ORGAN);
+        if(organ!=null){
+            organList= JSONArray.parseArray(organ.toString(),DataCountResult.Cell.class);
+        }else{
+            organList=culturalOrganMapper.countGroupByNature();
+            redisTemplate.opsForValue().set(CommonConstants.SYSTEM_QUERY_ORGAN,JSON.toJSONString(organList), 86400, TimeUnit.SECONDS);
+        }
+        List<DataCountResult.Cell> culturalList;
+        Object cultural=  redisTemplate.opsForValue().get(CommonConstants.SYSTEM_QUERY_CULTURAL);
+        if(cultural!=null){
+            culturalList= JSONArray.parseArray(cultural.toString(),DataCountResult.Cell.class);
+        }else{
+            culturalList=this.countCultural();
+            redisTemplate.opsForValue().set(CommonConstants.SYSTEM_QUERY_CULTURAL,JSON.toJSONString(culturalList), 86400, TimeUnit.SECONDS);
+        }
+        List<DataCountResult.CellNew> culturaNewList;
+        Object culturaNew=  redisTemplate.opsForValue().get(CommonConstants.SYSTEM_QUERY_CULTURALNEW);
+        if(cultural!=null){
+            culturaNewList= JSONArray.parseArray(culturaNew.toString(),DataCountResult.CellNew.class);
+        }else{
+            culturaNewList=this.countCulturalNew();
+            redisTemplate.opsForValue().set(CommonConstants.SYSTEM_QUERY_CULTURALNEW,JSON.toJSONString(culturaNewList), 86400, TimeUnit.SECONDS);
+        }
         DataCountResult build = DataCountResult.builder()
-                .professMap(professMap)
-                .organMap(organMap)
-                .culturalMap(culturalList)
-                .culturaNewMap(culturaNewList)
+                .professList(professList)
+                .organList(organList)
+                .culturalList(culturalList)
+                .culturaNewList(culturaNewList)
                 .build();
         return build;
     }
@@ -289,6 +320,7 @@ public class QueryServiceImpl implements QueryService {
      * @Date: 2019/10/25
      */
     private List<DataCountResult.Cell> countCultural() {
+        List<DataCountResult.Cell> resultList = new ArrayList<>();
         List<DataCountResult.Cell> culturalCountList = queryMapper.countCultural();
         DataCountResult.Cell ht = DataCountResult.Cell.builder().label("沪台文化名人").build();
         DataCountResult.Cell tw = DataCountResult.Cell.builder().label("台湾文化人士").build();
@@ -318,12 +350,12 @@ public class QueryServiceImpl implements QueryService {
                 }
             });
         }
-        culturalCountList.add(ht);
-        culturalCountList.add(tw);
-        culturalCountList.add(sh);
-        culturalCountList.add(organ);
-        culturalCountList.add(item);
-        return culturalCountList;
+        resultList.add(ht);
+        resultList.add(tw);
+        resultList.add(sh);
+        resultList.add(organ);
+        resultList.add(item);
+        return resultList;
     }
 
     /**
