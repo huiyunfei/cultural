@@ -35,9 +35,28 @@ public class CommonConstants {
 	public static final Integer EXCEL_TYPE_CULTURAL_ITEM=5;
 
 
+	//redis key start
 	/**
 	 * 系统字典key
 	 */
 	public static final String SYSTEM_DICT_KEY = "system:dict";
 
+
+	/**
+	 * 职业统计key
+	 */
+	public static final String SYSTEM_QUERY_PROFESS = "system:query:profess";
+	/**
+	 * 机构分类统计key
+	 */
+	public static final String SYSTEM_QUERY_ORGAN = "system:query:organ";
+	/**
+	 * 总数据统计key
+	 */
+	public static final String SYSTEM_QUERY_CULTURAL = "system:query:cultural";
+	/**
+	 * 新增数据统计key
+	 */
+	public static final String SYSTEM_QUERY_CULTURALNEW = "system:query:culturalNew";
+	//redis key end
 }

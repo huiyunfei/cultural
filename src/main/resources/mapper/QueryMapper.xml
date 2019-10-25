@@ -39,4 +39,17 @@
   </select>
 
 
+  <select id="countCultural" resultType="com.yunfei.cultural.model.vo.DataCountResult$Cell">
+    SELECT 'ht' as label,count(1) as num FROM t_cultural_famous_ht
+    UNION
+    SELECT 'tw' as label,count(1) as num FROM t_cultural_people_tw
+    UNION
+    SELECT 'sh' as label,count(1) as num FROM t_cultural_specialist_sh
+    UNION
+    SELECT 'item' as label,count(1) as num FROM t_cultural_item
+    UNION
+    SELECT 'organ' as label,count(1) as num FROM t_cultural_organ
+  </select>
+
+
 </mapper>

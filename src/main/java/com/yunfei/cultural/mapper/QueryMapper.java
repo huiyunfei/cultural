@@ -11,4 +11,6 @@ public interface QueryMapper {
     List<DataCountResult.Cell> countWeek();
 
     List<DataCountResult.Cell> countMonth();
+
+    List<DataCountResult.Cell> countCultural();
 }

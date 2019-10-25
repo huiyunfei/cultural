@@ -23,7 +23,7 @@ public class DataCountResult {
     private List<Cell> organMap;
 
     //人物
-    private List<Cell> culturalPeopleMap;
+    private List<Cell> culturalMap;
 
     //新增数据
     private List<CellNew> culturaNewMap;

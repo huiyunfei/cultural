@@ -6,6 +6,8 @@ import com.yunfei.cultural.model.vo.*;
 import com.yunfei.cultural.service.QueryService;
 import com.yunfei.cultural.utils.DictUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +32,9 @@ public class QueryServiceImpl implements QueryService {
     private TProfessionMapper professionMapper;
     @Autowired
     private QueryMapper queryMapper;
+    @Autowired
+    @Qualifier("redisTemplate")
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public List<CulturalFamousHtResult> listCulturalFamousHt(QueryParams params) {
@@ -266,19 +271,68 @@ public class QueryServiceImpl implements QueryService {
     public DataCountResult dataCount() {
         List<DataCountResult.Cell> professMap=professionMapper.countGroupByCode();
         List<DataCountResult.Cell> organMap=culturalOrganMapper.countGroupByNature();
+        List<DataCountResult.Cell> culturalList = this.countCultural();
+        List<DataCountResult.CellNew> culturaNewList = this.countCulturalNew();
 
-        Integer htNum=this.culturalFamousHtMapper.countAll();
-        Integer twNum=this.culturalPeopleTwMapper.countAll();
-        Integer shNum=this.culturalSpecialistShMapper.countAll();
-        Integer organNum=this.culturalOrganMapper.countAll();
-        Integer itemNum=this.culturalItemMapper.countAll();
-        List<DataCountResult.Cell> culturalPeopleList = new ArrayList<>();
-        culturalPeopleList.add(DataCountResult.Cell.builder().label("沪台文化名人").num(htNum).build());
-        culturalPeopleList.add(DataCountResult.Cell.builder().label("台湾文化人士").num(twNum).build());
-        culturalPeopleList.add(DataCountResult.Cell.builder().label("上海文化专家").num(shNum).build());
-        culturalPeopleList.add(DataCountResult.Cell.builder().label("文化机构").num(organNum).build());
-        culturalPeopleList.add(DataCountResult.Cell.builder().label("文化项目").num(itemNum).build());
+        DataCountResult build = DataCountResult.builder()
+                .professMap(professMap)
+                .organMap(organMap)
+                .culturalMap(culturalList)
+                .culturaNewMap(culturaNewList)
+                .build();
+        return build;
+    }
 
+    /**
+     * @Description:统计文化数据总数量
+     * @Author: HuiYunfei
+     * @Date: 2019/10/25
+     */
+    private List<DataCountResult.Cell> countCultural() {
+        List<DataCountResult.Cell> culturalCountList = queryMapper.countCultural();
+        DataCountResult.Cell ht = DataCountResult.Cell.builder().label("沪台文化名人").build();
+        DataCountResult.Cell tw = DataCountResult.Cell.builder().label("台湾文化人士").build();
+        DataCountResult.Cell sh = DataCountResult.Cell.builder().label("上海文化专家").build();
+        DataCountResult.Cell organ = DataCountResult.Cell.builder().label("文化机构").build();
+        DataCountResult.Cell item = DataCountResult.Cell.builder().label("文化项目").build();
+        if(culturalCountList.size()>0){
+            culturalCountList.forEach(t->{
+                switch (t.getLabel()){
+                    case "ht":
+                        ht.setNum(t.getNum());
+                        break;
+                    case "tw":
+                        tw.setNum(t.getNum());
+                        break;
+                    case "sh":
+                        sh.setNum(t.getNum());
+                        break;
+                    case "organ":
+                        organ.setNum(t.getNum());
+                        break;
+                    case "item":
+                        item.setNum(t.getNum());
+                        break;
+                    default:
+                        break;
+                }
+            });
+        }
+        culturalCountList.add(ht);
+        culturalCountList.add(tw);
+        culturalCountList.add(sh);
+        culturalCountList.add(organ);
+        culturalCountList.add(item);
+        return culturalCountList;
+    }
+
+    /**
+     * @Description: 统计新增文化数据
+     * @Author: HuiYunfei
+     * @Date: 2019/10/25
+     * @return
+     */
+    private List<DataCountResult.CellNew> countCulturalNew() {
         List<DataCountResult.CellNew> culturaNewList = new ArrayList<>();
         DataCountResult.CellNew ht = DataCountResult.CellNew.builder().label("沪台文化名人").build();
         DataCountResult.CellNew tw = DataCountResult.CellNew.builder().label("台湾文化人士").build();
@@ -362,14 +416,7 @@ public class QueryServiceImpl implements QueryService {
         culturaNewList.add(sh);
         culturaNewList.add(organ);
         culturaNewList.add(item);
-
-        DataCountResult build = DataCountResult.builder()
-                .professMap(professMap)
-                .organMap(organMap)
-                .culturalPeopleMap(culturalPeopleList)
-                .culturaNewMap(culturaNewList)
-                .build();
-        return build;
+        return culturaNewList;
     }
 }
 
