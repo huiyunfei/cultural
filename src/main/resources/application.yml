@@ -1,6 +1,6 @@
 #启动前加载的配置
 spring:
   profiles:
-    active: dev
+    active: test
   application:
     name: cultural
