@@ -1,6 +1,8 @@
 package com.yunfei.cultural.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yunfei.cultural.constant.CommonConstants;
+import com.yunfei.cultural.utils.StringUtils;
 import com.yunfei.cultural.utils.result.ResultObj;
 import com.yunfei.cultural.utils.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -28,25 +30,25 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o)  throws Exception {
 
-        return true;
-//        String uri = httpServletRequest.getRequestURI();
-//        if(uri.endsWith("login")){
-//            log.info("login接口不拦截");
-//            return true;
-//        }
-//        if(uri.contains("/file")){
-//            log.info("/file接口不拦截");
-//            return true;
-//        }
-//        String token = httpServletRequest.getHeader("token");
-//        if(StringUtils.isEmpty(token)){
-//            return loginError(httpServletRequest,httpServletResponse);
-//        }
-//        String userId= (String) redisTemplate.opsForValue().get(CommonConstants.CULTURAL_USER_ACCOUNT+":"+ token);
-//        if(userId!=null) {
-//            return true;
-//        }
-//        return loginError(httpServletRequest,httpServletResponse);
+        //return true;
+        String uri = httpServletRequest.getRequestURI();
+        if(uri.endsWith("login")){
+            log.info("login接口不拦截");
+            return true;
+        }
+        if(uri.contains("/file")){
+            log.info("/file接口不拦截");
+            return true;
+        }
+        String token = httpServletRequest.getHeader("token");
+        if(StringUtils.isEmpty(token)){
+            return loginError(httpServletRequest,httpServletResponse);
+        }
+        String userId= (String) redisTemplate.opsForValue().get(CommonConstants.CULTURAL_USER_ACCOUNT+":"+ token);
+        if(userId!=null) {
+            return true;
+        }
+        return loginError(httpServletRequest,httpServletResponse);
 
     }
     public boolean loginError(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
