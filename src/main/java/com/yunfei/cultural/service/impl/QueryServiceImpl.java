@@ -43,6 +43,7 @@ public class QueryServiceImpl implements QueryService {
     @Override
     public List<CulturalFamousHtResult> listCulturalFamousHt(QueryParams params) {
         Map pramsMap = new HashMap<>();
+        pramsMap.put("pageNo", params.getPageNo());
         switch(params.getQueryType()){
             case 1:
                 pramsMap.put("name",params.getKeyword());
@@ -97,6 +98,7 @@ public class QueryServiceImpl implements QueryService {
     @Override
     public List<CulturalPeopleTwResult> listCulturalPeopleTw(QueryParams params) {
         Map pramsMap = new HashMap<>();
+        pramsMap.put("pageNo", params.getPageNo());
         switch(params.getQueryType()){
             case 1:
                 pramsMap.put("name",params.getKeyword());
@@ -151,6 +153,7 @@ public class QueryServiceImpl implements QueryService {
     @Override
     public List<CulturalSpecialistShResult> listCulturalSpecialistSh(QueryParams params) {
         Map pramsMap = new HashMap<>();
+        pramsMap.put("pageNo", params.getPageNo());
         switch(params.getQueryType()){
             case 1:
                 pramsMap.put("name",params.getKeyword());
@@ -205,6 +208,7 @@ public class QueryServiceImpl implements QueryService {
     @Override
     public List<CulturalItemResult> listCulturalItem(QueryParams params) {
         Map pramsMap = new HashMap<>();
+        pramsMap.put("pageNo", params.getPageNo());
         switch(params.getQueryType()){
             case 1:
                 pramsMap.put("name",params.getKeyword());
@@ -238,6 +242,7 @@ public class QueryServiceImpl implements QueryService {
     @Override
     public List<CulturalOrganResult> listCulturalOrgan(QueryParams params) {
         Map pramsMap = new HashMap<>();
+        pramsMap.put("pageNo", params.getPageNo());
         switch(params.getQueryType()){
             case 1:
                 pramsMap.put("name",params.getKeyword());

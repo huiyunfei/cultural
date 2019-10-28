@@ -56,6 +56,9 @@
     <if test="resume!=null and resume!=''">
       and t.resume like CONCAT('%',#{resume},'%')
     </if>
+    <if test="pageNo!=null and pageNo!=''">
+      LIMIT ${(pageNo-1)*3},3
+    </if>
   </select>
 
   <select id="selectById" parameterType="java.lang.Integer"  resultType="com.yunfei.cultural.model.vo.CulturalOrganResult">

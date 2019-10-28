@@ -8,6 +8,7 @@ import com.yunfei.cultural.utils.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,6 +21,7 @@ import java.io.PrintWriter;
  * Created by hui.yunfei@qq.com on 2019/4/17
  */
 @Slf4j
+@Configuration
 public class LoginInterceptor implements HandlerInterceptor {
 
 
