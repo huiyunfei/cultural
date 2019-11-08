@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunfei.cultural.mapper.TPermissionsMapper">
+  <resultMap id="BaseResultMap" type="com.yunfei.cultural.entity.TPermissions">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="permissions_name" jdbcType="INTEGER" property="permissionsName" />
+    <result column="premissions_marking" jdbcType="VARCHAR" property="premissionsMarking" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, permissions_name, premissions_marking
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_permissions
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_permissions
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunfei.cultural.entity.TPermissions">
+    insert into t_permissions (id, permissions_name, premissions_marking
+      )
+    values (#{id,jdbcType=INTEGER}, #{permissionsName,jdbcType=INTEGER}, #{premissionsMarking,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunfei.cultural.entity.TPermissions">
+    insert into t_permissions
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="permissionsName != null">
+        permissions_name,
+      </if>
+      <if test="premissionsMarking != null">
+        premissions_marking,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="permissionsName != null">
+        #{permissionsName,jdbcType=INTEGER},
+      </if>
+      <if test="premissionsMarking != null">
+        #{premissionsMarking,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunfei.cultural.entity.TPermissions">
+    update t_permissions
+    <set>
+      <if test="permissionsName != null">
+        permissions_name = #{permissionsName,jdbcType=INTEGER},
+      </if>
+      <if test="premissionsMarking != null">
+        premissions_marking = #{premissionsMarking,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunfei.cultural.entity.TPermissions">
+    update t_permissions
+    set permissions_name = #{permissionsName,jdbcType=INTEGER},
+      premissions_marking = #{premissionsMarking,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

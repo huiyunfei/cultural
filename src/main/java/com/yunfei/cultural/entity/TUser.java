@@ -33,6 +33,10 @@ public class TUser {
 
     private String phone;
 
-    private Boolean sex;
+    private Integer sex;
+
+    private Integer status;
+
+    private String telephone;
 
 }
