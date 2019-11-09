@@ -1,8 +1,14 @@
 package com.yunfei.cultural.shiro;
 
 import com.yunfei.cultural.entity.TUser;
+import com.yunfei.cultural.mapper.TRolePermissionsMapper;
+import com.yunfei.cultural.mapper.TUserRoleMapper;
+import com.yunfei.cultural.model.vo.RolePermissionsModel;
+import com.yunfei.cultural.model.vo.UserRoleModel;
 import com.yunfei.cultural.service.UserService;
+import com.yunfei.cultural.utils.MySimpleByteSource;
 import com.yunfei.cultural.utils.ShiroUtils;
+import com.yunfei.cultural.utils.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -14,40 +20,61 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
+/**
+ * @Description: 自定义shiro认证赋权类
+ * @Author: HuiYunfei
+ * @Date: 2019/11/9
+ */
 @Slf4j
 @Component
 public class ShiroRealm extends AuthorizingRealm {
 
-
+    public ShiroRealm() {
+    }
 
     @Autowired
     @SuppressWarnings("all")
-    public ShiroRealm(UserService userService) {
+    public ShiroRealm(UserService userService,TUserRoleMapper userRoleMapper,TRolePermissionsMapper rolePermissionsMapper) {
         this.userService = userService;
+        this.rolePermissionsMapper=rolePermissionsMapper;
+        this.userRoleMapper=userRoleMapper;
     }
+
+
     @Resource
     private UserService userService;
+    @Autowired
+    private TUserRoleMapper userRoleMapper;
+    @Autowired
+    private TRolePermissionsMapper rolePermissionsMapper;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-//        System.out.println("权限配置-->ShiroRealm.doGetAuthorizationInfo()");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         TUser user = (TUser) principals.getPrimaryPrincipal();
-//        for (String role : user.getRoleList()) {
-//            authorizationInfo.addRole(role);
-//
-//        }
-//        for (String p : user.getPermissionList()) {
-//            authorizationInfo.addStringPermission(p);
-//        }
+        //TUser user = userService.findUserByUserName(username);
+        //获取用户角色
+        List<UserRoleModel> userRoleList=userRoleMapper.findUserRoleByUserId(user.getId());
+        if(userRoleList.size()>0){
+            userRoleList.forEach(t->{
+                authorizationInfo.addRole(t.getRoleMarking());
+            });
+        }
 
-        authorizationInfo.addStringPermission("user:list");
+        //获取用户权限
+        List<RolePermissionsModel> rolePermissionsList = rolePermissionsMapper.findRolePermissionsByUserId(user.getId());
+        if(rolePermissionsList.size()>0){
+            rolePermissionsList.forEach(t->{
+                authorizationInfo.addStringPermission(t.getPermissionsMarking());
+            });
+        }
+
         return authorizationInfo;
     }
 
@@ -55,24 +82,21 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
             throws AuthenticationException {
-//        System.out.println("ShiroRealm.doGetAuthenticationInfo()");
         //获取用户的输入的账号.
         String username = (String) token.getPrincipal();
-//        System.out.println(token.getCredentials());
-        //通过username从数据库中查找 User对象，如果找到，没找到.
         //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
         TUser user = userService.findUserByUserName(username);
-//        System.out.println("----->>userInfo="+userInfo);
+        if(user.getStatus()==1){
+            throw new LogicException("账号已禁用");
+        }
         if (user == null) {
             return null;
         }
-//        if (user.getState() == SysUserEntity.STATE.INVALID) { //账户冻结
-//            throw new LockedAccountException();
-//        }
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 user, //用户名
                 user.getPassword(), //密码
-                ByteSource.Util.bytes(user.getSalt()),// md5(salt+password),采用明文访问时，不需要此句
+                //ByteSource.Util.bytes(user.getSalt()),// md5(salt+password),采用明文访问时，不需要此句
+                new MySimpleByteSource(user.getSalt()),
                 getName()  //realm name
         );
         return authenticationInfo;
@@ -88,7 +112,6 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-
         /**
          * 散列算法:这里可以使用MD5算法 也可以使用SHA-256
          */
@@ -97,4 +120,50 @@ public class ShiroRealm extends AuthorizingRealm {
         hashedCredentialsMatcher.setHashIterations(ShiroUtils.hashIterations);
         super.setCredentialsMatcher(hashedCredentialsMatcher);
     }
+
+    /**
+     * 重写方法,清除当前用户的的 授权缓存
+     * @param principals
+     */
+    @Override
+    public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
+        super.clearCachedAuthorizationInfo(principals);
+    }
+
+    /**
+     * 重写方法，清除当前用户的 认证缓存
+     * @param principals
+     */
+    @Override
+    public void clearCachedAuthenticationInfo(PrincipalCollection principals) {
+        super.clearCachedAuthenticationInfo(principals);
+    }
+
+    @Override
+    public void clearCache(PrincipalCollection principals) {
+        super.clearCache(principals);
+    }
+
+    /**
+     * 自定义方法：清除所有 授权缓存
+     */
+    public void clearAllCachedAuthorizationInfo() {
+        getAuthorizationCache().clear();
+    }
+
+    /**
+     * 自定义方法：清除所有 认证缓存
+     */
+    public void clearAllCachedAuthenticationInfo() {
+        getAuthenticationCache().clear();
+    }
+
+    /**
+     * 自定义方法：清除所有的  认证缓存  和 授权缓存
+     */
+    public void clearAllCache() {
+        clearAllCachedAuthenticationInfo();
+        clearAllCachedAuthorizationInfo();
+    }
+
 }

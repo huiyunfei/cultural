@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
 @Data
 @NoArgsConstructor
 @Builder
@@ -17,10 +15,8 @@ public class TRole {
     private String roleName;
 
     private String remark;
-    /**
-     * 角色对应权限集合
-     */
-    private Set<TRolePermissions> permissions;
 
-   
+    //角色标示
+    private String roleMarking;
+
 }

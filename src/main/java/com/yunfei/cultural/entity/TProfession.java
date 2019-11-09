@@ -2,6 +2,11 @@ package com.yunfei.cultural.entity;
 
 import java.util.Date;
 
+/**
+ * @Description: 职业
+ * @Author: HuiYunfei
+ * @Date: 2019/11/9
+ */
 public class TProfession {
     private Integer id;
 

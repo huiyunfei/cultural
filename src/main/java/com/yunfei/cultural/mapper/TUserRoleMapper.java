@@ -1,6 +1,9 @@
 package com.yunfei.cultural.mapper;
 
 import com.yunfei.cultural.entity.TUserRole;
+import com.yunfei.cultural.model.vo.UserRoleModel;
+
+import java.util.List;
 
 public interface TUserRoleMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,6 @@ public interface TUserRoleMapper {
     int updateByPrimaryKeySelective(TUserRole record);
 
     int updateByPrimaryKey(TUserRole record);
+
+    List<UserRoleModel> findUserRoleByUserId(Integer userId);
 }

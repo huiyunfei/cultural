@@ -5,9 +5,10 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="role_marking" jdbcType="VARCHAR" property="roleMarking" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, role_name, remark
+    id, role_name, remark, role_marking
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -20,9 +21,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.yunfei.cultural.entity.TRole">
-    insert into t_role (id, role_name, remark
+    insert into t_role (id, role_name, remark,role_marking
       )
-    values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{roleMarking,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.yunfei.cultural.entity.TRole">
@@ -37,6 +38,9 @@
       <if test="remark != null">
         remark,
       </if>
+      <if test="roleMarking != null">
+        role_marking,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -47,6 +51,9 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="roleMarking != null">
+        #{roleMarking,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -59,13 +66,17 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="remark != null">
+        role_marking = #{roleMarking,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yunfei.cultural.entity.TRole">
     update t_role
     set role_name = #{roleName,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
+        remark = #{remark,jdbcType=VARCHAR},
+        role_marking = #{roleMarking,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -41,7 +41,7 @@ spring:
     maxTotal: 200
     testOnBorrow: true
     testOnReturn: true
-    timeout: 3600
+    timeout: 60
     maxIdle: 200
 
   #添加Thymeleaf配置

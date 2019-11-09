@@ -32,6 +32,11 @@ public class LoginController {
 
 
 
+    /**
+     * @Description: 登录，使用shiro验证和赋权
+     * @Author: HuiYunfei
+     * @Date: 2019/11/9
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResultObj distLogin(@RequestBody LoginParams params){
         ResultObj resultObj = new ResultObj();
@@ -42,7 +47,11 @@ public class LoginController {
         return ResultUtil.createSuccessResult(resultObj,"",userService.login(params));
     }
 
-
+    /**
+     * @Description: 退出
+     * @Author: HuiYunfei
+     * @Date: 2019/11/9
+     */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ResultObj logout(@RequestBody JSONObject params) {
         ResultObj result = new ResultObj();
@@ -59,18 +68,22 @@ public class LoginController {
         return result;
     }
 
+
     /**
-     * 未登录，shiro应重定向到登录界面，此处返回未登录状态信息由前端控制跳转页面
-     * @return
+     * @Description:  未登录，shiro应重定向到登录界面，此处返回未登录状态信息由前端控制跳转页面
+     * @Author: HuiYunfei
+     * @Date: 2019/11/9
      */
     @RequestMapping("/unLogin")
     public ResultObj unAuth(){
         throw new UnLoginException("用户未登录");
     }
 
+
     /**
-     * 未授权，无权限，此处返回未授权状态信息由前端控制跳转页面
-     * @return
+     * @Description: 未授权，无权限，此处返回未授权状态信息由前端控制跳转页面
+     * @Author: HuiYunfei
+     * @Date: 2019/11/9
      */
     @RequestMapping("/unAuthorized")
     public ResultObj unauthorized() {

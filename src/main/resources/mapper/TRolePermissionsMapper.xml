@@ -15,6 +15,21 @@
     from t_role_permissions
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="findRolePermissionsByUserId" parameterType="java.lang.Integer" resultType="com.yunfei.cultural.model.vo.RolePermissionsModel">
+    SELECT
+      t.role_id as roleId,
+      t.user_id as userId,
+      rp.id as rolePermissionsId,
+      p.permissions_name as permissionsName,
+      p.premissions_marking as permissionsMarking
+    FROM
+      t_user_role t
+        LEFT JOIN t_role_permissions rp ON t.role_id = rp.role_id
+        LEFT JOIN t_permissions p ON rp.permissions_id = p.id
+    WHERE
+      user_id =  #{userId,jdbcType=INTEGER}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_role_permissions
     where id = #{id,jdbcType=INTEGER}

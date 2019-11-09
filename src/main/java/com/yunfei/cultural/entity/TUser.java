@@ -40,6 +40,7 @@ public class TUser implements Serializable {
 
     private String telephone;
 
+    //盐
     private String salt;
 
 }

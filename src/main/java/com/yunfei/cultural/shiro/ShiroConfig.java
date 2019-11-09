@@ -22,8 +22,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @Author: http://gblfy.com
- * @Version 1.0.0
+ * @Description: shiro配置类
+ * @Author: HuiYunfei
+ * @Date: 2019/11/9
  */
 @Configuration
 @Slf4j
@@ -31,7 +32,7 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "spring.redis")
 public class ShiroConfig {
 
-    private String host = "localhost";
+    private String host;
     private int port = 6379;
     private Duration timeout;
 
@@ -60,15 +61,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/**", "authc");
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了, 位置放在 anon、authc下面
         filterChainDefinitionMap.put("/system/logout", "logout");
-
-        // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-        // 配器shirot认登录累面地址，前后端分离中登录累面跳转应由前端路由控制，后台仅返回json数据, 对应LoginController中unauth请求
+        // 未登录
         shiroFilterFactoryBean.setLoginUrl("/system/unLogin");
-
-        // 登录成功后要跳转的链接, 此项目是前后端分离，故此行注释掉，登录成功之后返回用户基本信息及token给前端
-        // shiroFilterFactoryBean.setSuccessUrl("/index");
-
-        // 未授权界面, 对应LoginController中 unauthorized 请求
+        // 未授权
         shiroFilterFactoryBean.setUnauthorizedUrl("/system/unAuthorized");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
@@ -100,13 +95,14 @@ public class ShiroConfig {
     }
 
     /**
-     * 自定义sessionManager
+     * 自定义sessionManager，禁用cookie，使用http header方式传入sessionId token
      *
      * @return SessionManager
      */
     @Bean
     public SessionManager sessionManager() {
         MySessionManager mySessionManager = new MySessionManager();
+        mySessionManager.setSessionIdCookieEnabled(false);
         mySessionManager.setSessionDAO(redisSessionDAO());
         return mySessionManager;
     }
@@ -145,9 +141,9 @@ public class ShiroConfig {
      * @return SecurityManager
      */
     @Bean
-    public SecurityManager securityManager(ShiroRealm shiroRealm) {
+    public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(shiroRealm);
+        securityManager.setRealm(myShiroRealm());
         // 自定义session管理 使用redis
         securityManager.setSessionManager(sessionManager());
         // 自定义缓存实现 使用redis
@@ -155,6 +151,20 @@ public class ShiroConfig {
         return securityManager;
     }
 
+    /**
+     * 自定义安全域，用户验证、权限等数据在此提供
+     * @return
+     */
+    @Bean
+    public ShiroRealm myShiroRealm() {
+        ShiroRealm myShiroRealm = new ShiroRealm();
+        //关闭
+        myShiroRealm.setAuthenticationCachingEnabled(false);
+        //myShiroRealm.setAuthenticationCacheName("authenticcationCache");
+        myShiroRealm.setAuthorizationCachingEnabled(true);
+        myShiroRealm.setAuthorizationCacheName("authorizationCache");
+        return myShiroRealm;
+    }
 
     /*
      * 开启Shiro的注解(如@RequiresRoles,@RequiresPermissions),需借助SpringAOP扫描使用Shiro注解的类,并在必要时进行安全逻辑验证

@@ -13,5 +13,7 @@ public class LoginParams {
     private String username;
 
     private String password;
+    //0登录前台，1登录后台
+    private Integer loginType=0;
 
 }

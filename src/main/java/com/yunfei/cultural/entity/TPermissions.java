@@ -1,33 +1,25 @@
 package com.yunfei.cultural.entity;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class TPermissions {
     private Integer id;
 
     private Integer permissionsName;
 
+    //权限标示
     private String premissionsMarking;
 
-    public Integer getId() {
-        return id;
-    }
+    //0表单权限1功能权限
+    private Integer type;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
-    public Integer getPermissionsName() {
-        return permissionsName;
-    }
-
-    public void setPermissionsName(Integer permissionsName) {
-        this.permissionsName = permissionsName;
-    }
-
-    public String getPremissionsMarking() {
-        return premissionsMarking;
-    }
-
-    public void setPremissionsMarking(String premissionsMarking) {
-        this.premissionsMarking = premissionsMarking == null ? null : premissionsMarking.trim();
-    }
 }

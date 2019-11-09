@@ -13,17 +13,16 @@
     <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="head_url" jdbcType="VARCHAR" property="headUrl" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
   </resultMap>
-  <sql id="Base_Column_List">
-
-    id, username, password, email, name, create_time, update_time, token, head_url, phone,
-    sex
-  </sql>
+ 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
 
-    select 
-    <include refid="Base_Column_List" />
+    select
+    *
     from t_user
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -42,17 +41,16 @@
   </delete>
   <insert id="insert" parameterType="com.yunfei.cultural.entity.TUser">
 
-    insert into t_user (id, username, password, 
+    insert into t_user (id, username, password,
       email, name, create_time,
       update_time, token, head_url,
-      phone, sex)
-    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      phone, sex, telephone, status, salt)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{email,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{token,jdbcType=VARCHAR}, #{headUrl,jdbcType=VARCHAR},
-      #{phone,jdbcType=VARCHAR}, #{sex,jdbcType=BIT})
+      #{phone,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{salt,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunfei.cultural.entity.TUser">
-
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -88,6 +86,15 @@
       <if test="sex != null">
         sex,
       </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="salt != null">
+        salt,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -121,7 +128,16 @@
         #{phone,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
-        #{sex,jdbcType=BIT},
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -144,9 +160,6 @@
       <if test="create_time != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="update_time != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="token != null">
         token = #{token,jdbcType=VARCHAR},
       </if>
@@ -157,8 +170,15 @@
         phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
-        sex = #{sex,jdbcType=BIT},
+        sex = #{sex,jdbcType=INTEGER},
       </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      update_time = now()
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -170,11 +190,13 @@
       email = #{email,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
       token = #{token,jdbcType=VARCHAR},
       head_url = #{headUrl,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=BIT}
+      sex = #{sex,jdbcType=INTEGER},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

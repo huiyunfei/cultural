@@ -9,6 +9,7 @@ import com.yunfei.cultural.utils.exception.LogicException;
 import com.yunfei.cultural.utils.result.ResultObj;
 import com.yunfei.cultural.utils.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ public class QueryController {
      * @Author:huiyunfei
      * @Date: 2019/10/20
      */
+    @RequiresPermissions("t_cultural_famous_ht")
     @RequestMapping(value = "/listCulturalFamousHt", method = RequestMethod.POST)
     public ResultObj listCulturalFamousHt(@RequestBody QueryParams params){
         ResultObj resultObj = new ResultObj();
@@ -60,6 +62,7 @@ public class QueryController {
      * @Author:huiyunfei
      * @Date: 2019/10/21
      */
+    @RequiresPermissions("t_cultural_famous_ht")
     @RequestMapping(value = "/detailCulturalFamousHt", method = RequestMethod.POST)
     public ResultObj detailCulturalFamousHt(@RequestBody QueryParams params){
         ResultObj resultObj = new ResultObj();
@@ -86,6 +89,7 @@ public class QueryController {
      * @Author:huiyunfei
      * @Date: 2019/10/20
      */
+    @RequiresPermissions("t_cultural_people_tw")
     @RequestMapping(value = "/listCulturalPeopleTw", method = RequestMethod.POST)
     public ResultObj listCulturalPeopleTw(@RequestBody QueryParams params){
         ResultObj resultObj = new ResultObj();
@@ -112,6 +116,7 @@ public class QueryController {
      * @Author:huiyunfei
      * @Date: 2019/10/21
      */
+    @RequiresPermissions("t_cultural_people_tw")
     @RequestMapping(value = "/detailCulturalPeopleTw", method = RequestMethod.POST)
     public ResultObj detailCulturalPeopleTw(@RequestBody QueryParams params){
         ResultObj resultObj = new ResultObj();
@@ -138,6 +143,7 @@ public class QueryController {
      * @Author:huiyunfei
      * @Date: 2019/10/20
      */
+    @RequiresPermissions("t_cultural_specialist_sh")
     @RequestMapping(value = "/listCulturalSpecialistSh", method = RequestMethod.POST)
     public ResultObj listCulturalSpecialistSh(@RequestBody QueryParams params){
         ResultObj resultObj = new ResultObj();
@@ -164,6 +170,7 @@ public class QueryController {
      * @Author:huiyunfei
      * @Date: 2019/10/21
      */
+    @RequiresPermissions("t_cultural_specialist_sh")
     @RequestMapping(value = "/detailCulturalSpecialistSh", method = RequestMethod.POST)
     public ResultObj detailCulturalSpecialistSh(@RequestBody QueryParams params){
         ResultObj resultObj = new ResultObj();
@@ -190,6 +197,7 @@ public class QueryController {
      * @Author:huiyunfei
      * @Date: 2019/10/20
      */
+    @RequiresPermissions("t_cultural_item")
     @RequestMapping(value = "/listCulturalItem", method = RequestMethod.POST)
     public ResultObj listCulturalItem(@RequestBody QueryParams params){
         ResultObj resultObj = new ResultObj();
@@ -216,6 +224,7 @@ public class QueryController {
      * @Author:huiyunfei
      * @Date: 2019/10/21
      */
+    @RequiresPermissions("t_cultural_item")
     @RequestMapping(value = "/detailCulturalItem", method = RequestMethod.POST)
     public ResultObj detailCulturalItem(@RequestBody JSONObject params){
         ResultObj resultObj = new ResultObj();
@@ -239,8 +248,9 @@ public class QueryController {
     /**
      * @Description:列表查询文化机构
      * @Author:huiyunfei
-     * @Date: 2019/10/20
+     * @Date: 2019/10/
      */
+    @RequiresPermissions("20t_cultural_organ")
     @RequestMapping(value = "/listCulturalOrgan", method = RequestMethod.POST)
     public ResultObj listCulturalOrgan(@RequestBody QueryParams params){
         ResultObj resultObj = new ResultObj();
@@ -267,6 +277,7 @@ public class QueryController {
      * @Author:huiyunfei
      * @Date: 2019/10/21
      */
+    @RequiresPermissions("20t_cultural_organ")
     @RequestMapping(value = "/detailCulturalOrgan", method = RequestMethod.POST)
     public ResultObj detailCulturalOrgan(@RequestBody JSONObject params){
         ResultObj resultObj = new ResultObj();

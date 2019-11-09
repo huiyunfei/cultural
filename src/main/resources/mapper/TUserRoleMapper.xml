@@ -9,6 +9,14 @@
   <sql id="Base_Column_List">
     id, role_id, user_id
   </sql>
+  <select id="findUserRoleByUserId" parameterType="java.lang.Integer" resultType="com.yunfei.cultural.model.vo.UserRoleModel">
+    select
+        t.role_id as roleId,t.user_id as userId,u.username as username,r.role_name as roleName,r.role_marking as roleMarking
+    from t_user_role t
+    left join t_user u on t.user_id=u.id
+    left join t_role r on t.role_id=r.id
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
