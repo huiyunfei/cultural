@@ -10,6 +10,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -87,10 +88,25 @@ public class RedisConfiguration {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
 		redisTemplate.setConnectionFactory(redisConnectionFactory());
 		setRedisTemplateSerializer(redisTemplate);
+		redisTemplate.setDefaultSerializer(new StringRedisSerializer());
+		redisTemplate.setHashValueSerializer(new JdkSerializationRedisSerializer());
 		logger.info("redis restTemplate3 inited finish...");
 		return redisTemplate;
+//
+//		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+//		redisTemplate.setConnectionFactory(factory);
+//
+//		Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+//		ObjectMapper objectMapper = new ObjectMapper();
+//		objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+//		objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+//		jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
+//
+//		redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+//		redisTemplate.setKeySerializer(new StringRedisSerializer());
+//		redisTemplate.afterPropertiesSet();
+//		return redisTemplate;
 	}
-
 
 	/////////////////////////////////// database 1
 	/**

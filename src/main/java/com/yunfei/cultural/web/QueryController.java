@@ -29,7 +29,6 @@ public class QueryController {
     @Autowired
     private QueryService queryService;
 
-
     /**
      * @Description:列表查询沪台名人数据
      * @Author:huiyunfei
@@ -51,7 +50,7 @@ public class QueryController {
         }catch (Exception e) {
             e.printStackTrace();
             log.error("listCulturalFamousHt system error:{}",e.getMessage());
-            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
         }
         return resultObj;
     }
@@ -77,7 +76,7 @@ public class QueryController {
         }catch (Exception e) {
             e.printStackTrace();
             log.error("detailCulturalFamousHt system error:{}",e.getMessage());
-            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
         }
         return resultObj;
     }
@@ -103,7 +102,7 @@ public class QueryController {
         }catch (Exception e) {
             e.printStackTrace();
             log.error("listCulturalPeopleTw system error:{}",e.getMessage());
-            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
         }
         return resultObj;
     }
@@ -129,7 +128,7 @@ public class QueryController {
         }catch (Exception e) {
             e.printStackTrace();
             log.error("detailCulturalPeopleTw system error:{}",e.getMessage());
-            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
         }
         return resultObj;
     }
@@ -155,7 +154,7 @@ public class QueryController {
         }catch (Exception e) {
             e.printStackTrace();
             log.error("listCulturalSpecialistSh system error:{}",e.getMessage());
-            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
         }
         return resultObj;
     }
@@ -181,7 +180,7 @@ public class QueryController {
         }catch (Exception e) {
             e.printStackTrace();
             log.error("detailCulturalSpecialistSh system error:{}",e.getMessage());
-            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
         }
         return resultObj;
     }
@@ -207,7 +206,7 @@ public class QueryController {
         }catch (Exception e) {
             e.printStackTrace();
             log.error("listCulturalItem system error:{}",e.getMessage());
-            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
         }
         return resultObj;
     }
@@ -233,7 +232,7 @@ public class QueryController {
         }catch (Exception e) {
             e.printStackTrace();
             log.error("detailCulturalItem system error:{}",e.getMessage());
-            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
         }
         return resultObj;
     }
@@ -258,7 +257,7 @@ public class QueryController {
         }catch (Exception e) {
             e.printStackTrace();
             log.error("listCulturalOrgan system error:{}",e.getMessage());
-            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
         }
         return resultObj;
     }
@@ -284,7 +283,7 @@ public class QueryController {
         }catch (Exception e) {
             e.printStackTrace();
             log.error("detailCulturalOrgan system error:{}",e.getMessage());
-            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
         }
         return resultObj;
     }
@@ -308,7 +307,7 @@ public class QueryController {
         }catch (Exception e) {
             e.printStackTrace();
             log.error("detailCulturalOrgan system error:{}",e.getMessage());
-            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
         }
         return resultObj;
     }

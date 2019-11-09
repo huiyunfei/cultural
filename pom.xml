@@ -23,6 +23,8 @@
         <ehcache-web.version>2.0.4</ehcache-web.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <commons-codec.version>1.9</commons-codec.version>
+        <shiro-spring.version>1.4.0</shiro-spring.version>
+        <shiro-redis.version>3.1.0</shiro-redis.version>
     </properties>
 
     <dependencies>
@@ -142,13 +144,13 @@
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
-            <version>1.4.0</version>
+            <version>${shiro-spring.version}</version>
         </dependency>
         <dependency>
             <!--session持久化插件-->
             <groupId>org.crazycake</groupId>
             <artifactId>shiro-redis</artifactId>
-            <version>3.2.3</version>
+            <version>${shiro-redis.version}</version>
         </dependency>
     </dependencies>
     <build>

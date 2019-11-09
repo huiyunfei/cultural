@@ -1,86 +1,55 @@
 package com.yunfei.cultural.web;
 
-import com.alibaba.fastjson.JSONObject;
-import com.yunfei.cultural.model.dto.LoginParams;
-import com.yunfei.cultural.service.UserService;
-import com.yunfei.cultural.utils.exception.LogicException;
 import com.yunfei.cultural.utils.result.ResultObj;
 import com.yunfei.cultural.utils.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.springframework.web.bind.annotation.*;
 
 /**
- * Created by huiyunfei on 2019/4/12.
+ * @author http://gblfy.com
+ * @Description 测试主方法
+ * @Date 2019/9/14 15:34
+ * @version1.0
  */
-@Slf4j
 @RestController
-@RequestMapping("/system")
+@Slf4j
+@RequestMapping("user")
 public class UserController {
 
 
-    @Autowired
-    private UserService userService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResultObj distLogin(@RequestBody LoginParams params){
+    @GetMapping("list")
+    @RequiresPermissions("user:list")
+    public ResultObj listUser() {
         ResultObj resultObj = new ResultObj();
-        try {
-            if(StringUtils.isEmpty(params.getUsername()) || StringUtils.isEmpty(params.getPassword())){
-                throw new LogicException("账号密码不能为空");
-            }
-            return userService.login(params);
-        } catch (LogicException e) {
-            e.printStackTrace();
-            log.warn("login error:{}",e.getMessage());
-            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
-        }catch (Exception e) {
-            e.printStackTrace();
-            log.error("login system error:{}",e.getMessage());
-            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
-        }
-        return resultObj;
+        return ResultUtil.createSuccessResult(resultObj,"用户列表");
     }
 
 
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public ResultObj logout(@RequestBody JSONObject params) {
-        ResultObj result = new ResultObj();
-        try {
-            Integer id = params.getInteger("id");
-            if (id == null){
-                throw new LogicException("参数异常");
-            }
-            userService.logout(params);
-            ResultUtil.createSuccessResult(result, "退出成功", null);
-        } catch (LogicException le) {
-            log.warn("logout error:{}", le);
-            ResultUtil.createLocgicExceptionResult(result, le.getMessage());
-        } catch (Exception e) {
-            log.error("logout system error:{}", e);
-            ResultUtil.createSystemExceptionResult(result, e.getMessage());
-        }
-        return result;
+    @GetMapping("{userId}")
+    @RequiresPermissions("user:detail")
+    public ResultObj detailUser(@PathVariable("userId") Long userId) {
+        ResultObj resultObj = new ResultObj();
+        return ResultUtil.createSuccessResult(resultObj,"用户详情");
     }
+
+
+    @PostMapping("add")
+    @RequiresRoles("admin")
+    @RequiresPermissions("user:add")
+    public ResultObj addUser() {
+        ResultObj resultObj = new ResultObj();
+        return ResultUtil.createSuccessResult(resultObj, "添加用户");
+    }
+
+    @DeleteMapping("del")
+    @RequiresRoles("role")
+    public ResultObj delUser() {
+        ResultObj resultObj = new ResultObj();
+        return ResultUtil.createSuccessResult(resultObj, "删除用户");
+    }
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

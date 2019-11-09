@@ -5,14 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class TUser {
-
+public class TUser implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Integer id;
 
     private String username;
@@ -38,5 +39,7 @@ public class TUser {
     private Integer status;
 
     private String telephone;
+
+    private String salt;
 
 }
