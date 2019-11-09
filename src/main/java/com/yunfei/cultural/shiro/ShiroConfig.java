@@ -104,6 +104,8 @@ public class ShiroConfig {
         MySessionManager mySessionManager = new MySessionManager();
         mySessionManager.setSessionIdCookieEnabled(false);
         mySessionManager.setSessionDAO(redisSessionDAO());
+        //https://www.imooc.com/qadetail/262279?t=434009
+        mySessionManager.getSessionIdCookie().setName("jsid");
         return mySessionManager;
     }
 
@@ -191,7 +193,7 @@ public class ShiroConfig {
         SimpleCookie cookie = new SimpleCookie("SHARE_JSESSIONID");
         cookie.setHttpOnly(true);
         //  path为 / 用于多个系统共享 JSESSIONID
-        cookie.setPath("/");
+        //cookie.setPath("/");
         return cookie;
     }
 

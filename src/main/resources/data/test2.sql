@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50155
 File Encoding         : 65001
 
-Date: 2019-11-08 18:22:11
+Date: 2019-11-10 01:31:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -537,16 +537,20 @@ INSERT INTO `t_dict` VALUES ('6', '私立大学', '4', 'organ_nature', '机构�
 DROP TABLE IF EXISTS `t_permissions`;
 CREATE TABLE `t_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `permissions_name` int(11) NOT NULL COMMENT '权限名称',
+  `permissions_name` varchar(32) NOT NULL COMMENT '权限名称',
   `premissions_marking` varchar(32) DEFAULT NULL COMMENT '权限标示',
+  `type` int(1) DEFAULT '0' COMMENT '0表单权限1功能权限',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of t_permissions
 -- ----------------------------
-INSERT INTO `t_permissions` VALUES ('1', '0', null);
-INSERT INTO `t_permissions` VALUES ('2', '0', null);
+INSERT INTO `t_permissions` VALUES ('1', '沪台文化名人', 't_cultural_famous_ht', '0');
+INSERT INTO `t_permissions` VALUES ('2', '台湾文化人士', 't_cultural_people_tw', '0');
+INSERT INTO `t_permissions` VALUES ('3', '上海文化专家', 't_cultural_specialist_sh', '0');
+INSERT INTO `t_permissions` VALUES ('4', '文化项目', 't_cultural_item', '0');
+INSERT INTO `t_permissions` VALUES ('5', '文化机构', 't_cultural_organ', '0');
 
 -- ----------------------------
 -- Table structure for t_profession
@@ -598,14 +602,16 @@ CREATE TABLE `t_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(32) NOT NULL,
   `remark` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `role_marking` varchar(32) NOT NULL COMMENT '角色标示',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_markting` (`role_marking`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of t_role
 -- ----------------------------
-INSERT INTO `t_role` VALUES ('1', 'yunfei', null);
-INSERT INTO `t_role` VALUES ('2', '', null);
+INSERT INTO `t_role` VALUES ('1', '管理员', null, 'admin');
+INSERT INTO `t_role` VALUES ('2', '员工', null, 'user1');
 
 -- ----------------------------
 -- Table structure for t_role_permissions
@@ -616,13 +622,17 @@ CREATE TABLE `t_role_permissions` (
   `role_id` int(11) NOT NULL,
   `permissions_id` int(11) NOT NULL COMMENT '权限id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of t_role_permissions
 -- ----------------------------
-INSERT INTO `t_role_permissions` VALUES ('1', '0', '0');
-INSERT INTO `t_role_permissions` VALUES ('2', '0', '0');
+INSERT INTO `t_role_permissions` VALUES ('1', '1', '1');
+INSERT INTO `t_role_permissions` VALUES ('2', '1', '2');
+INSERT INTO `t_role_permissions` VALUES ('3', '1', '3');
+INSERT INTO `t_role_permissions` VALUES ('4', '1', '4');
+INSERT INTO `t_role_permissions` VALUES ('5', '1', '5');
+INSERT INTO `t_role_permissions` VALUES ('7', '2', '1');
 
 -- ----------------------------
 -- Table structure for t_user
@@ -639,17 +649,19 @@ CREATE TABLE `t_user` (
   `token` varchar(255) DEFAULT NULL,
   `head_url` varchar(255) DEFAULT NULL,
   `phone` varchar(32) DEFAULT NULL,
-  `sex` tinyint(1) DEFAULT NULL COMMENT '0男1女',
+  `sex` int(1) DEFAULT NULL COMMENT '0男1女',
   `telephone` varchar(32) DEFAULT NULL COMMENT '手机号',
   `status` int(1) DEFAULT '0' COMMENT '0正常1停用',
+  `salt` varchar(32) DEFAULT NULL COMMENT '盐',
   PRIMARY KEY (`id`),
   KEY `index_username` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('1', 'yunfei', '5e75d0de843c3a9871ffd3b063f0003e', null, '云飞', null, '2019-10-12 18:01:55', '83a644435dd24578ab00dede9f36f6ad', null, null, null, null, '0');
+INSERT INTO `t_user` VALUES ('1', 'yunfei', '089076b5c7e78efd0a2bf8c91f2378a9fc3c81f839c5e505177a888439c88e6f', null, '云飞2', null, '2019-10-12 18:01:55', null, null, null, null, null, '0', '1faf');
+INSERT INTO `t_user` VALUES ('2', 'test', '089076b5c7e78efd0a2bf8c91f2378a9fc3c81f839c5e505177a888439c88e6f', null, '测试用户', null, null, null, null, null, null, null, '0', '2faf');
 
 -- ----------------------------
 -- Table structure for t_user_role
@@ -660,13 +672,13 @@ CREATE TABLE `t_user_role` (
   `role_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of t_user_role
 -- ----------------------------
-INSERT INTO `t_user_role` VALUES ('1', '0', '0');
-INSERT INTO `t_user_role` VALUES ('2', '0', '0');
+INSERT INTO `t_user_role` VALUES ('1', '1', '1');
+INSERT INTO `t_user_role` VALUES ('3', '2', '2');
 
 -- ----------------------------
 -- Procedure structure for comment_task
