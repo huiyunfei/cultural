@@ -1,5 +1,6 @@
 package com.yunfei.cultural.shiro;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yunfei.cultural.entity.TUser;
 import com.yunfei.cultural.mapper.TRolePermissionsMapper;
 import com.yunfei.cultural.mapper.TUserRoleMapper;
@@ -10,6 +11,7 @@ import com.yunfei.cultural.utils.MySimpleByteSource;
 import com.yunfei.cultural.utils.ShiroUtils;
 import com.yunfei.cultural.utils.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -19,11 +21,17 @@ import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -83,7 +91,7 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
             throws AuthenticationException {
         //获取用户的输入的账号.
-        String username = (String) token.getPrincipal();
+         String username = (String) token.getPrincipal();
         //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
         TUser user = userService.findUserByUserName(username);
         if(user.getStatus()==1){
@@ -92,6 +100,25 @@ public class ShiroRealm extends AuthorizingRealm {
         if (user == null) {
             return null;
         }
+
+        //处理session
+        DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
+        DefaultWebSessionManager sessionManager = (DefaultWebSessionManager)securityManager.getSessionManager();
+        Collection<Session> sessions = sessionManager.getSessionDAO().getActiveSessions();//获取当前已登录的用户session列表
+        if(sessions.size()>0){
+            for(Session session:sessions){
+                //清除该用户以前登录时保存的session
+                if(session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY)!=null){
+                    Object obj = ((SimplePrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY)).asList().get(0);
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    TUser tUser = objectMapper.convertValue(obj, TUser.class);
+                    if(username.equals(tUser.getUsername())) {
+                        sessionManager.getSessionDAO().delete(session);
+                    }
+                }
+            }
+        }
+
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 user, //用户名
                 user.getPassword(), //密码
