@@ -35,7 +35,7 @@ public class TUser implements Serializable {
     private String phone;
 
     private Integer sex;
-
+    //0正常1停用
     private Integer status;
 
     private String telephone;

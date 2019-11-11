@@ -19,4 +19,8 @@ public interface TUserRoleMapper {
     int updateByPrimaryKey(TUserRole record);
 
     List<UserRoleModel> findUserRoleByUserId(Integer userId);
+
+    void deleteByUserId(Integer userId);
+
+    List<TUserRole> findUserRoleByRole(Integer roleId);
 }

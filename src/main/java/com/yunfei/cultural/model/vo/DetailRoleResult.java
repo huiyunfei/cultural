@@ -5,29 +5,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Created by hui.yunfei@qq.com on 2019/10/12
  */
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class LoginResult {
+@AllArgsConstructor
+public class DetailRoleResult {
 
     private Integer id;
 
-    private String email;
+    private String roleName;
 
-    private String name;
+    private String remark;
 
-    private String token;
+    private List<Integer> permissionsId;
 
-    private String headUrl;
-
-    private String phone;
-
-    private Integer sex;
-
-    //是否管理员
-    private Boolean isAdmin;
 }

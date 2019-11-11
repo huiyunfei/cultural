@@ -2,6 +2,8 @@ package com.yunfei.cultural.mapper;
 
 import com.yunfei.cultural.entity.TRole;
 
+import java.util.List;
+
 public interface TRoleMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface TRoleMapper {
     int updateByPrimaryKeySelective(TRole record);
 
     int updateByPrimaryKey(TRole record);
+
+    List<TRole> selectAll();
 }

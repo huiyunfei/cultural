@@ -59,4 +59,6 @@ public class CommonConstants {
 	 */
 	public static final String SYSTEM_QUERY_CULTURALNEW = "system:query:culturalNew";
 	//redis key end
+
+	public static final String ROLE_ADMIN_MARKING = "admin";
 }

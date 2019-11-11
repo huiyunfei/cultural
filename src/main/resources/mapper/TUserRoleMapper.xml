@@ -17,6 +17,15 @@
     left join t_role r on t.role_id=r.id
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
+
+
+  <select id="findUserRoleByRole" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+      *
+    from t_user_role
+    where role_id = #{role_id,jdbcType=INTEGER}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -27,6 +36,12 @@
     delete from t_user_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+  <delete id="deleteByUserId" parameterType="java.lang.Integer">
+    delete from t_user_role
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+
   <insert id="insert" parameterType="com.yunfei.cultural.entity.TUserRole">
     insert into t_user_role (id, role_id, user_id
       )

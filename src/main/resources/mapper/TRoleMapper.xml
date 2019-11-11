@@ -16,17 +16,27 @@
     from t_role
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    *
+    from t_role
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunfei.cultural.entity.TRole">
+  <insert id="insert" parameterType="com.yunfei.cultural.entity.TRole"  useGeneratedKeys="true"
+          keyProperty="id">
     insert into t_role (id, role_name, remark,role_marking
       )
     values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{roleMarking,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.yunfei.cultural.entity.TRole">
+  <insert id="insertSelective" parameterType="com.yunfei.cultural.entity.TRole"  useGeneratedKeys="true"
+          keyProperty="id">
     insert into t_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

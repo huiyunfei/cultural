@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Created by hui.yunfei@qq.com on 2019/10/12
  */
@@ -12,18 +14,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RolePermissionsModel {
-
-    private Integer userId;
+public class ListRoleResult {
 
     private Integer roleId;
 
-    private Integer rolePermissionsId;
+    private String roleName;
 
-    private String permissionsName;
+    private String remark;
 
-    private String permissionsMarking;
-
-    private Integer permissionsId;
+    //角色包含权限列表
+    private List<String> permissionsList;
 
 }

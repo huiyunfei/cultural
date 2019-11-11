@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author http://gblfy.com
- * @Description 登录
- * @Date 2019/9/14 15:34
- * @version1.0
+ * @Description: 登陆类
+ * @Author: HuiYunfei
+ * @Date: 2019/11/11
  */
 @Slf4j
 @RestController
@@ -68,6 +67,32 @@ public class LoginController {
         return result;
     }
 
+    /**
+     * @Description:修改密码
+     * @Author: HuiYunfei
+     * @Date: 2019/11/11
+     */
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    public ResultObj updatePassword(@RequestBody JSONObject params) {
+        ResultObj resultObj = new ResultObj();
+        Integer userId = params.getInteger("userId");
+        String oldPassword = params.getString("oldPassword");
+        String newPassword = params.getString("newPassword");
+        try {
+            if (userId==null || StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
+                throw new LogicException("必填参数不能为空");
+            }
+            userService.updatePassword(userId, oldPassword, newPassword);
+            resultObj.setInfo(100);
+        } catch (LogicException se) {
+            log.error("============/system/updatePassword:", se);
+            ResultUtil.createLocgicExceptionResult(resultObj, se.getMessage());
+        } catch (Exception e) {
+            log.error("============/system/updatePassword:", e);
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
+        }
+        return resultObj;
+    }
 
     /**
      * @Description:  未登录，shiro应重定向到登录界面，此处返回未登录状态信息由前端控制跳转页面

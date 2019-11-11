@@ -52,7 +52,7 @@ public class QueryServiceImpl implements QueryService {
                 pramsMap.put("areaName",params.getKeyword());
                 break;
             case 3:
-                pramsMap.put("sex",params.getKeyword().equals("男")?0:1);
+                pramsMap.put("sex",params.getKeyword().equals("男")?0:params.getKeyword().equals("女")?1:"");
                 break;
             case 4:
                 pramsMap.put("age",params.getKeyword());
@@ -107,7 +107,7 @@ public class QueryServiceImpl implements QueryService {
                 pramsMap.put("areaName",params.getKeyword());
                 break;
             case 3:
-                pramsMap.put("sex",params.getKeyword().equals("男")?0:1);
+                pramsMap.put("sex",params.getKeyword().equals("男")?0:params.getKeyword().equals("女")?1:"");
                 break;
             case 4:
                 pramsMap.put("age",params.getKeyword());
@@ -162,7 +162,7 @@ public class QueryServiceImpl implements QueryService {
                 pramsMap.put("areaName",params.getKeyword());
                 break;
             case 3:
-                pramsMap.put("sex",params.getKeyword().equals("男")?0:1);
+                pramsMap.put("sex",params.getKeyword().equals("男")?0:params.getKeyword().equals("女")?1:"");
                 break;
             case 4:
                 pramsMap.put("age",params.getKeyword());

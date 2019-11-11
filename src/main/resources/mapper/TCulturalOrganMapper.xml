@@ -45,13 +45,13 @@
       and d.label like CONCAT('%',#{nature},'%')
     </if>
     <if test="setUpTime!=null and setUpTime!=''">
-      and t.setUpTime like CONCAT('%',#{setUpTime},'%')
+      and t.set_up_time like CONCAT('%',#{setUpTime},'%')
     </if>
     <if test="incumbent!=null and incumbent!=''">
       and t.incumbent like CONCAT('%',#{incumbent},'%')
     </if>
     <if test="possessBy!=null and possessBy!=''">
-      and t.possessBy like CONCAT('%',#{possessBy},'%')
+      and t.possess_by like CONCAT('%',#{possessBy},'%')
     </if>
     <if test="resume!=null and resume!=''">
       and t.resume like CONCAT('%',#{resume},'%')

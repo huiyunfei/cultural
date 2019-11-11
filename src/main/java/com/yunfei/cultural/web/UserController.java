@@ -1,15 +1,16 @@
 package com.yunfei.cultural.web;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yunfei.cultural.model.dto.AddUserParams;
+import com.yunfei.cultural.model.dto.ListUserParams;
+import com.yunfei.cultural.model.vo.DetailUserResult;
+import com.yunfei.cultural.model.vo.ListUserResult;
 import com.yunfei.cultural.service.UserService;
-import com.yunfei.cultural.shiro.ShiroRealm;
+import com.yunfei.cultural.utils.exception.LogicException;
 import com.yunfei.cultural.utils.result.ResultObj;
 import com.yunfei.cultural.utils.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,60 +33,81 @@ public class UserController {
 
 
     @RequestMapping(value = "/listUser", method = RequestMethod.POST)
-    public ResultObj listUser(@RequestBody JSONObject params){
+    public ResultObj listUser(@RequestBody ListUserParams params){
         ResultObj resultObj = new ResultObj();
-
-//        try {
-//            if(params.getQueryType()==null || StringUtils.isBlank(params.getKeyword())){
-//                throw new LogicException("必填参数为空");
-//            }
-//            List<CulturalFamousHtResult> list = queryService.listCulturalFamousHt(params);
-//            ResultUtil.createSuccessResult(resultObj,"",list);
-//        } catch (LogicException e) {
-//            e.printStackTrace();
-//            log.warn("listCulturalFamousHt error:{}",e.getMessage());
-//            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//            log.error("listCulturalFamousHt system error:{}",e.getMessage());
-//            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
-//        }
+        try {
+            ListUserResult result = userService.listUser(params);
+            ResultUtil.createSuccessResult(resultObj,"",result);
+        } catch (LogicException e) {
+            log.warn("listUser error:{}",e.getMessage());
+            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+        }catch (Exception e) {
+            e.printStackTrace();
+            log.error("listUser system error:{}",e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
+        }
         return resultObj;
     }
 
     @RequestMapping(value = "/detailUser", method = RequestMethod.POST)
     public ResultObj detailUser(@RequestBody JSONObject params) {
 
-        Subject subject = SecurityUtils.getSubject();
-        DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
-        ShiroRealm shiroRealm = (ShiroRealm) securityManager.getRealms().iterator().next();
-        shiroRealm.clearCachedAuthorizationInfo(subject.getPrincipals());
-        //认证
-//        PrincipalCollection principals = subject.getPrincipals();
-//        if(principals instanceof TUser){
-//            shiroRealm.clearCachedAuthenticationInfo(((TUser) principals).getId());
-//        }
-        shiroRealm.clearCachedAuthenticationInfo(subject.getPrincipals());
-
-
         ResultObj resultObj = new ResultObj();
-        return ResultUtil.createSuccessResult(resultObj,"用户详情");
-
-
-
+        try {
+            if(params.getInteger("id")==null){
+                throw new LogicException("用户id为空");
+            }
+            DetailUserResult result=userService.findUserById(params.getInteger("id"));
+            return ResultUtil.createSuccessResult(resultObj,"",result);
+        } catch (LogicException e) {
+            log.warn("detailUser error:{}",e.getMessage());
+            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+        }catch (Exception e) {
+            e.printStackTrace();
+            log.error("detailUser system error:{}",e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
+        }
+        return resultObj;
     }
 
-    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public ResultObj addUser(@RequestBody JSONObject params) {
+    @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
+    public ResultObj saveUser(@RequestBody AddUserParams params) {
+
         ResultObj resultObj = new ResultObj();
-        return ResultUtil.createSuccessResult(resultObj, "添加用户");
+        try {
+            userService.saveUser(params);
+            return ResultUtil.createSuccessResult(resultObj, "");
+        } catch (LogicException e) {
+            log.warn("saveUser error:{}",e.getMessage());
+            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+        }catch (Exception e) {
+            e.printStackTrace();
+            log.error("saveUser system error:{}",e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
+        }
+        return resultObj;
     }
 
     @RequestMapping(value = "/delUser", method = RequestMethod.POST)
     public ResultObj delUser(@RequestBody JSONObject params) {
         ResultObj resultObj = new ResultObj();
-        return ResultUtil.createSuccessResult(resultObj, "删除用户");
+        try {
+            if(params.getInteger("id")==null){
+                throw new LogicException("用户id为空");
+            }
+            userService.delUser(params.getInteger("id"));
+            return ResultUtil.createSuccessResult(resultObj, "");
+        } catch (LogicException e) {
+            log.warn("delUser error:{}",e.getMessage());
+            ResultUtil.createLocgicExceptionResult(resultObj, e.getMessage());
+        }catch (Exception e) {
+            e.printStackTrace();
+            log.error("delUser system error:{}",e.getMessage());
+            ResultUtil.createSystemExceptionResult(resultObj, e.getMessage());
+        }
+        return resultObj;
     }
+
 
 
 }

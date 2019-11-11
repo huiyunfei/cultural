@@ -76,22 +76,6 @@ public class FileController {
         return array.toString();
     }
 
-//    @GetMapping("/export")
-//    public String exportExcel(HttpServletResponse response, String fileName, Integer pageNum, Integer pageSize) {
-//        if (fileName == null || "".equals(fileName)) {
-//            return "文件名不能为空！";
-//        } else {
-//            if (fileName.endsWith("xls")) {
-//                Boolean isOk = excelService.exportExcel(response, fileName, 1, 10);
-//                if (isOk) {
-//                    return "导出成功！";
-//                } else {
-//                    return "导出失败！";
-//                }
-//            }
-//            return "文件格式有误！";
-//        }
-//    }
 
     /**
      * 方法名：import

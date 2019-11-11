@@ -19,4 +19,10 @@ public interface TRolePermissionsMapper {
     int updateByPrimaryKey(TRolePermissions record);
 
     List<RolePermissionsModel> findRolePermissionsByUserId(Integer userId);
+
+    List<RolePermissionsModel> findRolePermissions();
+
+    List<TRolePermissions> selectByRoleId(Integer id);
+
+    void deleteByRoleId(Integer id);
 }

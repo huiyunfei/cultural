@@ -20,6 +20,7 @@
       t.role_id as roleId,
       t.user_id as userId,
       rp.id as rolePermissionsId,
+      p.id as permissionsId,
       p.permissions_name as permissionsName,
       p.premissions_marking as permissionsMarking
     FROM
@@ -30,10 +31,36 @@
       user_id =  #{userId,jdbcType=INTEGER}
   </select>
 
+  <select id="findRolePermissions" parameterType="java.lang.Integer" resultType="com.yunfei.cultural.model.vo.RolePermissionsModel">
+    SELECT
+      p.id as permissionsId,
+      p.permissions_name as permissionsName,
+      r.id as roleId,
+      r.role_name as roleName
+    FROM
+      t_permissions p
+        LEFT JOIN t_role_permissions rp ON rp.permissions_id = p.id
+        LEFT JOIN t_role r ON rp.role_id = r.id;
+  </select>
+
+  <select id="selectByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+     *
+    FROM
+      t_role_permissions t
+       where t.role_id=#{roleId}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_role_permissions
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+    delete from t_role_permissions
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+
   <insert id="insert" parameterType="com.yunfei.cultural.entity.TRolePermissions">
     insert into t_role_permissions (id, role_id, permissions_id
       )

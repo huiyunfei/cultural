@@ -1,6 +1,11 @@
 package com.yunfei.cultural.mapper;
 
 import com.yunfei.cultural.entity.TUser;
+import com.yunfei.cultural.model.dto.ListUserParams;
+import com.yunfei.cultural.model.vo.DetailUserResult;
+import com.yunfei.cultural.model.vo.ListUserResult;
+
+import java.util.List;
 
 public interface TUserMapper {
 
@@ -21,4 +26,8 @@ public interface TUserMapper {
 
 
     int updateByPrimaryKey(TUser record);
+
+    List<ListUserResult.UserResult> findByParams(ListUserParams params);
+
+    DetailUserResult findUserById(Integer id);
 }
