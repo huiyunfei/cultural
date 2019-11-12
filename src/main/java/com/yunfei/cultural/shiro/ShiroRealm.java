@@ -9,13 +9,9 @@ import com.yunfei.cultural.model.vo.UserRoleModel;
 import com.yunfei.cultural.service.UserService;
 import com.yunfei.cultural.utils.MySimpleByteSource;
 import com.yunfei.cultural.utils.ShiroUtils;
-import com.yunfei.cultural.utils.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -94,13 +90,12 @@ public class ShiroRealm extends AuthorizingRealm {
          String username = (String) token.getPrincipal();
         //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
         TUser user = userService.findUserByUserName(username);
+        if(user==null){
+            throw new UnknownAccountException();
+        }
         if(user.getStatus()==1){
-            throw new LogicException("账号已禁用");
+            throw new DisabledAccountException("账号已禁用!");
         }
-        if (user == null) {
-            return null;
-        }
-
         //处理session
         DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
         DefaultWebSessionManager sessionManager = (DefaultWebSessionManager)securityManager.getSessionManager();

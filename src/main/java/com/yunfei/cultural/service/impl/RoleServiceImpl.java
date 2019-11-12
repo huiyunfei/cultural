@@ -1,6 +1,5 @@
 package com.yunfei.cultural.service.impl;
 
-import com.yunfei.cultural.constant.CommonConstants;
 import com.yunfei.cultural.entity.TPermissions;
 import com.yunfei.cultural.entity.TRole;
 import com.yunfei.cultural.entity.TRolePermissions;
@@ -11,13 +10,10 @@ import com.yunfei.cultural.model.vo.DetailRoleResult;
 import com.yunfei.cultural.model.vo.ListRoleResult;
 import com.yunfei.cultural.model.vo.RolePermissionsModel;
 import com.yunfei.cultural.service.RoleService;
-import com.yunfei.cultural.shiro.ShiroRealm;
+import com.yunfei.cultural.utils.ShiroUtils;
 import com.yunfei.cultural.utils.StringUtils;
 import com.yunfei.cultural.utils.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,11 +54,11 @@ public class RoleServiceImpl implements RoleService {
                     ListRoleResult roleResult = ListRoleResult.builder().roleId(role.getId()).roleName(role.getRoleName()).remark(role.getRemark()).build();
                     if(permissionsMap.get(role.getId())!=null){
                         List<RolePermissionsModel> rolePermissionsModelList = permissionsMap.get(role.getId());
-                        List<String> permissionsList = new ArrayList<>();
+                        StringBuilder sb = new StringBuilder();
                         rolePermissionsModelList.forEach(permissions->{
-                            permissionsList.add(permissions.getPermissionsName());
+                            sb.append(permissions.getPermissionsName()+",");
                         });
-                        roleResult.setPermissionsList(permissionsList);
+                        roleResult.setPermissions(sb.subSequence(0,sb.length()-1).toString());
                     }
                     roleList.add(roleResult);
                 });
@@ -83,6 +79,10 @@ public class RoleServiceImpl implements RoleService {
             throw new LogicException("该角色有用户正在使用，禁止删除");
         }
         roleMapper.deleteByPrimaryKey(id);
+        rolePermissionsMapper.deleteByRoleId(id);
+
+        //清空用户redis权限信息
+        ShiroUtils.clearAllCachedAuthorizationInfo();
     }
 
     @Override
@@ -105,38 +105,34 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void saveRole(AddRoleParams params) {
-        if(StringUtils.isBlank(params.getRoleName()) || StringUtils.isBlank(params.getRoleMarking())
+        if(StringUtils.isBlank(params.getRoleName())
             || params.getPermissionsId()==null || params.getPermissionsId().size()<1){
             throw new LogicException("必填参数为空");
         }
         TRole build = TRole.builder()
-                .roleMarking(params.getRoleMarking())
                 .roleName(params.getRoleName())
                 .remark(params.getRemark())
                 .build();
         if(params.getId()!=null){
             //修改
-            if(params.getId()==1 && !params.getRoleMarking().equals(CommonConstants.ROLE_ADMIN_MARKING)){
-                throw new LogicException("管理员角色禁止修改标示");
-            }
+//            if(params.getId()==1 && !params.getRoleMarking().equals(CommonConstants.ROLE_ADMIN_MARKING)){
+//                throw new LogicException("管理员角色禁止修改标示");
+//            }
+            build.setId(params.getId());
+            roleMapper.updateByPrimaryKeySelective(build);
             rolePermissionsMapper.deleteByRoleId(params.getId());
+            //清空用户redis权限信息
+            ShiroUtils.clearAllCachedAuthorizationInfo();
         }else{
             //新增
+            build.setRoleMarking(StringUtils.getRandomString(5));
             roleMapper.insertSelective(build);
-
         }
         params.getPermissionsId().forEach(t->{
             TRolePermissions rolePermissions = TRolePermissions.builder().permissionsId(t).roleId(build.getId()).build();
             rolePermissionsMapper.insertSelective(rolePermissions);
         });
 
-        //清空redis权限和认证信息
-        Subject subject = SecurityUtils.getSubject();
-        DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
-        ShiroRealm shiroRealm = (ShiroRealm) securityManager.getRealms().iterator().next();
-        shiroRealm.clearCachedAuthorizationInfo(subject.getPrincipals());
-        //认证
-        shiroRealm.clearCachedAuthenticationInfo(subject.getPrincipals());
 
     }
 }

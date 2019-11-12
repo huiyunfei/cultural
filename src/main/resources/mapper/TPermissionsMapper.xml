@@ -3,7 +3,7 @@
 <mapper namespace="com.yunfei.cultural.mapper.TPermissionsMapper">
   <resultMap id="BaseResultMap" type="com.yunfei.cultural.entity.TPermissions">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="permissions_name" jdbcType="INTEGER" property="permissionsName" />
+    <result column="permissions_name" jdbcType="VARCHAR" property="permissionsName" />
     <result column="premissions_marking" jdbcType="VARCHAR" property="premissionsMarking" />
     <result column="type" jdbcType="INTEGER" property="type" />
   </resultMap>

@@ -250,7 +250,7 @@ public class QueryController {
      * @Author:huiyunfei
      * @Date: 2019/10/
      */
-    @RequiresPermissions("20t_cultural_organ")
+    @RequiresPermissions("t_cultural_organ")
     @RequestMapping(value = "/listCulturalOrgan", method = RequestMethod.POST)
     public ResultObj listCulturalOrgan(@RequestBody QueryParams params){
         ResultObj resultObj = new ResultObj();
@@ -277,7 +277,7 @@ public class QueryController {
      * @Author:huiyunfei
      * @Date: 2019/10/21
      */
-    @RequiresPermissions("20t_cultural_organ")
+    @RequiresPermissions("t_cultural_organ")
     @RequestMapping(value = "/detailCulturalOrgan", method = RequestMethod.POST)
     public ResultObj detailCulturalOrgan(@RequestBody JSONObject params){
         ResultObj resultObj = new ResultObj();

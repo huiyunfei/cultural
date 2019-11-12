@@ -70,7 +70,7 @@ public class GlobalExceptionHand {
         log.error(msg, e);
         ResultObj resultObj = new ResultObj();
         resultObj.setInfo(999);
-        resultObj.setMsg(msg);
+        resultObj.setMsg(e.getMessage());
         return resultObj;
     }
     /**
@@ -82,7 +82,7 @@ public class GlobalExceptionHand {
         log.error(msg, e);
         ResultObj resultObj = new ResultObj();
         resultObj.setInfo(999);
-        resultObj.setMsg(msg);
+        resultObj.setMsg(e.getMessage());
         return resultObj;
     }
 

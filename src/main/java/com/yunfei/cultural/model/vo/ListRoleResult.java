@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 /**
  * Created by hui.yunfei@qq.com on 2019/10/12
  */
@@ -23,6 +21,6 @@ public class ListRoleResult {
     private String remark;
 
     //角色包含权限列表
-    private List<String> permissionsList;
+    private String permissions;
 
 }

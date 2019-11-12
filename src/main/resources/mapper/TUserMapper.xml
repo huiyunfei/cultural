@@ -35,14 +35,14 @@
 </select>
 
   <select id="findByParams" resultType="com.yunfei.cultural.model.vo.ListUserResult$UserResult">
-    select u.*,r.role_name
+    select u.*,r.role_name as roleName
     from
       t_user u
     left join t_user_role ur on ur.user_id=u.id
     left join t_role r on ur.role_id=r.id
           where 1=1
     <if test="username != null and username != ''">
-      and username=#{username}
+      and username like CONCAT('%',#{username},'%')
     </if>
     <if test="phone != null and phone != ''">
       and phone=#{phone}
@@ -54,7 +54,7 @@
       and email=#{email}
     </if>
     <if test="name != null and name != ''">
-      and name=#{name}
+      and name like CONCAT('%',#{name},'%')
     </if>
     <if test="status != null and status != ''">
       and status=#{status}
@@ -65,7 +65,7 @@
 
   </select>
   <select id="findUserById" resultType="com.yunfei.cultural.model.vo.DetailUserResult">
-    select u.*,r.role_name
+    select u.*,r.id as roleId
     from
     t_user u
     left join t_user_role ur on ur.user_id=u.id
@@ -110,16 +110,16 @@
       <if test="name != null">
         name,
       </if>
-      <if test="create_time != null">
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="update_time != null">
+      <if test="updateTime != null">
         update_time,
       </if>
       <if test="token != null">
         token,
       </if>
-      <if test="head_url != null">
+      <if test="headUrl != null">
         head_url,
       </if>
       <if test="phone != null">
@@ -154,16 +154,16 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="create_time != null">
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="update_time != null">
+      <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="token != null">
         #{token,jdbcType=VARCHAR},
       </if>
-      <if test="head_url != null">
+      <if test="headUrl != null">
         #{headUrl,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
@@ -199,13 +199,13 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="create_time != null">
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="token != null">
         token = #{token,jdbcType=VARCHAR},
       </if>
-      <if test="head_url != null">
+      <if test="headUrl != null">
         head_url = #{headUrl,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">

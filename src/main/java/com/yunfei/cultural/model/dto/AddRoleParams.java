@@ -22,7 +22,7 @@ public class AddRoleParams {
 
     private String remark;
 
-    private String roleMarking;
+    //private String roleMarking;
 
     private List<Integer> permissionsId;
 

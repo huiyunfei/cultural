@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50155
 File Encoding         : 65001
 
-Date: 2019-11-11 18:46:31
+Date: 2019-11-12 18:28:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -605,13 +605,15 @@ CREATE TABLE `t_role` (
   `role_marking` varchar(32) NOT NULL COMMENT '角色标示',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_markting` (`role_marking`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of t_role
 -- ----------------------------
-INSERT INTO `t_role` VALUES ('1', '管理员', null, 'admin');
+INSERT INTO `t_role` VALUES ('1', '管理员', '管理员', 'admin');
 INSERT INTO `t_role` VALUES ('2', '员工', null, 'user1');
+INSERT INTO `t_role` VALUES ('3', '测试', null, 'test');
+INSERT INTO `t_role` VALUES ('6', 'aaa', 'bbb', 'JXs51');
 
 -- ----------------------------
 -- Table structure for t_role_permissions
@@ -622,7 +624,7 @@ CREATE TABLE `t_role_permissions` (
   `role_id` int(11) NOT NULL,
   `permissions_id` int(11) NOT NULL COMMENT '权限id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of t_role_permissions
@@ -633,6 +635,7 @@ INSERT INTO `t_role_permissions` VALUES ('3', '1', '3');
 INSERT INTO `t_role_permissions` VALUES ('4', '1', '4');
 INSERT INTO `t_role_permissions` VALUES ('5', '1', '5');
 INSERT INTO `t_role_permissions` VALUES ('7', '2', '1');
+INSERT INTO `t_role_permissions` VALUES ('13', '6', '2');
 
 -- ----------------------------
 -- Table structure for t_user
@@ -655,13 +658,14 @@ CREATE TABLE `t_user` (
   `salt` varchar(32) DEFAULT NULL COMMENT '盐',
   PRIMARY KEY (`id`),
   KEY `index_username` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('1', 'yunfei', '089076b5c7e78efd0a2bf8c91f2378a9fc3c81f839c5e505177a888439c88e6f', null, '云飞2', null, '2019-10-12 18:01:55', null, null, null, null, null, '0', '1faf');
-INSERT INTO `t_user` VALUES ('2', 'test', '089076b5c7e78efd0a2bf8c91f2378a9fc3c81f839c5e505177a888439c88e6f', null, '测试用户', null, null, null, null, null, null, null, '0', '2faf');
+INSERT INTO `t_user` VALUES ('1', 'yunfei', '089076b5c7e78efd0a2bf8c91f2378a9fc3c81f839c5e505177a888439c88e6f', 'hui.yunfei@qq.com', '云飞2', null, '2019-11-12 18:27:25', '2f5df09e-ac58-4629-986a-65abb0a0aafe', null, '123', null, '15238101383', '0', '1faf');
+INSERT INTO `t_user` VALUES ('2', 'test', '089076b5c7e78efd0a2bf8c91f2378a9fc3c81f839c5e505177a888439c88e6f', '1ha2ha@qq.com', '1ha2a', null, '2019-11-12 18:27:29', '29c69323-e7a0-464c-a351-188c00fb619d', null, '1', null, '152xxxxxx1x', '0', '1faf');
+INSERT INTO `t_user` VALUES ('4', 'admin', 'd93c42841f9f25f6209dbbc4087a62d9a2a6d20fc4fcb1cb1f5f88c8b304c86d', 'admin@qq.com', '管理员', '2019-11-12 18:25:17', null, null, null, '8603608', null, '152xxxxxxxx', '0', '1Z6nZ/SxAuyigNiRa/H+kg==');
 
 -- ----------------------------
 -- Table structure for t_user_role
@@ -672,13 +676,14 @@ CREATE TABLE `t_user_role` (
   `role_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of t_user_role
 -- ----------------------------
 INSERT INTO `t_user_role` VALUES ('1', '1', '1');
-INSERT INTO `t_user_role` VALUES ('3', '2', '2');
+INSERT INTO `t_user_role` VALUES ('20', '6', '2');
+INSERT INTO `t_user_role` VALUES ('21', '1', '4');
 
 -- ----------------------------
 -- Procedure structure for comment_task

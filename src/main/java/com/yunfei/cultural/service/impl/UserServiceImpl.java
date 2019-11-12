@@ -16,7 +16,6 @@ import com.yunfei.cultural.model.vo.ListUserResult;
 import com.yunfei.cultural.model.vo.LoginResult;
 import com.yunfei.cultural.model.vo.UserRoleModel;
 import com.yunfei.cultural.service.UserService;
-import com.yunfei.cultural.shiro.ShiroRealm;
 import com.yunfei.cultural.utils.ShiroUtils;
 import com.yunfei.cultural.utils.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,6 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,11 +69,9 @@ public class UserServiceImpl implements UserService {
             }
             //校验当前用户是否有权限登录到后台（是否管理员角色）
             boolean isAdmin=false;
-            if(params.getLoginType()==1){
-                for (UserRoleModel userRole : userRoleList) {
-                    if(userRole.getRoleMarking().equals(CommonConstants.ROLE_ADMIN_MARKING)){
-                        isAdmin=true;
-                    }
+            for (UserRoleModel userRole : userRoleList) {
+                if(userRole.getRoleMarking().equals(CommonConstants.ROLE_ADMIN_MARKING)){
+                    isAdmin=true;
                 }
             }
             result.setIsAdmin(isAdmin);
@@ -150,13 +146,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(AddUserParams params) {
         if(StringUtils.isBlank(params.getUsername()) || StringUtils.isBlank(params.getName())
-                || StringUtils.isBlank(params.getPassword())|| StringUtils.isBlank(params.getComfirmPassword())
                 || params.getRoleId()==null || params.getStatus()==null){
             throw new LogicException("必填参数为空");
         }
         if(params.getId()!=null){
             //修改
             TUser user = userMapper.selectByPrimaryKey(params.getId());
+            if(user==null){
+                throw new LogicException("参数异常");
+            }
             user.setUsername(params.getUsername());
             user.setName(params.getName());
             user.setPhone(params.getPhone());
@@ -178,13 +176,14 @@ public class UserServiceImpl implements UserService {
                 if(!userRoleList.get(0).getRoleId().equals(params.getRoleId())){
                     userRoleMapper.deleteByUserId(params.getId());
                     userRoleMapper.insertSelective(TUserRole.builder().userId(params.getId()).roleId(params.getRoleId()).build());
-                    //清空redis权限和认证信息
-                    Subject subject = SecurityUtils.getSubject();
-                    DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
-                    ShiroRealm shiroRealm = (ShiroRealm) securityManager.getRealms().iterator().next();
-                    shiroRealm.clearCachedAuthorizationInfo(subject.getPrincipals());
-                    //认证
-                    shiroRealm.clearCachedAuthenticationInfo(subject.getPrincipals());
+                    //清空用户redis权限信息
+                    ShiroUtils.clearAllCachedAuthorizationInfo();
+                    //shiroRealm.clearAllCachedAuthenticationInfo();
+//                    shiroRealm.clearAllCache();
+                    //ShiroUtils.reloadAuthorizing(shiroRealm,user);
+//                    shiroRealm.clearCachedAuthorizationInfo(subject.getPrincipals());
+//                    //认证
+//                    shiroRealm.clearCachedAuthenticationInfo(subject.getPrincipals());
                 }
             }
         }else{
@@ -217,6 +216,8 @@ public class UserServiceImpl implements UserService {
     public void delUser(Integer id) {
         userMapper.deleteByPrimaryKey(id);
         userRoleMapper.deleteByUserId(id);
+        //清空用户redis权限信息
+        ShiroUtils.clearAllCachedAuthorizationInfo();
     }
 
 }

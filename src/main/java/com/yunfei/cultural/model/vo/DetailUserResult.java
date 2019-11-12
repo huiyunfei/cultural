@@ -1,7 +1,9 @@
 package com.yunfei.cultural.model.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -10,6 +12,8 @@ import java.util.List;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DetailUserResult {
 
     private Integer id;
@@ -31,6 +35,8 @@ public class DetailUserResult {
     private List<RoleResult> roleList;
     @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class RoleResult{
 
         private Integer roleId;

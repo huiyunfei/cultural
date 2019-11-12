@@ -1,10 +1,12 @@
 package com.yunfei.cultural.utils;
 
 import com.yunfei.cultural.entity.TUser;
+import com.yunfei.cultural.shiro.ShiroRealm;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import sun.misc.BASE64Encoder;
 
 import java.security.SecureRandom;
@@ -52,6 +54,40 @@ public class ShiroUtils {
         return SecurityUtils.getSubject();
     }
 
+    /**
+     * 重新赋值权限(在比如:给一个角色临时添加一个权限,需要调用此方法刷新权限,否则还是没有刚赋值的权限)
+     * @param myRealm 自定义的realm
+     * @param username 用户名
+     */
+//    public static void reloadAuthorizing(ShiroRealm myRealm, String userName){
+//        Subject subject = SecurityUtils.getSubject();
+//        String realmName = subject.getPrincipals().getRealmNames().iterator().next();
+//        //第一个参数为用户名,第二个参数为realmName,test想要操作权限的用户
+//        subject.runAs(new SimplePrincipalCollection(userName, subject.getPrincipals().getRealmNames().iterator().next()));
+//        myRealm.getAuthorizationCache().remove(subject.getPrincipals());
+//        subject.releaseRunAs();
+//    }
+
+    /**
+     * @Description:清除所有用户的权限信息（修改用户、修改角色时调用）
+     * @Author: HuiYunfei
+     * @Date: 2019/11/12
+     */
+    public static void clearAllCachedAuthorizationInfo(){
+        DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
+        ShiroRealm shiroRealm = (ShiroRealm) securityManager.getRealms().iterator().next();
+        shiroRealm.clearAllCachedAuthorizationInfo();
+    }
+    /**
+     * @Description:清除所有用户的认证缓存（暂未启用认证缓存）
+     * @Author: HuiYunfei
+     * @Date: 2019/11/12
+     */
+    public static void clearAllCachedAuthenticationInfo(){
+        DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
+        ShiroRealm shiroRealm = (ShiroRealm) securityManager.getRealms().iterator().next();
+        shiroRealm.clearAllCachedAuthorizationInfo();
+    }
     public static TUser getUserEntity() {
         return (TUser) SecurityUtils.getSubject().getPrincipal();
     }

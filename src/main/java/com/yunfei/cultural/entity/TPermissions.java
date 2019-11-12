@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class TPermissions {
     private Integer id;
 
-    private Integer permissionsName;
+    private String permissionsName;
 
     //权限标示
     private String premissionsMarking;

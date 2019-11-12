@@ -43,4 +43,8 @@ public class TUser implements Serializable {
     //盐
     private String salt;
 
+    public Integer getId(){
+        return id;
+    }
+
 }
