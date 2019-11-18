@@ -1,15 +1,13 @@
 package com.yunfei.cultural.filter;
 
-import com.alibaba.fastjson.JSONObject;
-import com.yunfei.cultural.utils.result.ResultObj;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.apache.shiro.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 
 /**
  * Created by hui.yunfei@qq.com on 2019/11/18
@@ -37,20 +35,20 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response)
             throws Exception {
         log.info("进入身份认证失败filter");
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        httpServletResponse.setStatus(200);
-        httpServletResponse.setContentType("application/json;charset=utf-8");
-        PrintWriter pw = httpServletResponse.getWriter();
-        ResultObj result=new ResultObj();
-        result.setInfo(401);
-        result.setMsg("身份认证失败，请重新登录");
-        pw.write(JSONObject.toJSONString(result));
-        pw.flush();
-        pw.close();
+//        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+//        httpServletResponse.setStatus(200);
+//        httpServletResponse.setContentType("application/json;charset=utf-8");
+//        PrintWriter pw = httpServletResponse.getWriter();
+//        ResultObj result=new ResultObj();
+//        result.setInfo(401);
+//        result.setMsg("身份认证失败，请重新登录");
+//        pw.write(JSONObject.toJSONString(result));
+//        pw.flush();
+//        pw.close();
 
         //throw new UnLoginException("身份认证失败，请重新登录");
+        //return false;
+        WebUtils.toHttp(response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
         return false;
-//        WebUtils.toHttp(response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
-//        return false;
     }
 }
