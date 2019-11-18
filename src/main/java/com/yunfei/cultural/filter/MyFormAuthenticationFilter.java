@@ -39,15 +39,16 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
         log.info("进入身份认证失败filter");
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         httpServletResponse.setStatus(200);
-        httpServletResponse.setContentType("text/html;charset=utf-8");
+        httpServletResponse.setContentType("application/json;charset=utf-8");
         PrintWriter pw = httpServletResponse.getWriter();
         ResultObj result=new ResultObj();
         result.setInfo(401);
         result.setMsg("身份认证失败，请重新登录");
-        pw.write(JSONObject.toJSON(result).toString());
+        pw.write(JSONObject.toJSONString(result));
         pw.flush();
         pw.close();
 
+        //throw new UnLoginException("身份认证失败，请重新登录");
         return false;
 //        WebUtils.toHttp(response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
 //        return false;
