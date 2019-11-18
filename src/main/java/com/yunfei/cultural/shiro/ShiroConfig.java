@@ -1,5 +1,8 @@
 package com.yunfei.cultural.shiro;
 
+import com.yunfei.cultural.filter.MyFormAuthenticationFilter;
+import com.yunfei.cultural.filter.MyPermissionsAuthorizationFilter;
+import com.yunfei.cultural.filter.MyRolesAuthorizationFilter;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.mgt.SecurityManager;
@@ -17,6 +20,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -48,24 +52,33 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
+
+        //自定义过滤器，前后分离重定向会出现302等ajax跨域错误，这里直接返回错误不重定向
+        Map<String, Filter> filterMap = new LinkedHashMap<>();
+        filterMap.put("authc", new MyFormAuthenticationFilter());
+        filterMap.put("perms", new MyPermissionsAuthorizationFilter());
+        filterMap.put("roles", new MyRolesAuthorizationFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
+
         // 过滤器链定义映射
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-
         /*
          * anon:所有url都都可以匿名访问，authc:所有url都必须认证通过才可以访问;
          * 过滤链定义，从上向下顺序执行，authc 应放在 anon 下面
          * */
         filterChainDefinitionMap.put("/system/login", "anon");
         filterChainDefinitionMap.put("/file/*", "anon");
+        //filterChainDefinitionMap.put("/**", "corsAuthenticationFilter");
         // 所有url都必须认证通过才可以访问
         filterChainDefinitionMap.put("/**", "authc");
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了, 位置放在 anon、authc下面
         filterChainDefinitionMap.put("/system/logout", "logout");
         // 未登录
-        shiroFilterFactoryBean.setLoginUrl("/system/unLogin");
+        //shiroFilterFactoryBean.setLoginUrl("/system/unLogin");
         // 未授权
-        shiroFilterFactoryBean.setUnauthorizedUrl("/system/unAuthorized");
+        //shiroFilterFactoryBean.setUnauthorizedUrl("/system/unAuthorized");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+
         return shiroFilterFactoryBean;
     }
 
