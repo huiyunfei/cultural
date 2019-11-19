@@ -45,9 +45,7 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
 //        pw.write(JSONObject.toJSONString(result));
 //        pw.flush();
 //        pw.close();
-
-        //throw new UnLoginException("身份认证失败，请重新登录");
-        //return false;
+//        return false;
         WebUtils.toHttp(response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
         return false;
     }

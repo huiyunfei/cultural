@@ -1,8 +1,6 @@
 package com.yunfei.cultural.shiro;
 
 import com.yunfei.cultural.filter.MyFormAuthenticationFilter;
-import com.yunfei.cultural.filter.MyPermissionsAuthorizationFilter;
-import com.yunfei.cultural.filter.MyRolesAuthorizationFilter;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.mgt.SecurityManager;
@@ -56,8 +54,6 @@ public class ShiroConfig {
         //自定义过滤器，前后分离重定向会出现302等ajax跨域错误，这里直接返回错误不重定向
         Map<String, Filter> filterMap = new LinkedHashMap<>();
         filterMap.put("authc", new MyFormAuthenticationFilter());
-        filterMap.put("perms", new MyPermissionsAuthorizationFilter());
-        filterMap.put("roles", new MyRolesAuthorizationFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
 
         // 过滤器链定义映射
